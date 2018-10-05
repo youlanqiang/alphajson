@@ -30,17 +30,18 @@ public class DebugFactory {
 
     private DebugFactory(){}
 
-    public top.youlanqiang.alphajson.debug.Debug getDebug(){
+    public static top.youlanqiang.alphajson.debug.Debug getDebug(){
         if(!isRead) {
-            synchronized (this.getClass()) {
+            synchronized (DebugFactory.class) {
                 if(!isRead) {
                     try {
-                        InputStream in = this.getClass().getClassLoader().getResourceAsStream("setting.xml");
+                        InputStream in = DebugFactory.class.getClassLoader().getResourceAsStream("setting.xml");
                         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                         DocumentBuilder builder = factory.newDocumentBuilder();
                         Document doc = builder.parse(in);
                         NodeList list = doc.getElementsByTagName("debug");
                         Node node = list.item(0);
+                        isRead = true;
                         status = Boolean.valueOf(node.getTextContent());
                     }catch(Exception e){
                         //当程序发生异常时,依然返回一个debug
