@@ -3,7 +3,9 @@ package top.youlanqiang.alphajson;
 import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.serialize.ObjectSerializable;
 import top.youlanqiang.alphajson.serialize.StringSerialize;
+import top.youlanqiang.alphajson.utils.TransitionUtil;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,6 +19,10 @@ public class JSONObject implements JSONSerialize {
 
     private Map<String,Object> map;
 
+
+    public JSONObject(){
+        this.map = new HashMap<>(20);
+    }
 
     public void put(String key, Object value){
         map.put(key, value);
@@ -44,63 +50,66 @@ public class JSONObject implements JSONSerialize {
 
     public Float getFloatValue(String key){
         Object result = getObjectValue(key);
-        if(result instanceof Number){
-            return (Float) result;
+        if (result != null){
+            return TransitionUtil.parseFloat(result);
         }
         return 0.0F;
     }
 
     public Double getDoubleValue(String key){
         Object result = getObjectValue(key);
-        if(result instanceof Number){
-            return (Double) result;
+        if (result != null){
+            return TransitionUtil.parseDouble(result);
         }
         return 0.0;
     }
 
     public Long getLongValue(String key){
         Object result = getObjectValue(key);
-        if(result instanceof Number){
-            return (Long) result;
+        if (result != null){
+            return TransitionUtil.parseLong(result);
         }
         return 0L;
     }
 
     public Integer getIntegerValue(String key){
         Object result = getObjectValue(key);
-        if(result instanceof Number){
-            return (Integer) result;
+        if (result != null){
+            return TransitionUtil.parseInteger(result);
         }
         return 0;
     }
 
     public Boolean getBooleanValue(String key){
         Object result = getObjectValue(key);
-        if(result instanceof Boolean){
-            return (Boolean) result;
+        if (result != null){
+            return TransitionUtil.parseBoolean(result);
         }
         return false;
     }
 
     public String  getStringValue(String key){
         Object result = getObjectValue(key);
-        if(result != null){
+        if (result != null){
             return result.toString();
         }
         return null;
     }
 
-    /**
-     * 可以将对象转换为对应对象的方法
-     * @param object 待转换的对象
-     * @param clazz 转换对象的类
-     * @param <T>
-     * @return
-     */
-    private <T> T transition(Object object, Class<T> clazz){
-        //todo 该方法使用反射会发生异常,要使用其它方法.
+    public <T> T getObjectValue(String key, Class<T> clazz){
+        Object result = getObjectValue(key);
+        if (result != null){
+            if(result instanceof JSONObject){
+                //TODO result 转换为 对应的Class类
+            }
+            if(result instanceof JSONArray){
+                //TODO result 转换为 对应的Class类
+            }
+            return (T)result;
+        }
         return null;
     }
+
 
     @Override
     public StringSerialize getSerialize() {
