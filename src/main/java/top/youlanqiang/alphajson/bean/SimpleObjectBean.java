@@ -78,5 +78,16 @@ public class SimpleObjectBean implements ObjectBean {
         return methodsOfGet.keySet();
     }
 
-
+    @Override
+    public Map<String, Object> getContainer() {
+        Map<String, Object> container = new HashMap<>(20);
+        for(String key : methodsOfGet.keySet()){
+            try {
+                container.put(key, getMethodOfGet(key).invoke(object, null));
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return container;
+    }
 }
