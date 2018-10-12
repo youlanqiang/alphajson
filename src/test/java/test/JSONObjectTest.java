@@ -16,6 +16,9 @@ public class JSONObjectTest {
         object.put("hello", "youlanqiang");
         object.put("time", false);
         object.put("isNull", null);
+        JSONObject object2 = new JSONObject();
+        object2.put("good", "isGood");
+        object.put("child", object2);
         System.out.println(object.toString());
     }
 

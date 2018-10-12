@@ -1,6 +1,9 @@
 package top.youlanqiang.alphajson.serialize;
 
 import top.youlanqiang.alphajson.JSONObject;
+import top.youlanqiang.alphajson.serialize.ParseChain.ChainFactory;
+import top.youlanqiang.alphajson.serialize.ParseChain.ObjectToStringChain;
+import top.youlanqiang.alphajson.utils.RailUtil;
 
 import java.util.Map;
 import java.util.StringJoiner;
@@ -15,22 +18,14 @@ public class ObjectSerializable implements StringSerialize {
 
     private Map<String, Object> map;
 
+    private static ObjectToStringChain chain = ChainFactory.getChain();
+
 
     public ObjectSerializable(MapContainer container){
         super();
         this.map = container.getContainer();
     }
 
-    /**
-     * 组合JSON字符串
-     * @param joiner
-     * @return
-     */
-    private String rail(StringJoiner joiner){
-        StringBuilder json = new StringBuilder("{");
-        json.append(joiner).append("}");
-        return json.toString();
-    }
 
     /**
      * 对象转化
@@ -40,7 +35,9 @@ public class ObjectSerializable implements StringSerialize {
      */
     private static String KeyAndValue(String key, Object value){
         StringBuilder builder = new StringBuilder("\"");
-        builder.append(key).append("\"").append(":").append(value.toString());
+        builder.append(key).append("\"").append(":").append(
+                chain.execute(value)
+        );
         return builder.toString();
     }
 
@@ -50,7 +47,7 @@ public class ObjectSerializable implements StringSerialize {
         for(String key : map.keySet()){
             joiner.add(KeyAndValue(key, map.get(key)));
         }
-        return rail(joiner);
+        return RailUtil.jsonObject(joiner.toString());
     }
 
 
