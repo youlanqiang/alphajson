@@ -3,6 +3,8 @@ package top.youlanqiang.alphajson.serialize.ParseChain;
 import top.youlanqiang.alphajson.serialize.MapContainer;
 import top.youlanqiang.alphajson.serialize.ObjectSerializable;
 
+import java.util.Map;
+
 /**
  * @author youlanqiang
  * @version 1.0
@@ -10,17 +12,25 @@ import top.youlanqiang.alphajson.serialize.ObjectSerializable;
  * @since 1.8
  * MapContainer对象解析器
  */
-public class MapContainerChain extends ObjectToStringChain {
+public class MapChain extends ObjectToStringChain {
 
-    public MapContainerChain(ObjectToStringChain chain){
+    public MapChain(ObjectToStringChain chain){
         super();
         this.next = chain;
     }
 
     @Override
     public String execute(Object object) {
-        if(object instanceof MapContainer){
-            ObjectSerializable serializable = new ObjectSerializable((MapContainer) object);
+        ObjectSerializable serializable;
+
+        if(object instanceof Map){
+            final Map<String, Object> map = (Map<String, Object>) object;
+            serializable = new ObjectSerializable(new MapContainer() {
+                @Override
+                public Map<String, Object> getContainer() {
+                    return map;
+                }
+            });
             return serializable.operator();
         }
         return next.execute(object);

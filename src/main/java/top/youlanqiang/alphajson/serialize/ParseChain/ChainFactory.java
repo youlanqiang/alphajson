@@ -13,11 +13,14 @@ public class ChainFactory {
 
     public static ObjectToStringChain getChain(){
         EndChain endChain = new EndChain();
-        MapContainerChain mapContainerChain = new MapContainerChain(endChain);
-        StringChain stringChain = new StringChain(mapContainerChain);
+        ArrayChain arrayChain = new ArrayChain(endChain);
+        MapChain mapChain = new MapChain(arrayChain);
+        StringChain stringChain = new StringChain(mapChain);
         NumberChain numberChain = new NumberChain(stringChain);
         BooleanChain booleanChain = new BooleanChain(numberChain);
-        NullChain nullChain = new NullChain(booleanChain);
+        JsonChain jsonChain = new JsonChain(booleanChain);
+        NullChain nullChain = new NullChain(jsonChain);
+
         return nullChain;
     }
 }

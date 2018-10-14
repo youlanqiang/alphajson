@@ -1,6 +1,9 @@
 package top.youlanqiang.alphajson.serialize;
 
 import top.youlanqiang.alphajson.JSONArray;
+import top.youlanqiang.alphajson.utils.RailUtil;
+
+import java.util.StringJoiner;
 
 /**
  * @author youlanqiang
@@ -21,10 +24,11 @@ public class ArraySerializable implements StringSerialize {
 
     @Override
     public String operator() {
-
-
-
-
-        return null;
+        int size = array.size();
+        StringJoiner joiner = new StringJoiner(",");
+        for(int i = 0; i < size; i++){
+            joiner.add(array.getJSONObject(i).toString());
+        }
+        return RailUtil.jsonArray(joiner.toString());
     }
 }
