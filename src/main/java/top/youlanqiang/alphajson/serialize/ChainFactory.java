@@ -1,4 +1,6 @@
-package top.youlanqiang.alphajson.serialize.ParseChain;
+package top.youlanqiang.alphajson.serialize;
+
+import top.youlanqiang.alphajson.serialize.ParseChain.*;
 
 /**
  * @author youlanqiang

@@ -2,6 +2,7 @@ package top.youlanqiang.alphajson.serialize.ParseChain;
 
 
 import top.youlanqiang.alphajson.bean.SimpleObjectBean;
+import top.youlanqiang.alphajson.serialize.ChainFactory;
 import top.youlanqiang.alphajson.serialize.ObjectSerializable;
 import top.youlanqiang.alphajson.utils.RailUtil;
 
@@ -18,6 +19,8 @@ import java.util.StringJoiner;
  * 数组类型解析器
  */
 public class ArrayChain extends ObjectToStringChain {
+
+    private static final ObjectToStringChain chain = ChainFactory.getChain();
 
     public ArrayChain(ObjectToStringChain chain){
         this.next = chain;
@@ -47,8 +50,7 @@ public class ArrayChain extends ObjectToStringChain {
     private String toListString(Collection list){
         StringJoiner joiner = new StringJoiner(",");
         for(Object object : list){
-            ObjectSerializable serializable = new ObjectSerializable(new SimpleObjectBean(object));
-            joiner.add(serializable.operator());
+            joiner.add(chain.execute(object));
         }
         return RailUtil.jsonArray(joiner.toString());
     }

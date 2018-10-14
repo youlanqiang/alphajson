@@ -15,9 +15,13 @@ import java.util.List;
  */
 public class JSONArray  implements JSONSerialize {
 
+    private static final int CAPACITY = 20;
 
+    private List<JSONObject> array;
 
-    private List<JSONObject> array = new ArrayList<>(20);
+    public JSONArray(){
+        array = new ArrayList<>(CAPACITY);
+    }
 
     public boolean isEmpty(){
         return array.isEmpty();
@@ -34,6 +38,7 @@ public class JSONArray  implements JSONSerialize {
     public void addJSONObject(JSONObject jsonObject){
         array.add(jsonObject);
     }
+
 
 
     @Override

@@ -1,7 +1,5 @@
 package top.youlanqiang.alphajson.serialize;
 
-import top.youlanqiang.alphajson.JSONObject;
-import top.youlanqiang.alphajson.serialize.ParseChain.ChainFactory;
 import top.youlanqiang.alphajson.serialize.ParseChain.ObjectToStringChain;
 import top.youlanqiang.alphajson.utils.RailUtil;
 
@@ -18,7 +16,7 @@ public class ObjectSerializable implements StringSerialize {
 
     private Map<String, Object> map;
 
-    private static ObjectToStringChain chain = ChainFactory.getChain();
+    private static final ObjectToStringChain chain = ChainFactory.getChain();
 
 
     public ObjectSerializable(MapContainer container){
