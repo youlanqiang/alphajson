@@ -17,12 +17,9 @@ public class ChainFactory {
         EndChain endChain = new EndChain();
         ArrayChain arrayChain = new ArrayChain(endChain);
         MapChain mapChain = new MapChain(arrayChain);
-        StringChain stringChain = new StringChain(mapChain);
-        NumberChain numberChain = new NumberChain(stringChain);
-        BooleanChain booleanChain = new BooleanChain(numberChain);
-        JsonChain jsonChain = new JsonChain(booleanChain);
-        NullChain nullChain = new NullChain(jsonChain);
+        JsonChain jsonChain = new JsonChain(mapChain);
+        BaseChain baseChain = new BaseChain(jsonChain);
 
-        return nullChain;
+        return baseChain;
     }
 }

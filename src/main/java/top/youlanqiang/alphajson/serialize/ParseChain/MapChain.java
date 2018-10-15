@@ -21,17 +21,11 @@ public class MapChain extends ObjectToStringChain {
 
     @Override
     public String execute(Object object) {
-        ObjectSerializable serializable;
 
         if(object instanceof Map){
-            final Map<String, Object> map = (Map<String, Object>) object;
-            serializable = new ObjectSerializable(new MapContainer() {
-                @Override
-                public Map<String, Object> getContainer() {
-                    return map;
-                }
-            });
-            return serializable.operator();
+            final Map<Object, Object> map = (Map<Object, Object>) object;
+            //TODO 必须可以对Map进行Key和Value的解析
+            return null;
         }
         return next.execute(object);
     }
