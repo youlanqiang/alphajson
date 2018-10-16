@@ -1,9 +1,7 @@
 package top.youlanqiang.alphajson.serialize.ParseChain;
 
 
-import top.youlanqiang.alphajson.bean.SimpleObjectBean;
-import top.youlanqiang.alphajson.serialize.ChainFactory;
-import top.youlanqiang.alphajson.serialize.ObjectSerializable;
+import top.youlanqiang.alphajson.serialize.SerializeChainFactory;
 import top.youlanqiang.alphajson.utils.RailUtil;
 
 import java.util.Arrays;
@@ -20,7 +18,7 @@ import java.util.StringJoiner;
  */
 public class ArrayChain extends ObjectToStringChain {
 
-    private static final ObjectToStringChain chain = ChainFactory.getChain();
+    private static final ObjectToStringChain chain = SerializeChainFactory.getChain();
 
     public ArrayChain(ObjectToStringChain chain){
         this.next = chain;

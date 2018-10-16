@@ -16,7 +16,7 @@ public class ObjectSerializable implements StringSerialize {
 
     private Map<String, Object> map;
 
-    private static final ObjectToStringChain chain = ChainFactory.getChain();
+    private static final ObjectToStringChain chain = SerializeChainFactory.getChain();
 
 
     public ObjectSerializable(MapContainer container){

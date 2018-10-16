@@ -1,9 +1,13 @@
 package top.youlanqiang.alphajson.serialize.ParseChain;
 
-import top.youlanqiang.alphajson.serialize.MapContainer;
-import top.youlanqiang.alphajson.serialize.ObjectSerializable;
+
+
+
+import top.youlanqiang.alphajson.serialize.SerializeChainFactory;
 
 import java.util.Map;
+import java.util.Set;
+import java.util.StringJoiner;
 
 /**
  * @author youlanqiang
@@ -14,6 +18,9 @@ import java.util.Map;
  */
 public class MapChain extends ObjectToStringChain {
 
+    private static final ObjectToStringChain chain = SerializeChainFactory.getChain();
+
+
     public MapChain(ObjectToStringChain chain){
         super();
         this.next = chain;
@@ -21,11 +28,23 @@ public class MapChain extends ObjectToStringChain {
 
     @Override
     public String execute(Object object) {
-
         if(object instanceof Map){
-            final Map<Object, Object> map = (Map<Object, Object>) object;
-            //TODO 必须可以对Map进行Key和Value的解析
-            return null;
+            Map<Object, Object> map = (Map<Object, Object>) object;
+            if(!map.isEmpty()) {
+                StringJoiner joiner = new StringJoiner(",");
+                Set<Object> keys = map.keySet();
+                StringBuilder builder = new StringBuilder();
+                for (Object key : keys) {
+                    builder.append(chain.execute(key))
+                            .append(":")
+                            .append(chain.execute(map.get(key)));
+                    joiner.add(builder);
+                    //清空builder
+                    builder.setLength(0);
+                }
+                return joiner.toString();
+            }
+            return "null";
         }
         return next.execute(object);
     }

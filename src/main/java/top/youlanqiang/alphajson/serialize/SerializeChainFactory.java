@@ -9,7 +9,7 @@ import top.youlanqiang.alphajson.serialize.ParseChain.*;
  * @since 1.8
  * 解析链工厂
  */
-public class ChainFactory {
+public class SerializeChainFactory {
 
 
 
