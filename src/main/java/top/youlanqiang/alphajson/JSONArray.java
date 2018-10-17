@@ -40,6 +40,15 @@ public class JSONArray  implements JSONSerialize {
     }
 
 
+    /**
+     * json字符串解析为JSONArray对象
+     * @param json
+     * @return
+     */
+    public static JSONArray parse(String json){
+        return null;
+    }
+
 
     @Override
     public StringSerialize getSerialize() {

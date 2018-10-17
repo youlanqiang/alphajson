@@ -116,6 +116,15 @@ public class JSONObject implements JSONSerialize, MapContainer {
     }
 
 
+    /**
+     * json字符串解析为JSONObject对象
+     * @param json
+     * @return
+     */
+    public static JSONObject parse(String json){
+        return null;
+    }
+
     @Override
     public StringSerialize getSerialize() {
         return new ObjectSerializable(this);

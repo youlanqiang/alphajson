@@ -1,5 +1,7 @@
 package top.youlanqiang.alphajson.deserialize;
 
+import top.youlanqiang.alphajson.serialize.JSONSerialize;
+
 /**
  * @author youlanqiang
  * @version 1.0
@@ -8,4 +10,12 @@ package top.youlanqiang.alphajson.deserialize;
  * JSON反序列化接口
  */
 public interface JSONDeserialize {
+
+    /**
+     * 解析
+     * @param context
+     * @return
+     */
+    JSONSerialize parse(String context);
+
 }
