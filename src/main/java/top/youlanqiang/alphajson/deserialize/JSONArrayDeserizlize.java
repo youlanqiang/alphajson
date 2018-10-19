@@ -1,7 +1,10 @@
 package top.youlanqiang.alphajson.deserialize;
 
+import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.utils.StringUtil;
+
+import java.util.Stack;
 
 /**
  * @author youlanqiang
@@ -13,6 +16,10 @@ import top.youlanqiang.alphajson.utils.StringUtil;
  */
 public class JSONArrayDeserizlize implements JSONDeserialize{
 
+
+    private JSONArray array = new JSONArray();
+
+
     @Override
     public JSONSerialize parse(String context) {
         if(StringUtil.isNullOrEmpty(context)){
@@ -21,9 +28,12 @@ public class JSONArrayDeserizlize implements JSONDeserialize{
         context = context.trim();
         if(context.startsWith("[") && context.endsWith("]")){
 
+
+
+
         }else{
             throw new RuntimeException("错误的JSONArray格式");
         }
-        return null;
+        return array;
     }
 }
