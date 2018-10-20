@@ -1,6 +1,7 @@
 package top.youlanqiang.alphajson.deserialize;
 
 import top.youlanqiang.alphajson.JSONObject;
+import top.youlanqiang.alphajson.deserialize.decode.SimpleJSONObjectDecoder;
 import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.utils.StringUtil;
 
@@ -14,8 +15,6 @@ import top.youlanqiang.alphajson.utils.StringUtil;
  */
 public class JSONObjectDeserialize implements JSONDeserialize{
 
-    private JSONObject object = new JSONObject();
-
 
     @Override
     public JSONSerialize parse(String context) {
@@ -24,12 +23,11 @@ public class JSONObjectDeserialize implements JSONDeserialize{
         }
         context = context.trim();
         if(context.startsWith("{") && context.endsWith("}")){
-
-
-
+            SimpleJSONObjectDecoder decoder = new SimpleJSONObjectDecoder(0);
+            decoder.run(context.toCharArray());
+            return decoder.toJSONObject();
         }else{
             throw new RuntimeException("错误的JSONObject格式");
         }
-        return object;
     }
 }

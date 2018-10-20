@@ -16,5 +16,8 @@ public interface MapContainer {
      * 属性名 和 属性对象
      * @return
      */
-    Map<String, Object> getContainer();
+   Map<String, Object> getContainer();
+
+
+   void setContainer(Map<String, Object> map);
 }

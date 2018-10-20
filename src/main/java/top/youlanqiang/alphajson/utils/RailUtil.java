@@ -7,7 +7,7 @@ package top.youlanqiang.alphajson.utils;
  * @since 1.8
  * RailUtil工具类用来将字符串使用start和end包装起来
  */
-public final class RailUtil {
+public  class RailUtil {
 
     public static String rail(CharSequence str, String start, String end){
         StringBuilder builder = new StringBuilder();

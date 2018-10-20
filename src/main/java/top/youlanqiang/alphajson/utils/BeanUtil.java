@@ -7,7 +7,7 @@ package top.youlanqiang.alphajson.utils;
  * @since 1.8
  * JsonBean工具类
  */
-public final class BeanUtil {
+public  class BeanUtil {
 
     /**
      * 更具传进来的名称截取字符串

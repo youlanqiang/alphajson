@@ -7,7 +7,7 @@ package top.youlanqiang.alphajson.utils;
  * @since 1.8
  * 变量转化工具类
  */
-public final class TransitionUtil {
+public  class TransitionUtil {
 
     public static String parseString(Object object){
         if (object instanceof String){

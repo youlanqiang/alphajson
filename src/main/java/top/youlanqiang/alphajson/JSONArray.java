@@ -1,5 +1,6 @@
 package top.youlanqiang.alphajson;
 
+import top.youlanqiang.alphajson.deserialize.JSONArrayDeserizlize;
 import top.youlanqiang.alphajson.serialize.ArraySerializable;
 import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.serialize.StringSerialize;
@@ -17,7 +18,7 @@ public class JSONArray  implements JSONSerialize {
 
     private static final int CAPACITY = 20;
 
-    private List<JSONObject> array;
+    private List<JSONSerialize> array;
 
     public JSONArray(){
         array = new ArrayList<>(CAPACITY);
@@ -32,11 +33,19 @@ public class JSONArray  implements JSONSerialize {
     }
 
     public JSONObject getJSONObject(int index){
-        return array.get(index);
+        return  (JSONObject) array.get(index);
+    }
+
+    public void addJSONSerialize(JSONSerialize jsonSerialize){
+        array.add(jsonSerialize);
     }
 
     public void addJSONObject(JSONObject jsonObject){
-        array.add(jsonObject);
+        addJSONSerialize(jsonObject);
+    }
+
+    public void addJSONArray(JSONArray jsonArray){
+        addJSONSerialize(jsonArray);
     }
 
 
@@ -46,7 +55,8 @@ public class JSONArray  implements JSONSerialize {
      * @return
      */
     public static JSONArray parse(String json){
-        return null;
+        JSONArrayDeserizlize parser = new JSONArrayDeserizlize();
+        return (JSONArray) parser.parse(json);
     }
 
 

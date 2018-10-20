@@ -1,5 +1,6 @@
 package top.youlanqiang.alphajson;
 
+import top.youlanqiang.alphajson.deserialize.JSONObjectDeserialize;
 import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.serialize.MapContainer;
 import top.youlanqiang.alphajson.serialize.ObjectSerializable;
@@ -16,7 +17,7 @@ import java.util.Set;
  * @date 2018/10/5
  * @since 1.8
  */
-public class JSONObject implements JSONSerialize, MapContainer {
+public class JSONObject implements JSONSerialize, MapContainer{
 
     private Map<String,Object> map;
 
@@ -44,6 +45,11 @@ public class JSONObject implements JSONSerialize, MapContainer {
     @Override
     public Map<String, Object> getContainer(){
         return map;
+    }
+
+    @Override
+    public void setContainer(Map<String, Object> map) {
+        this.map = map;
     }
 
     public Object getObjectValue(String key){
@@ -122,7 +128,8 @@ public class JSONObject implements JSONSerialize, MapContainer {
      * @return
      */
     public static JSONObject parse(String json){
-        return null;
+        JSONObjectDeserialize parser = new JSONObjectDeserialize();
+        return (JSONObject) parse(json);
     }
 
     @Override
