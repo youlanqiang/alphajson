@@ -90,4 +90,9 @@ public class SimpleObjectBean implements ObjectBean {
         }
         return container;
     }
+
+    @Override
+    public void setContainer(Map<String, Object> map) {
+        //TODO empty
+    }
 }
