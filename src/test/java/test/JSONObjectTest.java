@@ -20,6 +20,9 @@ public class JSONObjectTest {
         object2.put("good", "isGood");
         object.put("child", object2);
         System.out.println(object.toString());
+
+        JSONObject.parse(object.toString());
+
     }
 
 }

@@ -1,7 +1,6 @@
 package top.youlanqiang.alphajson.deserialize;
 
 import top.youlanqiang.alphajson.JSONArray;
-import top.youlanqiang.alphajson.deserialize.decode.SimpleJSONArrayDecoder;
 import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.utils.StringUtil;
 
@@ -13,7 +12,7 @@ import top.youlanqiang.alphajson.utils.StringUtil;
  *
  * JSONArray对象反序列化
  */
-public class JSONArrayDeserizlize implements JSONDeserialize{
+public class JSONArrayDeserialize implements JSONDeserialize{
 
 
     private JSONArray array = new JSONArray();
@@ -27,10 +26,9 @@ public class JSONArrayDeserizlize implements JSONDeserialize{
         }
         context = context.trim();
         if(context.startsWith("[") && context.endsWith("]")){
+            //TODO 解析出每条JSONObject对象 并转化
 
-            SimpleJSONArrayDecoder decoder = new SimpleJSONArrayDecoder(0);
-            decoder.run(context.toCharArray());
-            return decoder.toJSONArray();
+            return null;
         }else{
             throw new RuntimeException("错误的JSONArray格式");
         }

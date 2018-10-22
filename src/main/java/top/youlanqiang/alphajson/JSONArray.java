@@ -1,6 +1,7 @@
 package top.youlanqiang.alphajson;
 
-import top.youlanqiang.alphajson.deserialize.JSONArrayDeserizlize;
+import top.youlanqiang.alphajson.deserialize.JSONArrayDeserialize;
+import top.youlanqiang.alphajson.deserialize.JSONDeserialize;
 import top.youlanqiang.alphajson.serialize.ArraySerializable;
 import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.serialize.StringSerialize;
@@ -15,6 +16,8 @@ import java.util.List;
  * @since 1.8
  */
 public class JSONArray  implements JSONSerialize {
+
+    private static final JSONDeserialize parser = new JSONArrayDeserialize();
 
     private static final int CAPACITY = 20;
 
@@ -55,7 +58,6 @@ public class JSONArray  implements JSONSerialize {
      * @return
      */
     public static JSONArray parse(String json){
-        JSONArrayDeserizlize parser = new JSONArrayDeserizlize();
         return (JSONArray) parser.parse(json);
     }
 

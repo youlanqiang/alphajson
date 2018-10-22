@@ -1,9 +1,14 @@
 package top.youlanqiang.alphajson.deserialize;
 
 import top.youlanqiang.alphajson.JSONObject;
-import top.youlanqiang.alphajson.deserialize.decode.SimpleJSONObjectDecoder;
+import top.youlanqiang.alphajson.debug.Debug;
+import top.youlanqiang.alphajson.debug.DebugFactory;
+import top.youlanqiang.alphajson.deserialize.object.KeyParser;
+import top.youlanqiang.alphajson.deserialize.object.KeyValue;
 import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.utils.StringUtil;
+
+import java.util.List;
 
 /**
  * @author youlanqiang
@@ -15,6 +20,15 @@ import top.youlanqiang.alphajson.utils.StringUtil;
  */
 public class JSONObjectDeserialize implements JSONDeserialize{
 
+    private static final Debug debug = DebugFactory.getDebug();
+
+
+    private JSONObject object;
+
+    public JSONObjectDeserialize(){
+        this.object = new JSONObject();
+    }
+
 
     @Override
     public JSONSerialize parse(String context) {
@@ -23,11 +37,21 @@ public class JSONObjectDeserialize implements JSONDeserialize{
         }
         context = context.trim();
         if(context.startsWith("{") && context.endsWith("}")){
-            SimpleJSONObjectDecoder decoder = new SimpleJSONObjectDecoder(0);
-            decoder.run(context.toCharArray());
-            return decoder.toJSONObject();
+            debug.info("解析的字符串:" + context);
+            List<KeyValue> list =  KeyParser.execute(context.toCharArray());
+            list.forEach(x->{
+                setValueInJson(x);
+            });
+            return object;
         }else{
             throw new RuntimeException("错误的JSONObject格式");
         }
+    }
+
+
+    private void setValueInJson(KeyValue keyValue){
+        String value = keyValue.getValue();
+        Object returnValue = ObjectDeserizlize.parse(value);
+        object.put(keyValue.getKeyName(), returnValue);
     }
 }

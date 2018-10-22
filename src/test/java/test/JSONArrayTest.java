@@ -21,5 +21,8 @@ public class JSONArrayTest {
         list.add("goods");
         object.put("list", list);
         System.out.println(object.toString());
+        //{"list":["12312","hello","goods"]}
+        JSONObject object2 =  JSONObject.parse("{\"list\":[\"12312\",\"hello\",\"goods\"]}");
+        System.out.println(object2.toString());
     }
 }
