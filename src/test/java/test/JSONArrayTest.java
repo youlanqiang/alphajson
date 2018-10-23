@@ -1,5 +1,6 @@
 package test;
 
+import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.JSONObject;
 
 import java.util.ArrayList;
@@ -14,15 +15,16 @@ import java.util.List;
 public class JSONArrayTest {
 
     public static void main(String[] args){
+        //[{"deep":33,"json":23,"hello":123}]
         JSONObject object = new JSONObject();
-        List<String> list = new ArrayList<>();
-        list.add("12312");
-        list.add("hello");
-        list.add("goods");
-        object.put("list", list);
-        System.out.println(object.toString());
-        //{"list":["12312","hello","goods"]}
-        JSONObject object2 =  JSONObject.parse("{\"list\":[\"12312\",\"hello\",\"goods\"]}");
-        System.out.println(object2.toString());
+        object.put("hello", 123);
+        object.put("deep", 33);
+        object.put("json", 23);
+        JSONArray array = new JSONArray();
+        array.addJSONObject(object);
+        System.out.println(array.toString());
+        JSONArray array1 = JSONArray.parse("[{\"deep\":33,\"json\":23,\"hello\":123}]");
+        System.out.println(array1.toString());
+
     }
 }

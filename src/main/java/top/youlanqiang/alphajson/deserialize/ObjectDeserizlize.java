@@ -36,10 +36,10 @@ public class ObjectDeserizlize {
                 return null;
             case '{':
                 parser = new JSONObjectDeserialize();
-                return parse(value);
+                return parser.parse(value);
             case '[':
                 parser = new JSONArrayDeserialize();
-                return parse(value);
+                return parser.parse(value);
         }
         //判断为数字类型
         try {
