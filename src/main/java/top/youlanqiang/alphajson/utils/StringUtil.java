@@ -55,21 +55,6 @@ public  class StringUtil {
 
 
     /**
-     * 去掉字符串中所有的特殊符
-     * @param str
-     * @return
-     */
-    public static String replaceBlank(String str){
-        String dest = "";
-        if (str!=null) {
-            Pattern p = Pattern.compile("\\s*|\t|\r|\n");
-            Matcher m = p.matcher(str);
-            dest = m.replaceAll("");
-        }
-        return dest;
-    }
-
-    /**
      * 匹配字符是否为数字
      * @param temp
      * @return
@@ -78,6 +63,28 @@ public  class StringUtil {
         return String.valueOf(temp).matches("[0-9]");
     }
 
+    /**
+     * 判断字符串为JSONObject格式
+     * @param context
+     * @return
+     */
+    public static boolean isJSONObjectString(String context){
+        if(context.charAt(0) == '{' && context.charAt(context.length() - 1) == '}'){
+            return true;
+        }
+        return false;
+    }
 
+    /**
+     * 判断字符串为JSONArray格式
+     * @param context
+     * @return
+     */
+    public static boolean isJSONArrayString(String context){
+        if(context.charAt(0) == '[' && context.charAt(context.length() - 1) == ']'){
+            return true;
+        }
+        return false;
+    }
 
 }

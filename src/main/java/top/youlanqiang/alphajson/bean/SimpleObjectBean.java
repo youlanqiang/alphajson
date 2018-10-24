@@ -92,7 +92,7 @@ public class SimpleObjectBean implements ObjectBean {
     }
 
     @Override
-    public void setContainer(Map<String, Object> map) {
+    public void putAll(Map<String, Object> map) {
         //TODO empty
     }
 }

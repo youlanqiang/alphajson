@@ -23,7 +23,7 @@ public class JSONArrayTest {
         JSONArray array = new JSONArray();
         array.addJSONObject(object);
         System.out.println(array.toString());
-        JSONArray array1 = JSONArray.parse("[{\"deep\":33,\"json\":23,\"hello\":123}]");
+        JSONArray array1 = JSONArray.parse("[{\"deep\"\":3,3,\"json\":23,\"hello\":123]]");
         System.out.println(array1.toString());
 
     }

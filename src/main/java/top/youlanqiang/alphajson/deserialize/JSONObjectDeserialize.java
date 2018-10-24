@@ -5,6 +5,7 @@ import top.youlanqiang.alphajson.debug.Debug;
 import top.youlanqiang.alphajson.debug.DebugFactory;
 import top.youlanqiang.alphajson.deserialize.object.KeyParser;
 import top.youlanqiang.alphajson.deserialize.object.KeyValue;
+import top.youlanqiang.alphajson.exception.JSONTypeException;
 import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.utils.StringUtil;
 
@@ -33,10 +34,10 @@ public class JSONObjectDeserialize implements JSONDeserialize{
     @Override
     public JSONSerialize parse(String context) {
         if(StringUtil.isNullOrEmpty(context)){
-            throw new RuntimeException("字符串不能为空");
+            throw new NullPointerException("字符串不能为空");
         }
         context = context.trim();
-        if(context.startsWith("{") && context.endsWith("}")){
+        if(StringUtil.isJSONObjectString(context)){
             debug.info("解析的字符串:" + context);
             List<KeyValue> list =  KeyParser.execute(context.toCharArray());
             list.forEach(x->{
@@ -44,7 +45,7 @@ public class JSONObjectDeserialize implements JSONDeserialize{
             });
             return object;
         }else{
-            throw new RuntimeException("错误的JSONObject格式");
+            throw new JSONTypeException("错误的JSONObject格式");
         }
     }
 

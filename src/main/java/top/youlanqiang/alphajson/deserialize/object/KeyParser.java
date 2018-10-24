@@ -2,6 +2,7 @@ package top.youlanqiang.alphajson.deserialize.object;
 
 import top.youlanqiang.alphajson.debug.Debug;
 import top.youlanqiang.alphajson.debug.DebugFactory;
+import top.youlanqiang.alphajson.exception.JSONParseException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class KeyParser {
                 return index;
             }
         }
-        throw new RuntimeException("未发现主键结尾下标:" + new String(array));
+        throw new JSONParseException(index, array);
     }
 
 
@@ -87,7 +88,7 @@ public class KeyParser {
                     stack.pop();
                     continue;
                 }
-                throw new RuntimeException("错误的JSON字符串:" + new String(array));
+                throw new JSONParseException(index, array);
             }else if(token == '}'){
                 if(stack.isEmpty()){
                     return index;
@@ -96,12 +97,12 @@ public class KeyParser {
                     stack.pop();
                     continue;
                 }
-                throw new RuntimeException("错误的JSON字符串:" + new String(array));
+                throw new JSONParseException(index, array);
             }else if(token == ','){
                 return index;
             }
         }
-        throw new RuntimeException("未发现主键结尾下标:" + new String(array));
+        throw new JSONParseException(index, array);
     }
 
 

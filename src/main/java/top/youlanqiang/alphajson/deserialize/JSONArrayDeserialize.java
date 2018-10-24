@@ -3,6 +3,8 @@ package top.youlanqiang.alphajson.deserialize;
 import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.debug.Debug;
 import top.youlanqiang.alphajson.debug.DebugFactory;
+import top.youlanqiang.alphajson.exception.JSONParseException;
+import top.youlanqiang.alphajson.exception.JSONTypeException;
 import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.utils.StringUtil;
 
@@ -27,17 +29,14 @@ public class JSONArrayDeserialize implements JSONDeserialize{
     @Override
     public JSONSerialize parse(String context) {
         if(StringUtil.isNullOrEmpty(context)){
-            throw new RuntimeException("字符串不能为空");
+            throw new NullPointerException("字符串不能为空");
         }
         context = context.trim();
-        if(context.startsWith("[") && context.endsWith("]")){
-            //TODO 解析出每条JSONObject对象 并转化
-
+        if(StringUtil.isJSONArrayString(context)){
             Stack<Character> stack = new Stack<>();
-
             char token;
             int start = 0;
-            int end;
+            int end = 0;
             for(int index = 0; index < context.length(); index++){
                 token = context.charAt(index);
                 if(token == '{'){
@@ -54,21 +53,29 @@ public class JSONArrayDeserialize implements JSONDeserialize{
                     }
                 }
             }
+
+            /**
+             * stack不为空表示JSON字符串是错误的,因为没有解析完
+             */
+            if(!stack.isEmpty()){
+                throw new JSONParseException("JSON解析异常,错误的json字符串");
+            }
+
             return array;
         }else{
-            throw new RuntimeException("错误的JSONArray格式");
+            throw new JSONTypeException("错误的JSONArray格式");
         }
     }
 
     private JSONSerialize parseValue(String value){
-        if(value.startsWith("[") && value.endsWith("]")){
+        if(StringUtil.isJSONArrayString(value)){
             deserialize = new JSONArrayDeserialize();
             return deserialize.parse(value);
         }
-        if(value.startsWith("{") && value.endsWith("}")){
+        if(StringUtil.isJSONObjectString(value)){
             deserialize = new JSONObjectDeserialize();
             return deserialize.parse(value);
         }
-        throw new RuntimeException("错误的JSON格式!");
+        throw new JSONTypeException("错误的JSON格式!");
     }
 }

@@ -19,5 +19,5 @@ public interface MapContainer {
    Map<String, Object> getContainer();
 
 
-   void setContainer(Map<String, Object> map);
+   void putAll(Map<String, Object> map);
 }

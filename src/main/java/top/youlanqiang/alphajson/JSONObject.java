@@ -51,8 +51,8 @@ public class JSONObject implements JSONSerialize, MapContainer{
     }
 
     @Override
-    public void setContainer(Map<String, Object> map) {
-        this.map = map;
+    public void putAll(Map<String, Object> map) {
+        this.map.putAll(map);
     }
 
     public Object getObjectValue(String key){
