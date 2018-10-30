@@ -134,6 +134,28 @@ public class JSONObject implements JSONSerialize, MapContainer{
         return (JSONObject) parser.parse(json);
     }
 
+    /**
+     * 将json字符串解析为对象
+     * @param json
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> T parse(String json, Class<T> clazz){
+        return parse(json).parseObject(clazz);
+    }
+
+    /**
+     * 将该JSONObject对象转化为对象
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public <T> T parseObject(Class<T> clazz){
+        //TODO 将该对象转化为对象
+        return null;
+    }
+
     @Override
     public StringSerialize getSerialize() {
         return new ObjectSerializable(this);

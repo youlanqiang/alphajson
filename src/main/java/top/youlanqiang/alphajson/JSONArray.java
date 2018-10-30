@@ -61,6 +61,34 @@ public class JSONArray  implements JSONSerialize {
         return (JSONArray) parser.parse(json);
     }
 
+    /**
+     * 将json字符串解析为List对象
+     * @param json
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> parse(String json, Class<T> clazz){
+        return parse(json).toList(clazz);
+    }
+
+    /**
+     * 将该JSONArray对象转化为对应的List对象
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public <T> List<T> toList(Class<T> clazz){
+        List<T> list = new ArrayList<>();
+        for(JSONSerialize item : array){
+            if(item instanceof JSONObject){
+                JSONObject object = (JSONObject)item;
+                list.add(object.parseObject(clazz));
+            }
+        }
+        return list;
+    }
+
 
     @Override
     public StringSerialize getSerialize() {

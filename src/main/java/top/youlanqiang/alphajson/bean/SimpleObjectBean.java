@@ -1,5 +1,8 @@
 package top.youlanqiang.alphajson.bean;
 
+import top.youlanqiang.alphajson.JSONObject;
+import top.youlanqiang.alphajson.exception.NotInstanceFunctionException;
+import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.utils.BeanUtil;
 
 import java.lang.reflect.Method;
@@ -27,11 +30,20 @@ public class SimpleObjectBean implements ObjectBean {
     private Map<String,Method> methodsOfGet = new HashMap<>();
 
 
+    private Map<String, Object> container = null;
+
+    public SimpleObjectBean(){
+
+    }
+
     public SimpleObjectBean(Object object){
         this.object = object;
         Class clazz = object.getClass();
-        String methodName;
+        methodsInit(clazz);
+    }
 
+    private void methodsInit(Class clazz){
+        String methodName;
         /**
          * 将object中的get,set方法放入对应的HashMap表中.
          */
@@ -44,8 +56,6 @@ public class SimpleObjectBean implements ObjectBean {
                 methodsOfGet.put(BeanUtil.methodFieldName(methodName), method);
             }
         }
-
-
     }
 
     public Class getObjectClass() {
@@ -94,5 +104,7 @@ public class SimpleObjectBean implements ObjectBean {
     @Override
     public void putAll(Map<String, Object> map) {
         //TODO empty
+        container = map;
     }
+
 }
