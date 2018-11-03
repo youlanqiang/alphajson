@@ -19,9 +19,7 @@ import java.util.Set;
  */
 public class SimpleObjectBean implements ObjectBean {
 
-    private static final String  GET = "get";
 
-    private static final String  SET = "set";
 
     private Object object;
 
@@ -103,7 +101,6 @@ public class SimpleObjectBean implements ObjectBean {
 
     @Override
     public void putAll(Map<String, Object> map) {
-        //TODO empty
         container = map;
     }
 

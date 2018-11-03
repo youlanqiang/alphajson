@@ -9,6 +9,7 @@ import top.youlanqiang.alphajson.serialize.StringSerialize;
 import top.youlanqiang.alphajson.utils.TransitionUtil;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -110,16 +111,26 @@ public class JSONObject implements JSONSerialize, MapContainer{
         return null;
     }
 
-    public <T> T getObjectValue(String key, Class<T> clazz){
+    public <T> T getObjectValue(String key, final Class<T> clazz){
         Object result = getObjectValue(key);
         if (result != null){
             if(result instanceof JSONObject){
-                //TODO result 转换为 对应的Class类
-            }
-            if(result instanceof JSONArray){
-                //TODO result 转换为 对应的Class类
+                JSONObject object = (JSONObject) result;
+                return object.parseObject(clazz);
             }
             return (T)result;
+        }
+        return null;
+    }
+
+    public <T> List<T> getArrayValue(String key, final Class<T> clazz){
+        Object result = getObjectValue(key);
+        if(result != null){
+            if(result instanceof JSONArray){
+               JSONArray array = (JSONArray) result;
+               return array.toList(clazz);
+            }
+            return (List<T>)result;
         }
         return null;
     }
@@ -151,8 +162,9 @@ public class JSONObject implements JSONSerialize, MapContainer{
      * @param <T>
      * @return
      */
-    public <T> T parseObject(Class<T> clazz){
+    public <T> T parseObject(final Class<T> clazz){
         //TODO 将该对象转化为对象
+
         return null;
     }
 

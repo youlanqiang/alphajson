@@ -68,7 +68,7 @@ public class JSONArray  implements JSONSerialize {
      * @param <T>
      * @return
      */
-    public static <T> List<T> parse(String json, Class<T> clazz){
+    public static <T> List<T> parse(String json, final Class<T> clazz){
         return parse(json).toList(clazz);
     }
 
@@ -78,7 +78,7 @@ public class JSONArray  implements JSONSerialize {
      * @param <T>
      * @return
      */
-    public <T> List<T> toList(Class<T> clazz){
+    public <T> List<T> toList(final Class<T> clazz){
         List<T> list = new ArrayList<>();
         for(JSONSerialize item : array){
             if(item instanceof JSONObject){

@@ -14,6 +14,10 @@ import java.util.Set;
  */
 public interface ObjectBean extends MapContainer {
 
+    String SET ="set";
+
+    String GET ="get";
+
     /**
      * 获取目标Class
      * @return
