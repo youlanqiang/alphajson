@@ -5,6 +5,9 @@ import top.youlanqiang.alphajson.bean.ClassObjectBean;
 import top.youlanqiang.alphajson.bean.ObjectBean;
 import top.youlanqiang.alphajson.exception.NotInstanceFunctionException;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
  * @author youlanqiang
  * @version 1.0
@@ -51,14 +54,22 @@ public class ObjectParser <T> {
             return null;
         }
         try {
-            T result = clazz.newInstance();
+            T result = clazz.getDeclaredConstructor().newInstance();
+            Method method;
             for (String field : bean.getFieldsOfSet()) {
                 //TODO 执行字段注入工作
+                method = bean.getMethodOfSet(field);
+                //字段注入
+                ParameterInject.inject(object, method, result);
             }
-            return null;
-        }catch(InstantiationException | IllegalAccessException e){
+            return result;
+        }catch(InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e){
             throw new NotInstanceFunctionException(clazz);
         }
+    }
+
+    public void addParseRule(){
+        //TODO 添加解析规则
     }
 
 

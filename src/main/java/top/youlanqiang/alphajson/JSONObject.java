@@ -113,12 +113,21 @@ public class JSONObject implements JSONSerialize, MapContainer{
 
     public <T> T getObjectValue(String key, final Class<T> clazz){
         Object result = getObjectValue(key);
+        //TODO 该方法过于肿瘤,需要更改
         if (result != null){
+            if(clazz.isAssignableFrom(String.class)){
+                return (T)this.getStringValue(key);
+            }
+            if(clazz.isAssignableFrom(Number.class)){
+                return (T)this.getDoubleValue(key);
+            }
+            if(clazz.isAssignableFrom(Boolean.class)){
+                return (T)this.getBooleanValue(key);
+            }
             if(result instanceof JSONObject){
                 JSONObject object = (JSONObject) result;
                 return object.parseObject(clazz);
             }
-            return (T)result;
         }
         return null;
     }
