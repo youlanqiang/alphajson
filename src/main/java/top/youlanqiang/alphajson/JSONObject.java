@@ -1,17 +1,16 @@
 package top.youlanqiang.alphajson;
 
+import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.deserialize.JSONDeserialize;
 import top.youlanqiang.alphajson.deserialize.JSONObjectDeserialize;
+import top.youlanqiang.alphajson.exception.JSONParseException;
 import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.serialize.MapContainer;
 import top.youlanqiang.alphajson.serialize.ObjectSerializable;
 import top.youlanqiang.alphajson.serialize.StringSerialize;
 import top.youlanqiang.alphajson.utils.TransitionUtil;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author youlanqiang
@@ -185,5 +184,14 @@ public class JSONObject implements JSONSerialize, MapContainer{
     @Override
     public String toString(){
         return getSerialize().operator();
+    }
+
+
+    public static String toString(Object object){
+        if(object instanceof Collection){
+            throw new JSONParseException("该对象是集合类型,请使用JSONArray.toString方法");
+        }
+        MapContainer container = new SimpleObjectBean(object);
+        return new ObjectSerializable(container).operator();
     }
 }

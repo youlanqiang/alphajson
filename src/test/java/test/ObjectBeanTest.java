@@ -18,6 +18,7 @@ public class ObjectBeanTest {
         user.setName("youlanqiang");
         JSONObject object = new JSONObject();
         object.put("user", user);
-        System.out.println(object.toString());
+
+        System.out.println(JSONObject.toString(user));
     }
 }

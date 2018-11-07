@@ -1,8 +1,10 @@
 package top.youlanqiang.alphajson.serialize;
 
 import top.youlanqiang.alphajson.JSONArray;
+import top.youlanqiang.alphajson.serialize.ParseChain.ObjectToStringChain;
 import top.youlanqiang.alphajson.utils.RailUtil;
 
+import java.util.Collection;
 import java.util.StringJoiner;
 
 /**
@@ -11,12 +13,14 @@ import java.util.StringJoiner;
  * @date 2018/10/5
  * @since 1.8
  */
-public class ArraySerializable implements StringSerialize {
+public class  ArraySerializable implements StringSerialize {
 
-    private JSONArray array;
+    private Iterable array;
+
+    private static final ObjectToStringChain chain = SerializeChainFactory.getChain();
 
 
-    public ArraySerializable(JSONArray array){
+    public ArraySerializable(Iterable array){
         super();
         this.array = array;
     }
@@ -24,10 +28,9 @@ public class ArraySerializable implements StringSerialize {
 
     @Override
     public String operator() {
-        int size = array.size();
         StringJoiner joiner = new StringJoiner(",");
-        for(int i = 0; i < size; i++){
-            joiner.add(array.getJSONObject(i).toString());
+        for(Object object : array){
+            joiner.add(chain.execute(object));
         }
         return RailUtil.jsonArray(joiner.toString());
     }

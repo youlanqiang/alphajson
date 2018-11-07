@@ -7,6 +7,7 @@ import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.serialize.StringSerialize;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -92,11 +93,15 @@ public class JSONArray  implements JSONSerialize {
 
     @Override
     public StringSerialize getSerialize() {
-        return new ArraySerializable(this);
+        return new ArraySerializable(array);
     }
 
     @Override
     public String toString() {
         return getSerialize().operator();
+    }
+
+    public static String toString(Collection<Object> list){
+        return new ArraySerializable(list).operator();
     }
 }
