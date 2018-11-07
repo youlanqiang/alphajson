@@ -18,6 +18,8 @@ public interface ObjectBean extends MapContainer {
 
     String GET ="get";
 
+    String IS = "is";
+
     /**
      * 获取目标Class
      * @return

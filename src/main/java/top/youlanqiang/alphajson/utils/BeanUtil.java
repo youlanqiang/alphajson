@@ -17,7 +17,16 @@ public  class BeanUtil {
      * @return
      */
     public static String  methodFieldName(String name){
-        return name.substring(3);
+        return name.substring(3, 4).toLowerCase() + name.substring(4);
     }
 
+    /**
+     * 截取字符串名称
+     * isName ==> is
+     * @param name
+     * @return
+     */
+    public static String  methodFieldNameForIs(String name){
+        return name.substring(2, 3).toLowerCase() + name.substring(3);
+    }
 }

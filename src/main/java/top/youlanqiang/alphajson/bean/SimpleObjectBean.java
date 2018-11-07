@@ -20,37 +20,37 @@ import java.util.Set;
 public class SimpleObjectBean implements ObjectBean {
 
 
-
     private Object object;
 
-    private Map<String,Method> methodsOfSet = new HashMap<>();
+    private Map<String, Method> methodsOfSet = new HashMap<>();
 
-    private Map<String,Method> methodsOfGet = new HashMap<>();
+    private Map<String, Method> methodsOfGet = new HashMap<>();
 
 
     private Map<String, Object> container = null;
 
-    public SimpleObjectBean(){
+    public SimpleObjectBean() {
 
     }
 
-    public SimpleObjectBean(Object object){
+    public SimpleObjectBean(Object object) {
         this.object = object;
         Class clazz = object.getClass();
         methodsInit(clazz);
     }
 
-    private void methodsInit(Class clazz){
+    private void methodsInit(Class clazz) {
         String methodName;
         /**
-         * 将object中的get,set方法放入对应的HashMap表中.
+         * 将object中的get,set,is方法放入对应的HashMap表中.
          */
         for (Method method : clazz.getDeclaredMethods()) {
             methodName = method.getName();
-            if(methodName.startsWith(SET)){
+            if (methodName.startsWith(SET)) {
                 methodsOfSet.put(BeanUtil.methodFieldName(methodName), method);
-            }
-            if(methodName.startsWith(GET)){
+            } else if (methodName.startsWith(IS)) {
+                methodsOfGet.put(BeanUtil.methodFieldNameForIs(methodName), method);
+            } else if (methodName.startsWith(GET)) {
                 methodsOfGet.put(BeanUtil.methodFieldName(methodName), method);
             }
         }
@@ -61,7 +61,7 @@ public class SimpleObjectBean implements ObjectBean {
     }
 
     public Method getMethodOfSet(String fieldName) {
-        if(methodsOfSet.containsKey(fieldName)){
+        if (methodsOfSet.containsKey(fieldName)) {
             Method method = methodsOfSet.get(fieldName);
             method.setAccessible(true);
             return method;
@@ -70,7 +70,7 @@ public class SimpleObjectBean implements ObjectBean {
     }
 
     public Method getMethodOfGet(String fieldName) {
-        if(methodsOfGet.containsKey(fieldName)){
+        if (methodsOfGet.containsKey(fieldName)) {
             Method method = methodsOfGet.get(fieldName);
             method.setAccessible(true);
             return method;
@@ -89,10 +89,10 @@ public class SimpleObjectBean implements ObjectBean {
     @Override
     public Map<String, Object> getContainer() {
         Map<String, Object> container = new HashMap<>(20);
-        for(String key : methodsOfGet.keySet()){
+        for (String key : methodsOfGet.keySet()) {
             try {
                 container.put(key, getMethodOfGet(key).invoke(object, null));
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -32,6 +32,7 @@ class ParameterInject {
         try {
             //TODO 需要对数据类型进行判断
             method.invoke(result, params);
+
         }catch(Exception e){
             e.printStackTrace();
         }
