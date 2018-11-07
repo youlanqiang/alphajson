@@ -66,10 +66,12 @@ public class KeyParser {
 
 
     /**
-     * 解析value值
+     * 解析出value值的结束下标
+     * 在返回下标时要对下标前一位判断
+     * value类型为字符串类型会多出一个 ” 符号
      * @param index 开始下标
      * @param array 解析的字符串
-     * @return
+     * @return value值结束的下标
      */
     private static int parseValue(int index, final char[] array){
         char token;
@@ -91,6 +93,10 @@ public class KeyParser {
                 throw new JSONParseException(index, array);
             }else if(token == '}'){
                 if(stack.isEmpty()){
+
+                    if(array[index - 1] == '"'){
+                        return index-1;
+                    }
                     return index;
                 }
                 if(stack.peek() == '{'){
@@ -99,6 +105,10 @@ public class KeyParser {
                 }
                 throw new JSONParseException(index, array);
             }else if(token == ','){
+
+                if(array[index - 1] == '"'){
+                    return index-1;
+                }
                 return index;
             }
         }

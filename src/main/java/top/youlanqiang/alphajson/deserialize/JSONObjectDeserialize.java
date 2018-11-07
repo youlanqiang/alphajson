@@ -39,6 +39,9 @@ public class JSONObjectDeserialize implements JSONDeserialize{
         context = context.trim();
         if(StringUtil.isJSONObjectString(context)){
             debug.info("解析的字符串:" + context);
+            /**
+             * keyParser将字符串中的 key:value解析并放入KeyValue对象中
+             */
             List<KeyValue> list =  KeyParser.execute(context.toCharArray());
             list.forEach(x->{
                 setValueInJson(x);

@@ -191,7 +191,15 @@ public class JSONObject implements JSONSerialize, MapContainer{
         if(object instanceof Collection){
             throw new JSONParseException("该对象是集合类型,请使用JSONArray.toString方法");
         }
-        MapContainer container = new SimpleObjectBean(object);
+        /**
+         * 判断object是否为JSONObject类型
+         */
+        MapContainer container;
+        if(object instanceof MapContainer){
+            container = (MapContainer) object;
+        }else{
+            container = new SimpleObjectBean(object);
+        }
         return new ObjectSerializable(container).operator();
     }
 }
