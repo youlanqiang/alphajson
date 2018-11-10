@@ -3,6 +3,8 @@ package top.youlanqiang.alphajson;
 import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.deserialize.JSONDeserialize;
 import top.youlanqiang.alphajson.deserialize.JSONObjectDeserialize;
+import top.youlanqiang.alphajson.deserialize.ObjectDeserizlize;
+import top.youlanqiang.alphajson.deserialize.json2obj.ObjectParser;
 import top.youlanqiang.alphajson.exception.JSONParseException;
 import top.youlanqiang.alphajson.serialize.JSONSerialize;
 import top.youlanqiang.alphajson.serialize.MapContainer;
@@ -171,9 +173,8 @@ public class JSONObject implements JSONSerialize, MapContainer{
      * @return
      */
     public <T> T parseObject(final Class<T> clazz){
-        //TODO 将该对象转化为对象
-
-        return null;
+        ObjectParser<T> parser = new ObjectParser(this, clazz);
+        return parser.parse();
     }
 
     @Override
