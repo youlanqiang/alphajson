@@ -16,7 +16,7 @@ public  class BeanUtil {
      * @param name 名称
      * @return
      */
-    public static String  methodFieldName(String name){
+    public static String methodFieldName(String name){
         return name.substring(3, 4).toLowerCase() + name.substring(4);
     }
 
@@ -26,7 +26,7 @@ public  class BeanUtil {
      * @param name
      * @return
      */
-    public static String  methodFieldNameForIs(String name){
+    public static String methodFieldNameForIs(String name){
         return name.substring(2, 3).toLowerCase() + name.substring(3);
     }
 }

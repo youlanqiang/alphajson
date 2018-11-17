@@ -1,4 +1,4 @@
-package top.youlanqiang.alphajson.deserialize.object;
+package top.youlanqiang.alphajson.serialize.deobject;
 
 /**
  * @author youlanqiang

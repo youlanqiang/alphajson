@@ -1,206 +1,133 @@
 package top.youlanqiang.alphajson;
 
-import top.youlanqiang.alphajson.bean.SimpleObjectBean;
-import top.youlanqiang.alphajson.deserialize.JSONDeserialize;
-import top.youlanqiang.alphajson.deserialize.JSONObjectDeserialize;
-import top.youlanqiang.alphajson.deserialize.ObjectDeserizlize;
-import top.youlanqiang.alphajson.deserialize.json2obj.ObjectParser;
-import top.youlanqiang.alphajson.exception.JSONParseException;
-import top.youlanqiang.alphajson.serialize.JSONSerialize;
-import top.youlanqiang.alphajson.serialize.MapContainer;
-import top.youlanqiang.alphajson.serialize.ObjectSerializable;
-import top.youlanqiang.alphajson.serialize.StringSerialize;
-import top.youlanqiang.alphajson.utils.TransitionUtil;
+import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
+import top.youlanqiang.alphajson.utils.CastUtil;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/10/5
+ * @date 2018/11/17
  * @since 1.8
  */
-public class JSONObject implements JSONSerialize, MapContainer{
+public class  JSONObject implements Map<String, Object> {
 
-    private static final JSONDeserialize parser = new JSONObjectDeserialize();
-
-    private Map<String,Object> map;
-
+    private Map<String, Object> map;
 
     public JSONObject(){
-        this.map = new HashMap<>(20);
+        this.map = new ConcurrentHashMap<>();
     }
 
-    public void put(String key, Object value){
-        map.put(key, value);
+    public static String toString(Object object){
+        return DefaultJSONSerializer.operatorToObject(object);
     }
 
-    public boolean isEmpty(){
-        return map.isEmpty();
+    public Byte getByte(String key){
+        return CastUtil.castToByte(map.get(key));
     }
 
-    public Set<String>  keys(){
-        return map.keySet();
+    public Short getShort(String key){
+        return CastUtil.castToShort(map.get(key));
     }
 
-    public int size(){
+    public Character getChar(String key){
+        return CastUtil.castToChar(map.get(key));
+    }
+
+    public Integer getInteger(String key){
+        return CastUtil.castToInteger(map.get(key));
+    }
+
+    public Long getLong(String key){
+        return CastUtil.castToLong(map.get(key));
+    }
+
+    public Float getFloat(String key){
+        return CastUtil.castToFloat(map.get(key));
+    }
+
+    public Double getDouble(String key){
+        return CastUtil.castToDouble(map.get(key));
+    }
+
+    public String getString(String key){
+        return CastUtil.castToString(map.get(key));
+    }
+
+    public Boolean getBoolean(String key){
+        return CastUtil.castToBoolean(map.get(key));
+    }
+
+    public Object getObject(String key){
+        return map.get(key);
+    }
+
+
+    @Override
+    public int size() {
         return map.size();
     }
 
     @Override
-    public Map<String, Object> getContainer(){
-        return map;
+    public boolean isEmpty() {
+        return map.isEmpty();
     }
 
     @Override
-    public void putAll(Map<String, Object> map) {
-        this.map.putAll(map);
-    }
-
-    public Object getObjectValue(String key){
-        if(map.containsKey(key)){
-            return map.get(key);
-        }
-        return null;
-    }
-
-    public Float getFloatValue(String key){
-        Object result = getObjectValue(key);
-        if (result != null){
-            return TransitionUtil.parseFloat(result);
-        }
-        return 0.0F;
-    }
-
-    public Double getDoubleValue(String key){
-        Object result = getObjectValue(key);
-        if (result != null){
-            return TransitionUtil.parseDouble(result);
-        }
-        return 0.0;
-    }
-
-    public Long getLongValue(String key){
-        Object result = getObjectValue(key);
-        if (result != null){
-            return TransitionUtil.parseLong(result);
-        }
-        return 0L;
-    }
-
-    public Integer getIntegerValue(String key){
-        Object result = getObjectValue(key);
-        if (result != null){
-            return TransitionUtil.parseInteger(result);
-        }
-        return 0;
-    }
-
-    public Boolean getBooleanValue(String key){
-        Object result = getObjectValue(key);
-        if (result != null){
-            return TransitionUtil.parseBoolean(result);
-        }
-        return false;
-    }
-
-    public String  getStringValue(String key){
-        Object result = getObjectValue(key);
-        if (result != null){
-            return result.toString();
-        }
-        return null;
-    }
-
-    public <T> T getObjectValue(String key, final Class<T> clazz){
-        Object result = getObjectValue(key);
-        //TODO 该方法过于肿瘤,需要更改
-        if (result != null){
-            if(clazz.isAssignableFrom(String.class)){
-                return (T)this.getStringValue(key);
-            }
-            if(clazz.isAssignableFrom(Number.class)){
-                return (T)this.getDoubleValue(key);
-            }
-            if(clazz.isAssignableFrom(Boolean.class)){
-                return (T)this.getBooleanValue(key);
-            }
-            if(result instanceof JSONObject){
-                JSONObject object = (JSONObject) result;
-                return object.parseObject(clazz);
-            }
-        }
-        return null;
-    }
-
-    public <T> List<T> getArrayValue(String key, final Class<T> clazz){
-        Object result = getObjectValue(key);
-        if(result != null){
-            if(result instanceof JSONArray){
-               JSONArray array = (JSONArray) result;
-               return array.toList(clazz);
-            }
-            return (List<T>)result;
-        }
-        return null;
-    }
-
-
-    /**
-     * json字符串解析为JSONObject对象
-     * @param json
-     * @return
-     */
-    public static JSONObject parse(String json){
-        return (JSONObject) parser.parse(json);
-    }
-
-    /**
-     * 将json字符串解析为对象
-     * @param json
-     * @param clazz
-     * @param <T>
-     * @return
-     */
-    public static <T> T parse(String json, Class<T> clazz){
-        return parse(json).parseObject(clazz);
-    }
-
-    /**
-     * 将该JSONObject对象转化为对象
-     * @param clazz
-     * @param <T>
-     * @return
-     */
-    public <T> T parseObject(final Class<T> clazz){
-        ObjectParser<T> parser = new ObjectParser(this, clazz);
-        return parser.parse();
+    public boolean containsKey(Object key) {
+        return map.containsKey(key);
     }
 
     @Override
-    public StringSerialize getSerialize() {
-        return new ObjectSerializable(this);
+    public boolean containsValue(Object value) {
+        return map.containsValue(value);
     }
 
     @Override
+    public Object get(Object key) {
+        return map.get(key);
+    }
+
+    @Override
+    public Object put(String key, Object value) {
+        return map.put(key, value);
+    }
+
+    @Override
+    public Object remove(Object key) {
+        return map.remove(key);
+    }
+
+    @Override
+    public void putAll(Map<? extends String, ?> m) {
+        map.putAll(m);
+    }
+
+    @Override
+    public void clear() {
+        this.map = new ConcurrentHashMap<>();
+    }
+
+    @Override
+    public Set<String> keySet() {
+        return map.keySet();
+    }
+
+    @Override
+    public Collection<Object> values() {
+        return map.values();
+    }
+
+    @Override
+    public Set<Entry<String, Object>> entrySet() {
+        return map.entrySet();
+    }
+
     public String toString(){
-        return getSerialize().operator();
-    }
-
-
-    public static String toString(Object object){
-        if(object instanceof Collection){
-            throw new JSONParseException("该对象是集合类型,请使用JSONArray.toString方法");
-        }
-        /**
-         * 判断object是否为JSONObject类型
-         */
-        MapContainer container;
-        if(object instanceof MapContainer){
-            container = (MapContainer) object;
-        }else{
-            container = new SimpleObjectBean(object);
-        }
-        return new ObjectSerializable(container).operator();
+        return DefaultJSONSerializer.operator(map);
     }
 }

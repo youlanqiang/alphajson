@@ -14,7 +14,7 @@ public final class CharArrayUtil {
 	
 	public static final String END_INDEX = "end";
 
-	public static String arrayToString(final char[] str,int start,int end) {
+	public static String arrayToString(final char[] str, int start, int end) {
 		StringBuilder sb = new StringBuilder();
 		for(;start<end;start++) {
 			sb.append(str[start]);
@@ -22,7 +22,7 @@ public final class CharArrayUtil {
 		return sb.toString();
 	}
 	
-	public static Map<String,Object> arrayToString(final char[] str,int start,char... conditions) {
+	public static Map<String,Object> arrayToString(final char[] str, int start, char... conditions) {
 		Map<String,Object> map = new HashMap<>();
 		StringBuilder sb = new StringBuilder();
 		for(;start<str.length-1;start++) {

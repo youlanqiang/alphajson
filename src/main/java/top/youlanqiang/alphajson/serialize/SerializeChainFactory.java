@@ -1,6 +1,9 @@
 package top.youlanqiang.alphajson.serialize;
 
-import top.youlanqiang.alphajson.serialize.ParseChain.*;
+import top.youlanqiang.alphajson.serialize.ParseChain.ArrayOrMapChain;
+import top.youlanqiang.alphajson.serialize.ParseChain.BaseChain;
+import top.youlanqiang.alphajson.serialize.ParseChain.EndChain;
+import top.youlanqiang.alphajson.serialize.ParseChain.ObjectToStringChain;
 
 /**
  * @author youlanqiang
@@ -15,10 +18,8 @@ public class SerializeChainFactory {
 
     public static ObjectToStringChain getChain(){
         EndChain endChain = new EndChain();
-        ArrayChain arrayChain = new ArrayChain(endChain);
-        MapChain mapChain = new MapChain(arrayChain);
-        JsonChain jsonChain = new JsonChain(mapChain);
-        BaseChain baseChain = new BaseChain(jsonChain);
+        ArrayOrMapChain mapChain = new ArrayOrMapChain(endChain);
+        BaseChain baseChain = new BaseChain(mapChain);
 
         return baseChain;
     }

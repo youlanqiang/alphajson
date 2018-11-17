@@ -1,8 +1,6 @@
-package top.youlanqiang.alphajson.deserialize.object;
+package top.youlanqiang.alphajson.serialize.deobject;
 
-import top.youlanqiang.alphajson.debug.Debug;
-import top.youlanqiang.alphajson.debug.DebugFactory;
-import top.youlanqiang.alphajson.exception.JSONParseException;
+import top.youlanqiang.alphajson.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +15,11 @@ import java.util.Stack;
  */
 public class KeyParser {
 
-    private static final Debug debug = DebugFactory.getDebug();
-
     /**
      * 执行解析操作
      * @param array
      */
-    public static  List<KeyValue>  execute(final char[] array){
+    public static List<KeyValue> execute(final char[] array){
 
         List<KeyValue> list = new ArrayList<>(20);
         char token;
@@ -40,7 +36,6 @@ public class KeyParser {
                int endValueIndex = parseValue(endKeyIndex, array);
                keyValue.setValue(new String(array).substring(endKeyIndex + 2, endValueIndex));
 
-               debug.info("解析点:" + keyValue);
                list.add(keyValue);
                index = endValueIndex;
             }
@@ -61,7 +56,7 @@ public class KeyParser {
                 return index;
             }
         }
-        throw new JSONParseException(index, array);
+        throw new JSONException("JSON parse is error");
     }
 
 
@@ -90,10 +85,9 @@ public class KeyParser {
                     stack.pop();
                     continue;
                 }
-                throw new JSONParseException(index, array);
+                throw new JSONException("JSON parse is error");
             }else if(token == '}'){
                 if(stack.isEmpty()){
-
                     if(array[index - 1] == '"'){
                         return index-1;
                     }
@@ -103,16 +97,18 @@ public class KeyParser {
                     stack.pop();
                     continue;
                 }
-                throw new JSONParseException(index, array);
+                throw new JSONException("JSON parse is error");
             }else if(token == ','){
-
+                if(!stack.isEmpty()){
+                    continue;
+                }
                 if(array[index - 1] == '"'){
                     return index-1;
                 }
                 return index;
             }
         }
-        throw new JSONParseException(index, array);
+        throw new JSONException("JSON parse is error");
     }
 
 

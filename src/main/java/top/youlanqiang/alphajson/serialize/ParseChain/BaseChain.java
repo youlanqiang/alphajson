@@ -1,6 +1,11 @@
 package top.youlanqiang.alphajson.serialize.ParseChain;
 
+import top.youlanqiang.alphajson.JSONArray;
+import top.youlanqiang.alphajson.JSONObject;
+import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
 import top.youlanqiang.alphajson.utils.RailUtil;
+
+import java.util.Arrays;
 
 /**
  * @author youlanqiang
@@ -10,7 +15,7 @@ import top.youlanqiang.alphajson.utils.RailUtil;
  * 处理基本类型的操作链
  * 如 null,number,boolean,String
  */
-public class BaseChain  extends ObjectToStringChain{
+public class BaseChain  extends ObjectToStringChain {
 
 
     public BaseChain(ObjectToStringChain chain){
@@ -22,7 +27,10 @@ public class BaseChain  extends ObjectToStringChain{
         if(object == null){
             return "null";
         }
-        if(object instanceof Number ){
+        if(object.getClass().isArray()){
+            return DefaultJSONSerializer.operator(Arrays.asList((Object[]) object));
+        }
+        if(object instanceof Number){
             return object.toString();
         }
         if(object instanceof Boolean){
@@ -30,6 +38,12 @@ public class BaseChain  extends ObjectToStringChain{
         }
         if(object instanceof CharSequence){
             return RailUtil.string(object.toString());
+        }
+        if(object instanceof JSONArray){
+            return object.toString();
+        }
+        if(object instanceof JSONObject){
+            return object.toString();
         }
         return next.execute(object);
     }

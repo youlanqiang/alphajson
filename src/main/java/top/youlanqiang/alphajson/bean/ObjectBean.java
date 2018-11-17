@@ -1,6 +1,5 @@
 package top.youlanqiang.alphajson.bean;
 
-import top.youlanqiang.alphajson.serialize.MapContainer;
 
 import java.lang.reflect.Method;
 import java.util.Set;
@@ -12,7 +11,7 @@ import java.util.Set;
  * @since 1.8
  * JavaBean对象解析
  */
-public interface ObjectBean extends MapContainer {
+public interface ObjectBean {
 
     String SET ="set";
 

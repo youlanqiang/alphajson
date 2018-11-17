@@ -1,7 +1,8 @@
 package top.youlanqiang.alphajson.serialize.ParseChain;
 
+
 import top.youlanqiang.alphajson.bean.SimpleObjectBean;
-import top.youlanqiang.alphajson.serialize.ObjectSerializable;
+import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
 
 /**
  * @author youlanqiang
@@ -10,11 +11,12 @@ import top.youlanqiang.alphajson.serialize.ObjectSerializable;
  * @since 1.8
  * 工作链的尾链 直接将Object转化为JSON字符串
  */
-public class EndChain  extends ObjectToStringChain{
+public class EndChain  extends ObjectToStringChain {
 
 
     @Override
     public String execute(Object object) {
-        return new ObjectSerializable(new SimpleObjectBean(object)).operator();
+        SimpleObjectBean bean = new SimpleObjectBean(object);
+        return DefaultJSONSerializer.operator((bean).getContainer());
     }
 }
