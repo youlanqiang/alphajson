@@ -1,6 +1,8 @@
 package top.youlanqiang.alphajson.bean;
 
+import top.youlanqiang.alphajson.JSONObject;
 import top.youlanqiang.alphajson.utils.BeanUtil;
+import top.youlanqiang.alphajson.utils.CastUtil;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -14,28 +16,37 @@ import java.util.Set;
  * @since 1.8
  * ObjectBean的基本实现类
  */
-public class SimpleObjectBean implements ObjectBean {
+public class  SimpleObjectBean<T> implements ObjectBean {
 
 
-    private Object object;
+    /**
+     * 原始Object对象
+     */
+    private T object;
 
+    /**
+     * 对象中的set字段,Map中保存的是对应方法,key为字段名(字段名首字母小写)
+     */
     private Map<String, Method> methodsOfSet = new HashMap<>();
 
+    /**
+     * 对象中的get字段,Map中保存的是对应方法,key为字段名(字段名首字母小写)
+     */
     private Map<String, Method> methodsOfGet = new HashMap<>();
 
 
-
-    public SimpleObjectBean(final Object object) {
+    public SimpleObjectBean(final T object) {
         this.object = object;
         Class clazz = object.getClass();
         methodsInit(clazz);
     }
 
+    /**
+     * 注入get,set,is方法加载到HashMap中
+     * @param clazz 对象的Class类
+     */
     private void methodsInit(final Class clazz) {
         String methodName;
-        /**
-         * 将object中的get,set,is方法放入对应的HashMap表中.
-         */
         for (Method method : clazz.getDeclaredMethods()) {
             methodName = method.getName();
             if (methodName.startsWith(SET)) {
@@ -48,10 +59,19 @@ public class SimpleObjectBean implements ObjectBean {
         }
     }
 
+    /**
+     * 获取原始对象的Class
+     * @return class
+     */
     public Class getObjectClass() {
         return object.getClass();
     }
 
+    /**
+     * 获取对应字段的Set方法
+     * @param fieldName 字段名
+     * @return 方法
+     */
     public Method getMethodOfSet(String fieldName) {
         if (methodsOfSet.containsKey(fieldName)) {
             Method method = methodsOfSet.get(fieldName);
@@ -61,6 +81,11 @@ public class SimpleObjectBean implements ObjectBean {
         return null;
     }
 
+    /**
+     * 获取对应字段的Get,is方法
+     * @param fieldName 字段名
+     * @return 方法
+     */
     public Method getMethodOfGet(String fieldName) {
         if (methodsOfGet.containsKey(fieldName)) {
             Method method = methodsOfGet.get(fieldName);
@@ -70,24 +95,56 @@ public class SimpleObjectBean implements ObjectBean {
         return null;
     }
 
+    /**
+     * 获取所有的Set方法字段名
+     * @return
+     */
     public Set<String> getFieldsOfSet() {
         return methodsOfSet.keySet();
     }
 
+    /**
+     * 获取所有的Get,is方法字段名
+     * @return
+     */
     public Set<String> getFieldsOfGet() {
         return methodsOfGet.keySet();
     }
 
+    /**
+     * 将对象转换为JAVABean的Map
+     * @return HashMap
+     */
     public Map<String, Object> getContainer() {
         Map<String, Object> container = new HashMap<>(20);
         for (String key : methodsOfGet.keySet()) {
             try {
-                container.put(key, getMethodOfGet(key).invoke(object, null));
+                container.put(key, getMethodOfGet(key).invoke(object, new Object[]{}));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return container;
+    }
+
+    /**
+     * 将JSONObject转换为同类型对象
+     * @param json json字符串
+     * @return 同类型对象
+     */
+    public T injectJSONObject(JSONObject json){
+        //TODO 需要将JSON转变为同类型对象
+        Set<String> keys =  getFieldsOfSet();
+        Method method;
+        for(String field : keys){
+            method = getMethodOfSet(field);
+            try {
+                method.invoke(object, CastUtil.cast(json.getObject(field), method.getParameterTypes()[0]));
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return object;
     }
 
 

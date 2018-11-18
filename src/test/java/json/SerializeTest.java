@@ -6,6 +6,7 @@ import entity.Autor;
 import entity.User;
 import org.junit.Test;
 import top.youlanqiang.alphajson.JSONObject;
+import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 
 import java.util.ArrayList;
@@ -93,5 +94,16 @@ public class SerializeTest {
         System.out.println(JSONObject.toString(object));
     }
 
+
+    /**
+     * 测试JSON字符串反序列化为Object对象
+     * todo 未通过 错误提示:java.lang.ClassCastException: java.util.HashMap cannot be cast to entity.Autor
+     */
+    @Test
+    public void test3(){
+        SimpleObjectBean<User> user = new SimpleObjectBean<>(getUser());
+        User one =  user.injectJSONObject(JSONObject.parse(JSONObject.toString(getUser())));
+        System.out.println(one.getAutors().get(0).getAdmin());
+    }
 
 }

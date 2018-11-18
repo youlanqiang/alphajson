@@ -1,6 +1,7 @@
 package top.youlanqiang.alphajson;
 
 import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
+import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 import top.youlanqiang.alphajson.utils.CastUtil;
 
 import java.util.ArrayList;
@@ -42,6 +43,17 @@ public class JSONArray  implements Collection {
 
     public static String toString(Object object){
         return DefaultJSONSerializer.operatorToObject(object);
+    }
+
+    public static JSONArray parse(String json){
+        Collection list =  JSONDeserializer.parseToCollection(json);
+        if(list.isEmpty()){
+            return new JSONArray();
+        }else{
+            JSONArray array = new JSONArray();
+            array.list = (List) list;
+            return array;
+        }
     }
 
 
@@ -161,7 +173,7 @@ public class JSONArray  implements Collection {
 
     @Override
     public void clear() {
-        this.list = new ArrayList<>(CAPACITY);
+        list.clear();
     }
 
 

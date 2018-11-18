@@ -1,6 +1,7 @@
 package top.youlanqiang.alphajson;
 
 import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
+import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 import top.youlanqiang.alphajson.utils.CastUtil;
 
 import java.util.Collection;
@@ -24,6 +25,22 @@ public class  JSONObject implements Map<String, Object> {
 
     public static String toString(Object object){
         return DefaultJSONSerializer.operatorToObject(object);
+    }
+
+    /**
+     * 反序列化JSON字符串
+     * @param json 字符串
+     * @return JSONObject对象
+     */
+    public static JSONObject parse(String json){
+        Map<String, Object> object =  JSONDeserializer.parseToMap(json);
+        if(object.isEmpty()){
+            return new JSONObject();
+        }else{
+            JSONObject result = new JSONObject();
+            result.map = object;
+            return result;
+        }
     }
 
     public Byte getByte(String key){
@@ -109,7 +126,7 @@ public class  JSONObject implements Map<String, Object> {
 
     @Override
     public void clear() {
-        this.map = new ConcurrentHashMap<>();
+        map.clear();
     }
 
     @Override

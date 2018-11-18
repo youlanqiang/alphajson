@@ -12,7 +12,7 @@ public class User {
 
     private String name;
 
-    private boolean isMan;
+    private boolean man;
 
     private int age;
 
@@ -28,11 +28,11 @@ public class User {
     }
 
     public boolean isMan() {
-        return isMan;
+        return man;
     }
 
     public void setMan(boolean man) {
-        isMan = man;
+        man = man;
     }
 
     public int getAge() {
