@@ -7,6 +7,8 @@ import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -282,7 +284,9 @@ public class CastUtil {
     }
 
 
+
     public static <T> T cast(Object obj, Class<T> clazz) {
+
         if (obj == null) {
             if (clazz == int.class) {
                 return (T) Integer.valueOf(0);
@@ -315,9 +319,6 @@ public class CastUtil {
             return (T) obj;
         }
 
-        if(clazz.isAssignableFrom(obj.getClass())){
-            return (T) obj;
-        }
 
         if(clazz.isArray()){
             if(obj instanceof Collection){
@@ -330,6 +331,21 @@ public class CastUtil {
                 }
                 return (T) array;
             }
+        }
+
+        if(obj instanceof Collection){
+            Collection coll = (Collection) obj;
+            List<Object> tempList = new ArrayList<>(coll.size());
+            for(int i = 0; i < coll.size(); i++){
+
+            }
+
+            return null;
+        }
+
+
+        if(clazz.isAssignableFrom(obj.getClass())){
+            return (T) obj;
         }
 
         if(clazz == Map.class){

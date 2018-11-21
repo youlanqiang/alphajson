@@ -1,10 +1,13 @@
 package top.youlanqiang.alphajson.bean;
 
+import top.youlanqiang.alphajson.JSONException;
 import top.youlanqiang.alphajson.JSONObject;
 import top.youlanqiang.alphajson.utils.BeanUtil;
 import top.youlanqiang.alphajson.utils.CastUtil;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -39,6 +42,15 @@ public class  SimpleObjectBean<T> implements ObjectBean {
         this.object = object;
         Class clazz = object.getClass();
         methodsInit(clazz);
+    }
+
+    public SimpleObjectBean(final Class<T> clazz){
+        try {
+            this.object = clazz.getConstructor().newInstance(null);
+            methodsInit(clazz);
+        }catch(Exception e){
+            throw new JSONException("对象没有无参构造方法.");
+        }
     }
 
     /**
@@ -139,6 +151,17 @@ public class  SimpleObjectBean<T> implements ObjectBean {
         for(String field : keys){
             method = getMethodOfSet(field);
             try {
+                //TODO 泛型BUG
+                Type[] types = method.getGenericParameterTypes();
+                for (Type type2 : types) {
+                    System.out.println(type2);
+                    if (type2 instanceof ParameterizedType) {
+                        Type[] typetwos = ((ParameterizedType) type2).getActualTypeArguments();
+                        for (Type type3 : typetwos) {
+                            System.out.println("泛型参数类型" + type3);
+                        }
+                    }
+                }
                 method.invoke(object, CastUtil.cast(json.getObject(field), method.getParameterTypes()[0]));
             }catch(Exception e){
                 e.printStackTrace();

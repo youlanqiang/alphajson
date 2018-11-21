@@ -1,5 +1,7 @@
 package top.youlanqiang.alphajson;
 
+import top.youlanqiang.alphajson.bean.ObjectBean;
+import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 import top.youlanqiang.alphajson.utils.CastUtil;
@@ -41,6 +43,11 @@ public class  JSONObject implements Map<String, Object> {
             result.map = object;
             return result;
         }
+    }
+
+    public static <T> T parse(String json, Class<T> clazz){
+        SimpleObjectBean<T> bean = new SimpleObjectBean<>(clazz);
+        return bean.injectJSONObject(parse(json));
     }
 
     public Byte getByte(String key){

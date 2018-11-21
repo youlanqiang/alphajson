@@ -101,8 +101,7 @@ public class SerializeTest {
      */
     @Test
     public void test3(){
-        SimpleObjectBean<User> user = new SimpleObjectBean<>(getUser());
-        User one =  user.injectJSONObject(JSONObject.parse(JSONObject.toString(getUser())));
+        User one =  JSONObject.parse(JSONObject.toString(getUser()), User.class);
         System.out.println(one.getAutors().get(0).getAdmin());
     }
 
