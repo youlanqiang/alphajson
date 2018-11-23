@@ -12,10 +12,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author youlanqiang
@@ -337,7 +334,7 @@ public class CastUtil {
 
 
 
-    public static <T> T cast(Object obj, Class<T> clazz, Class... geners) {
+    public static <T> T cast(Object obj, Class<T> clazz, Class... geners) throws Exception {
 
         if (obj == null) {
             if (clazz == int.class) {
@@ -387,14 +384,39 @@ public class CastUtil {
 
         if(obj instanceof Collection){
             Collection coll = (Collection) obj;
-            if(geners.length != 0 && geners.length == 1) {
-                List<Object> tempList = new ArrayList<>(coll.size());
-                for (Object result : coll) {
-                    tempList.add(cast(result, geners[0]));
+            if(List.class.isAssignableFrom(clazz)) {
+                if (geners.length != 0 && geners.length == 1) {
+                    Object[] tempList = new Object[coll.size()];
+                    int index = 0;
+                    for (Object result : coll) {
+                        tempList[index] = cast(result, geners[0]);
+                        index++;
+                    }
+                    if(clazz.isInterface()) {
+                        return (T) Arrays.asList(tempList);
+                    }else{
+                        return clazz.getConstructor().newInstance(Arrays.asList(tempList));
+                    }
                 }
-                return (T) tempList;
+                return null;
             }
-            return null;
+
+            if(Set.class.isAssignableFrom(clazz)){
+                if (geners.length != 0 && geners.length == 1) {
+                    Object[] tempList = new Object[coll.size()];
+                    int index = 0;
+                    for (Object result : coll) {
+                        tempList[index] = cast(result, geners[0]);
+                        index++;
+                    }
+                    if(clazz.isInterface()) {
+                        return (T) new HashSet(Arrays.asList(tempList));
+                    }else{
+                        return clazz.getConstructor().newInstance(Arrays.asList(tempList));
+                    }
+                }
+                return null;
+            }
         }
 
 

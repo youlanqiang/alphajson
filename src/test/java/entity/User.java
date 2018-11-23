@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author youlanqiang
@@ -16,7 +17,7 @@ public class User {
 
     private int age;
 
-    private List<Autor> autors;
+    private Set<Autor> autors;
 
 
     public String getName() {
@@ -43,11 +44,21 @@ public class User {
         this.age = age;
     }
 
-    public List<Autor> getAutors() {
+    public Set<Autor> getAutors() {
         return autors;
     }
 
-    public void setAutors(List<Autor> autors) {
+    public void setAutors(Set<Autor> autors) {
         this.autors = autors;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", man=" + man +
+                ", age=" + age +
+                ", autors=" + autors +
+                '}';
     }
 }

@@ -59,6 +59,15 @@ public class JSONArray  implements Collection {
         }
     }
 
+    public static <T> List<T> parse(String json, Class<T> clazz){
+        JSONArray array = JSONArray.parse(json);
+        List<T> list = new ArrayList<>(array.size());
+        for(int i = 0; i < array.size(); i++){
+            list.add(array.getObject(i, clazz));
+        }
+        return list;
+    }
+
 
     /**
      * 获取一个下标对应的JSONObject对象
@@ -120,6 +129,25 @@ public class JSONArray  implements Collection {
 
     public Object getObject(int index){
         return list.get(index);
+    }
+
+    public <T> T getObject(int index, Class<T> clazz){
+        //TODO 对象转化为对应属性
+        Object result = getObject(index);
+         if(result.getClass() == clazz){
+             return (T) result;
+         }
+         if(clazz.isAssignableFrom(result.getClass())){
+             return (T) clazz;
+         }
+         if(JSONObject.class == clazz){
+             return null;
+         }
+         if(result instanceof JSONObject){
+            return JSONObject.parse((JSONObject)result, clazz);
+         }
+
+         throw new JSONException("parse exception");
     }
 
     @Override

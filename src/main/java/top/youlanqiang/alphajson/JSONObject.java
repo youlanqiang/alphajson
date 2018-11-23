@@ -6,6 +6,7 @@ import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 import top.youlanqiang.alphajson.utils.CastUtil;
 
+import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
@@ -31,6 +32,11 @@ public class  JSONObject implements Map<String, Object> {
         return DefaultJSONSerializer.operatorToObject(object);
     }
 
+
+    public  <T> T to(Class<T> clazz){
+        return parse(this, clazz);
+    }
+
     /**
      * 反序列化JSON字符串
      * @param json 字符串
@@ -47,9 +53,29 @@ public class  JSONObject implements Map<String, Object> {
         }
     }
 
+    public static <T> T parse(JSONObject json, Class<T> clazz){
+        try {
+            if(clazz == JSONObject.class) {
+                return (T) json;
+            }
+            return CastUtil.cast(json, clazz);
+        }catch(Exception e){
+            throw new JSONException("parse exception");
+        }
+    }
+
     public static <T> T parse(String json, Class<T> clazz){
-        SimpleObjectBean<T> bean = new SimpleObjectBean<>(clazz);
-        return bean.injectJSONObject(parse(json));
+        try {
+            if(clazz == JSONObject.class) {
+                return (T) JSONObject.parse(json);
+            }
+            if(clazz == JSONArray.class){
+                return (T) JSONArray.parse(json);
+            }
+            return CastUtil.cast(JSONObject.parse(json), clazz);
+        }catch(Exception e){
+            throw new JSONException("parse exception");
+        }
     }
 
     public Byte getByte(String key){

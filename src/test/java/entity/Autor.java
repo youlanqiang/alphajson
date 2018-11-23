@@ -8,7 +8,7 @@ import java.util.Map;
  * @date 2018/11/17
  * @since 1.8
  */
-public class Autor {
+public class Autor implements Comparable{
 
     private String name;
 
@@ -39,6 +39,11 @@ public class Autor {
 
     public void setPoint(Map<String, Double> point) {
         this.point = point;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 
     @Override

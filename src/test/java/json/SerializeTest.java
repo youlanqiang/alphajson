@@ -9,9 +9,7 @@ import top.youlanqiang.alphajson.JSONObject;
 import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author youlanqiang
@@ -30,7 +28,7 @@ public class SerializeTest {
         user.setAge(10);
         user.setMan(false);
         user.setName("youlanqiang");
-        List<Autor> list = new ArrayList<>();
+        Set<Autor> list = new TreeSet<>();
         Autor autor1 = new Autor();
         autor1.setName("autor1");
         autor1.setAdmin(new Admin("admin1", "boooss"));
@@ -97,12 +95,18 @@ public class SerializeTest {
 
     /**
      * 测试JSON字符串反序列化为Object对象
-     * todo 未通过 错误提示:java.lang.ClassCastException: java.util.HashMap cannot be cast to entity.Autor
+     * 测试通过
      */
     @Test
     public void test3(){
         User one =  JSONObject.parse(JSONObject.toString(getUser()), User.class);
-        System.out.println(one.getAutors().get(1).getPoint());
+        System.out.println(one.getAutors().size());
+    }
+
+    @Test
+    public void test4(){
+       JSONObject user = JSONObject.parse(getJSONString(), JSONObject.class);
+        System.out.println(user);
     }
 
 }
