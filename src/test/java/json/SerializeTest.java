@@ -102,7 +102,7 @@ public class SerializeTest {
     @Test
     public void test3(){
         User one =  JSONObject.parse(JSONObject.toString(getUser()), User.class);
-        System.out.println(one.getAutors().get(0).getAdmin());
+        System.out.println(one.getAutors().get(1).getPoint());
     }
 
 }

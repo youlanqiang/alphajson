@@ -40,4 +40,13 @@ public class Autor {
     public void setPoint(Map<String, Double> point) {
         this.point = point;
     }
+
+    @Override
+    public String toString() {
+        return "Autor{" +
+                "name='" + name + '\'' +
+                ", admin=" + admin +
+                ", point=" + point +
+                '}';
+    }
 }

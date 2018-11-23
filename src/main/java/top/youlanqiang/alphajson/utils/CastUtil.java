@@ -3,6 +3,7 @@ package top.youlanqiang.alphajson.utils;
 
 import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.JSONException;
+import top.youlanqiang.alphajson.JSONObject;
 import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 
@@ -10,6 +11,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -248,6 +250,56 @@ public class CastUtil {
         throw new JSONException("The value cast to boolean error");
     }
 
+    public static BigDecimal castToBigDecimal(Object value){
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof BigDecimal) {
+            return (BigDecimal) value;
+        }
+        if (value instanceof Number) {
+            Number num = (Number) value;
+            return BigDecimal.valueOf(num.doubleValue());
+        }
+        if (value instanceof String) {
+            String str = (String) value;
+            if (StringUtil.isNullOrEmpty(str) || str.equals("NULL") || str.equals("null")) {
+                return null;
+            }
+            return new BigDecimal(castToDouble(str));
+        }
+        if(value instanceof Boolean){
+            boolean result =  (boolean)value;
+            return result ? BigDecimal.ONE : BigDecimal.ZERO;
+        }
+        throw new JSONException("The value cast to boolean error");
+    }
+
+    public static BigInteger castToBigInteger(Object value){
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof BigDecimal) {
+            return (BigInteger) value;
+        }
+        if (value instanceof Number) {
+            Number num = (Number) value;
+            return BigInteger.valueOf(num.intValue());
+        }
+        if (value instanceof String) {
+            String str = (String) value;
+            if (StringUtil.isNullOrEmpty(str) || str.equals("NULL") || str.equals("null")) {
+                return null;
+            }
+            return BigInteger.valueOf(castToLong(str));
+        }
+        if(value instanceof Boolean){
+            boolean result =  (boolean)value;
+            return result ? BigInteger.ONE : BigInteger.ZERO;
+        }
+        throw new JSONException("The value cast to boolean error");
+    }
+
 
     public static Object castToObject(String value) {
         if (value.length() == 0) {
@@ -285,7 +337,7 @@ public class CastUtil {
 
 
 
-    public static <T> T cast(Object obj, Class<T> clazz) {
+    public static <T> T cast(Object obj, Class<T> clazz, Class... geners) {
 
         if (obj == null) {
             if (clazz == int.class) {
@@ -335,11 +387,13 @@ public class CastUtil {
 
         if(obj instanceof Collection){
             Collection coll = (Collection) obj;
-            List<Object> tempList = new ArrayList<>(coll.size());
-            for(int i = 0; i < coll.size(); i++){
-
+            if(geners.length != 0 && geners.length == 1) {
+                List<Object> tempList = new ArrayList<>(coll.size());
+                for (Object result : coll) {
+                    tempList.add(cast(result, geners[0]));
+                }
+                return (T) tempList;
             }
-
             return null;
         }
 
@@ -384,7 +438,16 @@ public class CastUtil {
         if(clazz == String.class){
             return (T) castToString(obj);
         }
-
+        if(clazz == BigDecimal.class){
+            return (T) castToBigDecimal(obj);
+        }
+        if(clazz == BigInteger.class){
+            return (T) castToBigInteger(obj);
+        }
+        if(obj instanceof Map) {
+            SimpleObjectBean<T> objectBean = new SimpleObjectBean<>(clazz);
+            return objectBean.injectJSONObject((Map) obj);
+        }
         return null;
     }
 

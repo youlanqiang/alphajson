@@ -4,6 +4,9 @@ import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 import top.youlanqiang.alphajson.utils.CastUtil;
 
+import java.lang.reflect.ParameterizedType;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -105,6 +108,14 @@ public class JSONArray  implements Collection {
 
     public Boolean getBoolean(int index){
         return CastUtil.castToBoolean(list.get(index));
+    }
+
+    public BigDecimal getBigDecimal(int index){
+        return CastUtil.castToBigDecimal(list.get(index));
+    }
+
+    public BigInteger getBigInteger(int index){
+        return CastUtil.castToBigInteger(list.get(index));
     }
 
     public Object getObject(int index){

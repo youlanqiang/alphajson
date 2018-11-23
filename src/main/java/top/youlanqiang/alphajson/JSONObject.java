@@ -6,6 +6,8 @@ import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 import top.youlanqiang.alphajson.utils.CastUtil;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -84,6 +86,14 @@ public class  JSONObject implements Map<String, Object> {
 
     public Boolean getBoolean(String key){
         return CastUtil.castToBoolean(map.get(key));
+    }
+
+    public BigDecimal getBigDecimal(String key){
+        return CastUtil.castToBigDecimal(map.get(key));
+    }
+
+    public BigInteger getBigInteger(String key){
+        return CastUtil.castToBigInteger(map.get(key));
     }
 
     public Object getObject(String key){

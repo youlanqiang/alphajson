@@ -8,6 +8,7 @@ import top.youlanqiang.alphajson.utils.CastUtil;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -127,8 +128,8 @@ public class  SimpleObjectBean<T> implements ObjectBean {
      * 将对象转换为JAVABean的Map
      * @return HashMap
      */
-    public Map<String, Object> getContainer() {
-        Map<String, Object> container = new HashMap<>(20);
+    public Map<Object, Object> getContainer() {
+        Map<Object, Object> container = new HashMap<>(20);
         for (String key : methodsOfGet.keySet()) {
             try {
                 container.put(key, getMethodOfGet(key).invoke(object, new Object[]{}));
@@ -152,22 +153,49 @@ public class  SimpleObjectBean<T> implements ObjectBean {
             method = getMethodOfSet(field);
             try {
                 //TODO 泛型BUG
-                Type[] types = method.getGenericParameterTypes();
-                for (Type type2 : types) {
-                    System.out.println(type2);
-                    if (type2 instanceof ParameterizedType) {
-                        Type[] typetwos = ((ParameterizedType) type2).getActualTypeArguments();
-                        for (Type type3 : typetwos) {
-                            System.out.println("泛型参数类型" + type3);
-                        }
-                    }
-                }
-                method.invoke(object, CastUtil.cast(json.getObject(field), method.getParameterTypes()[0]));
+                method.invoke(object, CastUtil.cast(json.getObject(field), method.getParameterTypes()[0], getGenerClass(method)));
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
         return object;
+    }
+
+    public T injectJSONObject(Map map){
+        Set<String> keys =  getFieldsOfSet();
+        Method method;
+        for(String field : keys){
+            method = getMethodOfSet(field);
+            try {
+                //TODO 泛型BUG
+                method.invoke(object, CastUtil.cast(map.get(field), method.getParameterTypes()[0], getGenerClass(method)));
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return object;
+    }
+
+    /**
+     * 获取方法参数的泛型类型
+     * @param method 方法
+     * @return 泛型类型
+     */
+    private Class[] getGenerClass(final Method method){
+        Type[] types = method.getGenericParameterTypes();
+        for (Type type : types) {
+            if (type instanceof ParameterizedType) {
+                Type[] typeArray = ((ParameterizedType) type).getActualTypeArguments();
+                if(typeArray.length > 0) {
+                    Class[] classes = new Class[typeArray.length];
+                    for(int i = 0; i < typeArray.length; i++){
+                        classes[i] = (Class) typeArray[i];
+                    }
+                    return classes;
+                }
+            }
+        }
+        return new Class[]{};
     }
 
 
