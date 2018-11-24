@@ -19,4 +19,9 @@ public class EndChain  extends ObjectToStringChain {
         SimpleObjectBean bean = new SimpleObjectBean(object);
         return DefaultJSONSerializer.operator((bean).getContainer());
     }
+
+    @Override
+    public void setNext(ObjectToStringChain chain) {
+        //do-no
+    }
 }

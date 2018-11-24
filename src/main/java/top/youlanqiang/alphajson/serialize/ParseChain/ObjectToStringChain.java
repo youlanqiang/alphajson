@@ -18,5 +18,14 @@ public abstract class ObjectToStringChain {
      */
     abstract public String execute(Object object);
 
+    /**
+     * 如果条件不成立执行下一个责任连
+     * @param chain
+     */
+    abstract public void setNext(ObjectToStringChain chain);
+
+    public ObjectToStringChain getNext(){
+        return next;
+    }
 
 }

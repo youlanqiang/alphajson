@@ -17,7 +17,7 @@ public class User {
 
     private int age;
 
-    private Set<Autor> autors;
+    private List<Autor> autors;
 
 
     public String getName() {
@@ -44,11 +44,11 @@ public class User {
         this.age = age;
     }
 
-    public Set<Autor> getAutors() {
+    public List<Autor> getAutors() {
         return autors;
     }
 
-    public void setAutors(Set<Autor> autors) {
+    public void setAutors(List<Autor> autors) {
         this.autors = autors;
     }
 

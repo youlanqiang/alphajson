@@ -5,6 +5,7 @@ import entity.Admin;
 import entity.Autor;
 import entity.User;
 import org.junit.Test;
+import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.JSONObject;
 import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
@@ -28,7 +29,7 @@ public class SerializeTest {
         user.setAge(10);
         user.setMan(false);
         user.setName("youlanqiang");
-        Set<Autor> list = new TreeSet<>();
+        List<Autor> list = new ArrayList<>();
         Autor autor1 = new Autor();
         autor1.setName("autor1");
         autor1.setAdmin(new Admin("admin1", "boooss"));
@@ -109,4 +110,17 @@ public class SerializeTest {
         System.out.println(user);
     }
 
+    /**
+     * 正常
+     */
+    @Test
+    public void test5(){
+        Map<String, User> map = new HashMap<>();
+
+        map.put("user", getUser());
+        JSONArray.toString(map);
+        System.out.println(JSONObject.toString(getUser()));
+        System.out.println(JSONObject.toString(map));
+
+    }
 }

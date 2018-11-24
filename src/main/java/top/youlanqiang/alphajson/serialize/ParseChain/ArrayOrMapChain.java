@@ -36,4 +36,10 @@ public class ArrayOrMapChain extends ObjectToStringChain {
 
         return next.execute(object);
     }
+
+
+    @Override
+    public void setNext(ObjectToStringChain chain) {
+        this.next = chain;
+    }
 }

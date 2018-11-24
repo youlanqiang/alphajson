@@ -146,13 +146,11 @@ public class  SimpleObjectBean<T> implements ObjectBean {
      * @return 同类型对象
      */
     public T injectJSONObject(JSONObject json){
-        //TODO 需要将JSON转变为同类型对象
         Set<String> keys =  getFieldsOfSet();
         Method method;
         for(String field : keys){
             method = getMethodOfSet(field);
             try {
-                //TODO 泛型BUG
                 method.invoke(object, CastUtil.cast(json.getObject(field), method.getParameterTypes()[0], getGenerClass(method)));
             }catch(Exception e){
                 e.printStackTrace();
@@ -167,7 +165,6 @@ public class  SimpleObjectBean<T> implements ObjectBean {
         for(String field : keys){
             method = getMethodOfSet(field);
             try {
-                //TODO 泛型BUG
                 method.invoke(object, CastUtil.cast(map.get(field), method.getParameterTypes()[0], getGenerClass(method)));
             }catch(Exception e){
                 e.printStackTrace();
