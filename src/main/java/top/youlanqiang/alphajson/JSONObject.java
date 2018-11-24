@@ -1,12 +1,10 @@
 package top.youlanqiang.alphajson;
 
-import top.youlanqiang.alphajson.bean.ObjectBean;
 import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 import top.youlanqiang.alphajson.utils.CastUtil;
 
-import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
@@ -58,24 +56,18 @@ public class  JSONObject implements Map<String, Object> {
             if(clazz == JSONObject.class) {
                 return (T) json;
             }
-            return CastUtil.cast(json, clazz);
+            if(clazz == JSONArray.class){
+                return (T) json;
+            }
+            SimpleObjectBean<T> objectBean = new SimpleObjectBean<>(clazz);
+            return objectBean.injectJSONObject(json);
         }catch(Exception e){
             throw new JSONException("parse exception");
         }
     }
 
     public static <T> T parse(String json, Class<T> clazz){
-        try {
-            if(clazz == JSONObject.class) {
-                return (T) JSONObject.parse(json);
-            }
-            if(clazz == JSONArray.class){
-                return (T) JSONArray.parse(json);
-            }
-            return CastUtil.cast(JSONObject.parse(json), clazz);
-        }catch(Exception e){
-            throw new JSONException("parse exception");
-        }
+        return parse(JSONObject.parse(json), clazz);
     }
 
     public Byte getByte(String key){

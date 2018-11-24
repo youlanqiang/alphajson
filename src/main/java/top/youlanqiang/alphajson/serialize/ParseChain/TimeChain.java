@@ -16,7 +16,7 @@ public class TimeChain extends ObjectToStringChain{
 
     @Override
     public String execute(Object object) {
-        return null;
+        return next.execute(object);
     }
 
     @Override

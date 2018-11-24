@@ -7,7 +7,6 @@ import entity.User;
 import org.junit.Test;
 import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.JSONObject;
-import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 
 import java.util.*;
@@ -96,7 +95,7 @@ public class SerializeTest {
 
     /**
      * 测试JSON字符串反序列化为Object对象
-     * 测试通过
+     * 测试未通过
      */
     @Test
     public void test3(){

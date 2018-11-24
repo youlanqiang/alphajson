@@ -4,7 +4,6 @@ import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 import top.youlanqiang.alphajson.utils.CastUtil;
 
-import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
