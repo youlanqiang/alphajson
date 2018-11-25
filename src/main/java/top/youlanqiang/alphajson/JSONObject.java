@@ -8,6 +8,7 @@ import top.youlanqiang.alphajson.utils.CastUtil;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,6 +25,10 @@ public class  JSONObject implements Map<String, Object> {
 
     public JSONObject(){
         this.map = new ConcurrentHashMap<>();
+    }
+
+    public JSONObject(Map<String, Object> map){
+       this.map = map;
     }
 
     public static String toString(Object object){
@@ -53,14 +58,7 @@ public class  JSONObject implements Map<String, Object> {
 
     public static <T> T parse(JSONObject json, Class<T> clazz){
         try {
-            if(clazz == JSONObject.class) {
-                return (T) json;
-            }
-            if(clazz == JSONArray.class){
-                return (T) json;
-            }
-            SimpleObjectBean<T> objectBean = new SimpleObjectBean<>(clazz);
-            return objectBean.injectJSONObject(json);
+            return CastUtil.cast(json, clazz, null);
         }catch(Exception e){
             throw new JSONException("parse exception");
         }
@@ -112,6 +110,10 @@ public class  JSONObject implements Map<String, Object> {
 
     public BigInteger getBigInteger(String key){
         return CastUtil.castToBigInteger(map.get(key));
+    }
+
+    public Date getDate(String key){
+        return CastUtil.castToDate(map.get(key));
     }
 
     public Object getObject(String key){

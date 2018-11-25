@@ -6,10 +6,7 @@ import top.youlanqiang.alphajson.utils.CastUtil;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author youlanqiang
@@ -19,49 +16,49 @@ import java.util.List;
  * JSONArray是AlphaJSON的JSON数组对象
  * 内部实现为一个List来实现Collection的功能.
  */
-public class JSONArray  implements Collection {
+public class JSONArray implements Collection {
 
     private static final int CAPACITY = 20;
 
     private List<Object> list;
 
 
-    public JSONArray(){
+    public JSONArray() {
         this.list = new ArrayList<>(CAPACITY);
     }
 
 
-    public JSONArray(int size){
+    public JSONArray(int size) {
         this.list = new ArrayList<>(size);
     }
 
-    public JSONArray(List list){
-        if(list != null) {
+    public JSONArray(List list) {
+        if (list != null) {
             this.list = list;
-        }else{
+        } else {
             throw new NullPointerException("list is null");
         }
     }
 
-    public static String toString(Object object){
+    public static String toString(Object object) {
         return DefaultJSONSerializer.operatorToObject(object);
     }
 
-    public static JSONArray parse(String json){
-        Collection list =  JSONDeserializer.parseToCollection(json);
-        if(list.isEmpty()){
+    public static JSONArray parse(String json) {
+        Collection list = JSONDeserializer.parseToCollection(json);
+        if (list.isEmpty()) {
             return new JSONArray();
-        }else{
+        } else {
             JSONArray array = new JSONArray();
             array.list = (List) list;
             return array;
         }
     }
 
-    public static <T> List<T> parse(String json, Class<T> clazz){
+    public static <T> List<T> parse(String json, Class<T> clazz) {
         JSONArray array = JSONArray.parse(json);
         List<T> list = new ArrayList<>(array.size());
-        for(int i = 0; i < array.size(); i++){
+        for (int i = 0; i < array.size(); i++) {
             list.add(array.getObject(i, clazz));
         }
         return list;
@@ -70,83 +67,78 @@ public class JSONArray  implements Collection {
 
     /**
      * 获取一个下标对应的JSONObject对象
+     *
      * @param index 对应下标
      * @return JSONObject对象
      */
-    public JSONObject getJSONObject(int index){
-        return null;
+    public JSONObject getJSONObject(int index) {
+        return getObject(index, JSONObject.class);
     }
 
-    public JSONArray getJSONArray(int index){
-        return null;
+    public JSONArray getJSONArray(int index) {
+        return getObject(index, JSONArray.class);
     }
 
-    public Byte getByte(int index){
+    public Byte getByte(int index) {
         return CastUtil.castToByte(list.get(index));
     }
 
 
-    public Short getShort(int index){
+    public Short getShort(int index) {
         return CastUtil.castToShort(list.get(index));
     }
 
-    public Character getChar(int index){
+    public Character getChar(int index) {
         return CastUtil.castToChar(list.get(index));
     }
 
-    public Integer getInt(int index){
+    public Integer getInt(int index) {
         return CastUtil.castToInteger(list.get(index));
     }
 
-    public Long getLong(int index){
+    public Long getLong(int index) {
         return CastUtil.castToLong(list.get(index));
     }
 
-    public Float getFloat(int index){
+    public Float getFloat(int index) {
         return CastUtil.castToFloat(list.get(index));
     }
 
-    public Double getDouble(int index){
+    public Double getDouble(int index) {
         return CastUtil.castToDouble(list.get(index));
     }
 
-    public String getString(int index){
+    public String getString(int index) {
         return CastUtil.castToString(list.get(index));
     }
 
-    public Boolean getBoolean(int index){
+    public Boolean getBoolean(int index) {
         return CastUtil.castToBoolean(list.get(index));
     }
 
-    public BigDecimal getBigDecimal(int index){
+    public BigDecimal getBigDecimal(int index) {
         return CastUtil.castToBigDecimal(list.get(index));
     }
 
-    public BigInteger getBigInteger(int index){
+    public BigInteger getBigInteger(int index) {
         return CastUtil.castToBigInteger(list.get(index));
     }
 
-    public Object getObject(int index){
+    public Date getDate(int index){
+        return CastUtil.castToDate(list.get(index));
+    }
+
+    public Object getObject(int index) {
         return list.get(index);
     }
 
-    public <T> T getObject(int index, Class<T> clazz){
-        //TODO 对象转化为对应属性
+    public <T> T getObject(int index, Class<T> clazz) {
         Object result = getObject(index);
-         if(result.getClass() == clazz){
-             return (T) result;
-         }
-         if(clazz.isAssignableFrom(result.getClass())){
-             return (T) clazz;
-         }
-         if(JSONObject.class == clazz){
-             return null;
-         }
-         if(result instanceof JSONObject){
-            return JSONObject.parse((JSONObject)result, clazz);
-         }
-
-         throw new JSONException("parse exception");
+        try {
+            return CastUtil.cast(result, clazz, null);
+        }catch(Exception e){
+            throw new JSONException("parse exception");
+        }
     }
 
     @Override
@@ -216,7 +208,7 @@ public class JSONArray  implements Collection {
 
 
     @Override
-    public String toString(){
+    public String toString() {
         return DefaultJSONSerializer.operator(list);
     }
 }

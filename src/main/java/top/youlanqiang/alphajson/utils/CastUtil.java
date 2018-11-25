@@ -297,6 +297,26 @@ public class CastUtil {
         throw new JSONException("The value cast to boolean error");
     }
 
+    public static Date castToDate(Object value){
+        return castToDate(value, null);
+    }
+
+    public static Date castToDate(Object value, String format){
+        if(value == null){
+            return null;
+        }
+        if(value instanceof Date){
+            return (Date) value;
+        }
+        if(value instanceof Calendar){
+            return ((Calendar) value).getTime();
+        }
+
+        long longValue = -1;
+        //TODO 时间处理
+        return null;
+    }
+
 
     public static Object castToObject(String value) {
         if (value.length() == 0) {
@@ -432,7 +452,7 @@ public class CastUtil {
             return (T) bean.getContainer();
         }
 
-        //TODO 后续转化执行
+
         if(clazz == int.class || clazz == Integer.class){
             return (T) castToInteger(obj);
         }
@@ -466,6 +486,19 @@ public class CastUtil {
         if(clazz == BigInteger.class){
             return (T) castToBigInteger(obj);
         }
+        if(clazz == JSONObject.class){
+            SimpleObjectBean bean = new SimpleObjectBean(obj);
+            Map<String, Object> resultMap =  (Map<String, Object>)bean.getContainer();
+            return  (T) new JSONObject(resultMap);
+        }
+        if(clazz == JSONArray.class){
+            Object[] objects =  CastUtil.cast(obj, Object[].class, null);
+            return (T) new JSONArray(Arrays.asList(objects));
+        }
+        if(clazz == Date.class){
+            return (T) castToDate(obj);
+        }
+
         if(obj instanceof Map) {
             SimpleObjectBean<T> objectBean = new SimpleObjectBean<>(clazz);
             return objectBean.injectJSONObject((Map) obj);
