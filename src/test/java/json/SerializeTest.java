@@ -99,11 +99,13 @@ public class SerializeTest {
     /**
      * 测试JSON字符串反序列化为Object对象
      * 测试未通过
+     * TODO 引擎出错
      */
     @Test
     public void test3(){
+        System.out.println(JSONObject.toString(getUser()));
         User one =  JSONObject.parse(JSONObject.toString(getUser()), User.class);
-        System.out.println(one.getAutors().size());
+        System.out.println(one.getAutors());
     }
 
     @Test

@@ -26,6 +26,7 @@ public class JSONDeserializer {
             char token;
             int start = 0;
             int end = 0;
+            System.out.println(context);
             for(int index = 0; index < context.length(); index++){
                 token = context.charAt(index);
                 if(token == '{'){
@@ -39,12 +40,14 @@ public class JSONDeserializer {
                         end = index;
                         list.add(parseToObject(context.substring(start, end + 1)));
                     }
-                }else if(token == ','){
+                } else if(token == ',' && stack.isEmpty() && index > end + 1){
+                    //System.out.println(",start:" + start + " end:" + end + " index:" + index + " char:" + context.charAt(index));
                     list.add(parseToObject(context.substring(start + 1, index)));
                     start = index ;
-                }else if(token == ']'){
+                }else if(token == ']' && stack.isEmpty() && index > end + 1){
+                    //System.out.println("]start:" + start + " end:" + end + " index:" + index  + " char:" + context.charAt(index));
                     list.add(parseToObject(context.substring(start + 1, index)));
-                    start = index ;
+                    start = index;
                 }
             }
 
