@@ -1,12 +1,15 @@
 package json;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import entity.Admin;
 import entity.Autor;
+import entity.TimeCarryer;
 import entity.User;
 import org.junit.Test;
 import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.JSONObject;
+import top.youlanqiang.alphajson.serialize.ParseChain.TimeChain;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 
 import java.util.*;
@@ -121,5 +124,21 @@ public class SerializeTest {
         System.out.println(JSONObject.toString(getUser()));
         System.out.println(JSONObject.toString(map));
 
+    }
+
+    /**
+     * 测试时间和HastSet解析和反序列化操作
+     * 测试通过
+     */
+    @Test
+    public void test6(){
+        TimeCarryer carryer = new TimeCarryer();
+        carryer.setIns(Sets.newHashSet(1,2,3,4));
+        carryer.setTime(new Date());
+        carryer.setName("first");
+        String jsonStr = JSONObject.toString(carryer);
+        System.out.println(jsonStr);
+        TimeCarryer tie = JSONObject.parse(jsonStr, TimeCarryer.class);
+        System.out.println(JSONObject.toString(tie));
     }
 }

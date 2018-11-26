@@ -12,6 +12,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -313,8 +315,32 @@ public class CastUtil {
         }
 
         long longValue = -1;
-        //TODO 时间处理
-        return null;
+
+        if(value instanceof BigDecimal){
+            longValue = longValue((BigDecimal) value);
+            return new Date(longValue);
+        }
+        if(value instanceof Number){
+            longValue = ((Number) value).longValue();
+            return new Date(longValue);
+        }
+
+        if(value instanceof String){
+            String strVal = (String) value;
+            try{
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                return dateFormat.parse(strVal);
+            }catch(ParseException e){
+
+            }
+            try {
+                longValue = Long.parseLong(strVal);
+                return new Date(longValue);
+            }catch(NumberFormatException e){
+
+            }
+        }
+        throw new JSONException("The value cast to date error");
     }
 
 
@@ -432,7 +458,7 @@ public class CastUtil {
                     if(clazz.isInterface()) {
                         return (T) new HashSet(Arrays.asList(tempList));
                     }else{
-                        return clazz.getConstructor().newInstance(Arrays.asList(tempList));
+                        return clazz.getConstructor(Collection.class).newInstance(Arrays.asList(tempList));
                     }
                 }
                 return null;
@@ -485,6 +511,9 @@ public class CastUtil {
         }
         if(clazz == BigInteger.class){
             return (T) castToBigInteger(obj);
+        }
+        if(clazz == Date.class){
+            return (T) castToDate(obj);
         }
         if(clazz == JSONObject.class){
             SimpleObjectBean bean = new SimpleObjectBean(obj);

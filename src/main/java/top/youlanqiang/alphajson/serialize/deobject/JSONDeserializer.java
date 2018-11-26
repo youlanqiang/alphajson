@@ -39,6 +39,12 @@ public class JSONDeserializer {
                         end = index;
                         list.add(parseToObject(context.substring(start, end + 1)));
                     }
+                }else if(token == ','){
+                    list.add(parseToObject(context.substring(start + 1, index)));
+                    start = index ;
+                }else if(token == ']'){
+                    list.add(parseToObject(context.substring(start + 1, index)));
+                    start = index ;
                 }
             }
 
@@ -87,7 +93,7 @@ public class JSONDeserializer {
         if(StringUtil.isJSONObjectString(value)){
             return JSONDeserializer.parseToMap(value);
         }
-        throw new JSONException("JSON type is error");
+        return CastUtil.castToObject(value);
     }
 
 

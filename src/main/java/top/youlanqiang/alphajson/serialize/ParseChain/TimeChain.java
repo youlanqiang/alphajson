@@ -16,7 +16,6 @@ import java.util.Date;
  * @date 2018/11/24
  * @since 1.8
  * 处理时间类型
- * TODO 未完成
  */
 public class TimeChain extends ObjectToStringChain{
 
