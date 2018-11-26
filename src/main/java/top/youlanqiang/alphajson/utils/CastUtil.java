@@ -441,7 +441,7 @@ public class CastUtil {
                     if(clazz.isInterface()) {
                         return (T) Arrays.asList(tempList);
                     }else{
-                        return clazz.getConstructor().newInstance(Arrays.asList(tempList));
+                        return clazz.getConstructor(Collection.class).newInstance(Arrays.asList(tempList));
                     }
                 }
                 return null;
