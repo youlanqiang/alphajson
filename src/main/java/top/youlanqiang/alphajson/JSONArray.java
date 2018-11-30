@@ -1,6 +1,8 @@
 package top.youlanqiang.alphajson;
 
 import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
+import top.youlanqiang.alphajson.serialize.ParseChain.ObjectToStringChain;
+import top.youlanqiang.alphajson.serialize.SerializeChainFactory;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 import top.youlanqiang.alphajson.utils.CastUtil;
 
@@ -22,14 +24,26 @@ public class JSONArray implements Collection {
 
     private List<Object> list;
 
+    private ObjectToStringChain chain;
+
 
     public JSONArray() {
         this.list = new ArrayList<>(CAPACITY);
     }
 
+    public JSONArray(ObjectToStringChain... chains) {
+        this();
+        this.chain = SerializeChainFactory.getChain(chains);
+    }
+
 
     public JSONArray(int size) {
         this.list = new ArrayList<>(size);
+    }
+
+    public JSONArray(int size, ObjectToStringChain... chains) {
+        this.list = new ArrayList<>(size);
+        this.chain = SerializeChainFactory.getChain(chains);
     }
 
     public JSONArray(List list) {
@@ -40,8 +54,18 @@ public class JSONArray implements Collection {
         }
     }
 
+    public JSONArray(List list, ObjectToStringChain... chains) {
+        this(list);
+        this.chain = SerializeChainFactory.getChain(chains);
+    }
+
+
+
     public static String toString(Object object) {
         return DefaultJSONSerializer.operatorToObject(object);
+    }
+    public static String toString(Object object, ObjectToStringChain... chains) {
+        return DefaultJSONSerializer.operatorToObject(object, SerializeChainFactory.getChain(chains));
     }
 
     public static JSONArray parse(String json) {
@@ -206,9 +230,17 @@ public class JSONArray implements Collection {
         list.clear();
     }
 
+    public void setSerializer(ObjectToStringChain... chains){
+        this.chain = SerializeChainFactory.getChain(chains);
+    }
+
 
     @Override
     public String toString() {
-        return DefaultJSONSerializer.operator(list);
+        return DefaultJSONSerializer.operator(list, chain);
+    }
+
+    public String toString(ObjectToStringChain... chains) {
+        return DefaultJSONSerializer.operator(list, SerializeChainFactory.getChain(chains));
     }
 }

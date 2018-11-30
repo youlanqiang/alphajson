@@ -24,9 +24,7 @@ public class BaseChain  extends ObjectToStringChain {
 
     @Override
     public String execute(Object object) {
-        if(object == null){
-            return "null";
-        }
+
         if(object.getClass().isArray()){
             return DefaultJSONSerializer.operator(Arrays.asList((Object[]) object));
         }

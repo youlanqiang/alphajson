@@ -1,17 +1,16 @@
 package json;
 
+import chain.BigDecimalChain;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import entity.Admin;
-import entity.Autor;
-import entity.TimeCarryer;
-import entity.User;
+import entity.*;
 import org.junit.Test;
 import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.JSONObject;
 import top.youlanqiang.alphajson.serialize.ParseChain.TimeChain;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -98,8 +97,7 @@ public class SerializeTest {
 
     /**
      * 测试JSON字符串反序列化为Object对象
-     * 测试未通过
-     * TODO 引擎出错
+     * 测试通过
      */
     @Test
     public void test3(){
@@ -142,5 +140,16 @@ public class SerializeTest {
         System.out.println(jsonStr);
         TimeCarryer tie = JSONObject.parse(jsonStr, TimeCarryer.class);
         System.out.println(JSONObject.toString(tie));
+    }
+
+    /**
+     * 测试自定义ObjectToStringChain
+     */
+    @Test
+    public void test7(){
+        BankMan man = new BankMan();
+        man.setName("youlanqiang");
+        man.setMoney(BigDecimal.valueOf(20.0));
+        System.out.println(JSONObject.toString(man, new BigDecimalChain()));
     }
 }

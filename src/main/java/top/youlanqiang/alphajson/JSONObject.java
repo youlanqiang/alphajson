@@ -1,7 +1,9 @@
 package top.youlanqiang.alphajson;
 
-import top.youlanqiang.alphajson.bean.SimpleObjectBean;
+
 import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
+import top.youlanqiang.alphajson.serialize.ParseChain.ObjectToStringChain;
+import top.youlanqiang.alphajson.serialize.SerializeChainFactory;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 import top.youlanqiang.alphajson.utils.CastUtil;
 
@@ -23,16 +25,33 @@ public class  JSONObject implements Map<String, Object> {
 
     private Map<String, Object> map;
 
+    private ObjectToStringChain chain;
+
     public JSONObject(){
         this.map = new ConcurrentHashMap<>();
     }
+
+    public JSONObject(ObjectToStringChain... chains){
+        this();
+        this.chain = SerializeChainFactory.getChain(chain);
+    }
+
 
     public JSONObject(Map<String, Object> map){
        this.map = map;
     }
 
+    public JSONObject(Map<String, Object> map, ObjectToStringChain... chains){
+        this(map);
+        this.chain = SerializeChainFactory.getChain(chain);
+    }
+
     public static String toString(Object object){
         return DefaultJSONSerializer.operatorToObject(object);
+    }
+
+    public static String toString(Object object, ObjectToStringChain... chains){
+        return DefaultJSONSerializer.operatorToObject(object, SerializeChainFactory.getChain(chains));
     }
 
 
@@ -181,7 +200,16 @@ public class  JSONObject implements Map<String, Object> {
         return map.entrySet();
     }
 
-    public String toString(){
-        return DefaultJSONSerializer.operator(map);
+    public void setSerializer(ObjectToStringChain... chains){
+        this.chain = SerializeChainFactory.getChain(chains);
+    }
+
+    @Override
+    public String toString() {
+        return DefaultJSONSerializer.operator(map, chain);
+    }
+
+    public String toString(ObjectToStringChain... chains) {
+        return DefaultJSONSerializer.operator(map, SerializeChainFactory.getChain(chains));
     }
 }

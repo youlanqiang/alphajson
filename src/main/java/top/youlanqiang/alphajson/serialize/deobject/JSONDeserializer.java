@@ -26,7 +26,6 @@ public class JSONDeserializer {
             char token;
             int start = 0;
             int end = 0;
-            System.out.println(context);
             for(int index = 0; index < context.length(); index++){
                 token = context.charAt(index);
                 if(token == '{'){

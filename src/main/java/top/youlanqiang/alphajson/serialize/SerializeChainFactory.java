@@ -18,12 +18,12 @@ public class SerializeChainFactory {
         ArrayOrMapChain mapChain = new ArrayOrMapChain(endChain);
         TimeChain timeChain = new TimeChain(mapChain);
         BaseChain baseChain = new BaseChain(timeChain);
-        return baseChain;
+        NullChain nullChain = new NullChain(baseChain);
+        return nullChain;
     }
 
     /**
      * 适配自定义的解析模块
-     * TODO 未测试
      * @param chains 解析组
      * @return 解析器
      */
@@ -32,6 +32,7 @@ public class SerializeChainFactory {
         EndChain endChain = new EndChain();
         ArrayOrMapChain mapChain = new ArrayOrMapChain(endChain);
         TimeChain timeChain = new TimeChain(mapChain);
+        BaseChain baseChain = new BaseChain(timeChain);
         if(chains.length > 0){
             ObjectToStringChain chain;
             for(int i = chains.length - 1; i >= 0; i--){
@@ -41,11 +42,12 @@ public class SerializeChainFactory {
                 }
             }
             chain= chains[0];
-            chain.setNext(timeChain);
-            BaseChain baseChain = new BaseChain(chains[chains.length - 1]);
+            chain.setNext(baseChain);
+            NullChain nullChain = new NullChain(chains[chains.length - 1]);
+            endChain.setDefaultChain(nullChain);
             return baseChain;
         }
-        BaseChain baseChain = new BaseChain(timeChain);
-        return baseChain;
+        NullChain nullChain = new NullChain(baseChain);
+        return nullChain;
     }
 }

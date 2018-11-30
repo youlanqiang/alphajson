@@ -26,6 +26,14 @@ public class DefaultJSONSerializer {
         return RailUtil.jsonObject(joiner.toString());
     }
 
+    public static String operator(final Map map, final ObjectToStringChain defaultChain){
+        StringJoiner joiner = new StringJoiner(",");
+        for(Object key : map.keySet()){
+            joiner.add(KeyAndValue(key, map.get(key), defaultChain).toString());
+        }
+        return RailUtil.jsonObject(joiner.toString());
+    }
+
 
     public static String operator(final Iterable iterable) {
         StringJoiner joiner = new StringJoiner(",");
@@ -35,17 +43,46 @@ public class DefaultJSONSerializer {
         return RailUtil.jsonArray(joiner.toString());
     }
 
+    public static String operator(final Iterable iterable, final ObjectToStringChain defaultChain) {
+        if(defaultChain != null){
+            StringJoiner joiner = new StringJoiner(",");
+            for(Object object : iterable){
+                joiner.add(defaultChain.execute(object));
+            }
+            return RailUtil.jsonArray(joiner.toString());
+        }
+        return operator(iterable);
+    }
+
     public static String operatorToObject(final Object object){
         return chain.execute(object);
     }
 
+    public static String operatorToObject(final Object object, final ObjectToStringChain defaultChain){
+        if(defaultChain != null){
+            return defaultChain.execute(object);
+        }
+        return chain.execute(object);
+    }
 
-    private static StringBuilder KeyAndValue(Object key, Object value){
+
+    private static StringBuilder KeyAndValue(final Object key, final Object value){
         StringBuilder builder = new StringBuilder();
         builder.append(chain.execute(key)).append(":").append(
                 chain.execute(value)
         );
         return builder;
+    }
+
+    private static StringBuilder KeyAndValue(final Object key, final Object value, final ObjectToStringChain defaultChain){
+        if(defaultChain != null){
+            StringBuilder builder = new StringBuilder();
+            builder.append(defaultChain.execute(key)).append(":").append(
+                    defaultChain.execute(value)
+            );
+            return builder;
+        }
+        return KeyAndValue(key, value);
     }
 
 }

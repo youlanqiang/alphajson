@@ -22,7 +22,9 @@ public abstract class ObjectToStringChain {
      * 如果条件不成立执行下一个责任连
      * @param chain
      */
-    abstract public void setNext(ObjectToStringChain chain);
+    public void setNext(ObjectToStringChain chain){
+        this.next = chain;
+    }
 
     public ObjectToStringChain getNext(){
         return next;
