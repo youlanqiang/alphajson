@@ -1,6 +1,8 @@
 package entity;
 
 import java.math.BigDecimal;
+import java.util.Queue;
+import java.util.Stack;
 
 /**
  * @author youlanqiang
@@ -13,6 +15,10 @@ public class BankMan {
     private BigDecimal money;
 
     private String name;
+
+    private Stack<String> stack;
+
+    private Queue<Integer> queue;
 
     public BigDecimal getMoney() {
         return money;
@@ -28,5 +34,21 @@ public class BankMan {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Stack<String> getStack() {
+        return stack;
+    }
+
+    public void setStack(Stack<String> stack) {
+        this.stack = stack;
+    }
+
+    public Queue<Integer> getQueue() {
+        return queue;
+    }
+
+    public void setQueue(Queue<Integer> queue) {
+        this.queue = queue;
     }
 }

@@ -351,11 +351,20 @@ public class CastUtil {
         char start = value.charAt(0);
         //判断类型为String, false, true, null类型
 
+        String result;
         switch (start) {
             case '\"':
-                return value.substring(1);
+                result = value.substring(1);
+                if(result.charAt(result.length() - 1) == '\"'){
+                    return result.substring(0, result.length() - 1);
+                }
+                return result;
             case '\'':
-                return value.substring(1);
+                result = value.substring(1);
+                if(result.charAt(result.length() - 1) == '\''){
+                    return result.substring(0, result.length() - 1);
+                }
+                return result;
             case 'f':
                 return false;
             case 't':
@@ -440,7 +449,13 @@ public class CastUtil {
                     }
                     if(clazz.isInterface()) {
                         return (T) Arrays.asList(tempList);
-                    }else{
+                    } else if(Stack.class.isAssignableFrom(clazz)){
+                        Stack stack = new Stack();
+                        for(Object item : tempList){
+                            stack.add(item);
+                        }
+                        return (T) stack;
+                    } else{
                         return clazz.getConstructor(Collection.class).newInstance(Arrays.asList(tempList));
                     }
                 }
@@ -457,6 +472,23 @@ public class CastUtil {
                     }
                     if(clazz.isInterface()) {
                         return (T) new HashSet(Arrays.asList(tempList));
+                    }else{
+                        return clazz.getConstructor(Collection.class).newInstance(Arrays.asList(tempList));
+                    }
+                }
+                return null;
+            }
+
+            if(Queue.class.isAssignableFrom(clazz)){
+                if (geners.length != 0 && geners.length == 1) {
+                    Object[] tempList = new Object[coll.size()];
+                    int index = 0;
+                    for (Object result : coll) {
+                        tempList[index] = cast(result, geners[0]);
+                        index++;
+                    }
+                    if(clazz.isInterface()) {
+                        return (T) new PriorityQueue(Arrays.asList(tempList));
                     }else{
                         return clazz.getConstructor(Collection.class).newInstance(Arrays.asList(tempList));
                     }

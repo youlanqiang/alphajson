@@ -12,6 +12,7 @@ import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * @author youlanqiang
@@ -152,4 +153,46 @@ public class SerializeTest {
         man.setMoney(BigDecimal.valueOf(20.0));
         System.out.println(JSONObject.toString(man, new BigDecimalChain()));
     }
+
+    @Test
+    public void test9(){
+        String json = "{\"stack\":[\"one\",\"two\"],\"money\":null,\"name\":null,\"queue\":[100,200]}";
+        JSONObject object = JSONObject.parse(json);
+        System.out.println(object);
+    }
+
+    /**
+     * JSON序列化和反序列化 Stack,Queue测试
+     * 测试通过
+     */
+    @Test
+    public void test8(){
+        BankMan man = new BankMan();
+        man.setMoney(null);
+        man.setName(null);
+        man.setQueue(null);
+        man.setStack(null);
+        String json = JSONObject.toString(man);
+        System.out.println(json);
+        //{"stack":null,"money":null,"name":null,"queue":null}
+        BankMan newMan = JSONObject.parse(json, BankMan.class);
+        System.out.println(JSONObject.toString(newMan));
+        //{"stack":null,"money":null,"name":null,"queue":null}
+        Queue<Integer> queue = new PriorityQueue<>();
+        queue.add(100);
+        queue.add(200);
+        Stack<String> stack = new Stack<>();
+        stack.add("one");
+        stack.add("two");
+        newMan.setStack(stack);
+        newMan.setQueue(queue);
+        String newJson = JSONObject.toString(newMan);
+        System.out.println(newJson);
+        //{"stack":["one","two"],"money":null,"name":null,"queue":[100,200]}
+        BankMan man2 = JSONObject.parse(newJson, BankMan.class);
+        System.out.println(man2.getQueue());
+    }
+
+
+
 }

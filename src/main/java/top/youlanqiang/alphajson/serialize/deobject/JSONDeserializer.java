@@ -40,12 +40,10 @@ public class JSONDeserializer {
                         list.add(parseToObject(context.substring(start, end + 1)));
                     }
                 } else if(token == ',' && stack.isEmpty() && index > end + 1){
-                    //System.out.println(",start:" + start + " end:" + end + " index:" + index + " char:" + context.charAt(index));
-                    list.add(parseToObject(context.substring(start + 1, index)));
+                     list.add(parseToObject(context.substring(start + 1, index)));
                     start = index ;
                 }else if(token == ']' && stack.isEmpty() && index > end + 1){
-                    //System.out.println("]start:" + start + " end:" + end + " index:" + index  + " char:" + context.charAt(index));
-                    list.add(parseToObject(context.substring(start + 1, index)));
+                     list.add(parseToObject(context.substring(start + 1, index)));
                     start = index;
                 }
             }
@@ -79,7 +77,7 @@ public class JSONDeserializer {
             list.forEach(x->{
                 String value = x.getValue();
                 Object returnValue = CastUtil.castToObject(value);
-                map.put(x.getKeyName(), returnValue);
+                 map.put(x.getKeyName(), returnValue);
             });
             return map;
         }else{
