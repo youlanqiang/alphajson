@@ -182,7 +182,7 @@ public class SerializeTest {
         queue.add(100);
         queue.add(200);
         Stack<String> stack = new Stack<>();
-        stack.add("one");
+        stack.add("one\"");
         stack.add("two");
         newMan.setStack(stack);
         newMan.setQueue(queue);
@@ -190,6 +190,7 @@ public class SerializeTest {
         System.out.println(newJson);
         //{"stack":["one","two"],"money":null,"name":null,"queue":[100,200]}
         BankMan man2 = JSONObject.parse(newJson, BankMan.class);
+        System.out.println(man2.getStack());
         System.out.println(man2.getQueue());
     }
 
