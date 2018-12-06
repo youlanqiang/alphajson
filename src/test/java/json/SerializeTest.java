@@ -105,6 +105,7 @@ public class SerializeTest {
         System.out.println(JSONObject.toString(getUser()));
         User one =  JSONObject.parse(JSONObject.toString(getUser()), User.class);
         System.out.println(one.getAutors());
+         System.out.println(JSONObject.toString(one));
     }
 
     @Test

@@ -349,22 +349,13 @@ public class CastUtil {
             return value;
         }
         char start = value.charAt(0);
-        //判断类型为String, false, true, null类型
+        //判断类型为String, false, true, null, number类型
 
-        String result;
         switch (start) {
             case '\"':
-                result = value.substring(1);
-                if(result.charAt(result.length() - 1) == '\"'){
-                    return result.substring(0, result.length() - 1);
-                }
-                return result;
+                return value.substring(1, value.length() - 1);
             case '\'':
-                result = value.substring(1);
-                if(result.charAt(result.length() - 1) == '\''){
-                    return result.substring(0, result.length() - 1);
-                }
-                return result;
+                return value.substring(1, value.length() - 1);
             case 'f':
                 return false;
             case 't':

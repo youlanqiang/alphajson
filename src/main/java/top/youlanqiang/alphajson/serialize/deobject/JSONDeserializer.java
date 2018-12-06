@@ -15,35 +15,35 @@ import java.util.*;
  */
 public class JSONDeserializer {
 
-    public static Collection parseToCollection(String context){
+    public static Collection parseToCollection(String context) {
         List<Object> list = new ArrayList<>();
-        if(StringUtil.isNullOrEmpty(context)){
+        if (StringUtil.isNullOrEmpty(context)) {
             throw new NullPointerException("context is null");
         }
         context = context.trim();
-        if(StringUtil.isJSONArrayString(context)){
+        if (StringUtil.isJSONArrayString(context)) {
             Stack<Character> stack = new Stack<>();
             char token;
             int start = 0;
             int end = 0;
-            for(int index = 0; index < context.length(); index++){
+            for (int index = 0; index < context.length(); index++) {
                 token = context.charAt(index);
-                if(token == '{'){
-                    if(stack.isEmpty()){
+                if (token == '{') {
+                    if (stack.isEmpty()) {
                         start = index;
                     }
                     stack.push(token);
-                }else if(token == '}'){
+                } else if (token == '}') {
                     stack.pop();
-                    if(stack.isEmpty()){
+                    if (stack.isEmpty()) {
                         end = index;
                         list.add(parseToObject(context.substring(start, end + 1)));
                     }
-                } else if(token == ',' && stack.isEmpty() && index > end + 1){
-                     list.add(parseToObject(context.substring(start + 1, index)));
-                    start = index ;
-                }else if(token == ']' && stack.isEmpty() && index > end + 1){
-                     list.add(parseToObject(context.substring(start + 1, index)));
+                } else if (token == ',' && stack.isEmpty() && index > end + 1) {
+                    list.add(parseToObject(context.substring(start + 1, index)));
+                    start = index;
+                } else if (token == ']' && stack.isEmpty() && index > end + 1) {
+                    list.add(parseToObject(context.substring(start + 1, index)));
                     start = index;
                 }
             }
@@ -51,46 +51,45 @@ public class JSONDeserializer {
             /**
              * stack不为空表示JSON字符串是错误的,因为没有解析完
              */
-            if(!stack.isEmpty()){
+            if (!stack.isEmpty()) {
                 throw new JSONException("JSON type is error");
             }
 
             return list;
-        }else{
+        } else {
             throw new JSONException("JSON type is error");
         }
     }
 
 
-
-    public static Map<String, Object> parseToMap(String context){
+    public static Map<String, Object> parseToMap(String context) {
         Map<String, Object> map = new HashMap<>();
-        if(StringUtil.isNullOrEmpty(context)){
+        if (StringUtil.isNullOrEmpty(context)) {
             throw new NullPointerException("context is null");
         }
         context = context.trim();
-        if(StringUtil.isJSONObjectString(context)){
+        if (StringUtil.isJSONObjectString(context)) {
             /**
              * keyParser将字符串中的 key:value解析并放入KeyValue对象中
              */
-            List<KeyValue> list =  KeyParser.execute(context.toCharArray());
-            list.forEach(x->{
+            List<KeyValue> list = KeyParser.execute(context.toCharArray());
+            list.forEach(x -> {
                 String value = x.getValue();
                 Object returnValue = CastUtil.castToObject(value);
-                 map.put(x.getKeyName(), returnValue);
+                map.put(x.getKeyName(), returnValue);
             });
             return map;
-        }else{
+        } else {
             throw new JSONException("JSON type is error");
         }
     }
 
 
-    public static Object parseToObject(String value){
-        if(StringUtil.isJSONArrayString(value)){
+    public static Object parseToObject(String value) {
+        if (StringUtil.isJSONArrayString(value)) {
             return JSONDeserializer.parseToCollection(value);
         }
-        if(StringUtil.isJSONObjectString(value)){
+        if (StringUtil.isJSONObjectString(value)) {
             return JSONDeserializer.parseToMap(value);
         }
         return CastUtil.castToObject(value);
