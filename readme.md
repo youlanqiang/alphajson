@@ -10,7 +10,7 @@
  //解析JSON字符串
  JSONObject json = JSONObject.parse("{\"user\":\"admin\"}");
  //JSON对象转JavaBean
- JSONObject json = JSONObject.parse("{\"user\":\"admin\"}", User.class);
+ User user = JSONObject.parse("{\"user\":\"admin\"}", User.class);
  //JavaBean直接打印JSON字符串
  JSONObject.toString(javaBean);   
 ```
