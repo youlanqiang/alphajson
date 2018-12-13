@@ -51,4 +51,6 @@ public interface ObjectBean {
      */
     Set<String> getFieldsOfGet();
 
+    boolean isEnum();
+
 }

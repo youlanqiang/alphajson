@@ -17,7 +17,8 @@ public class SerializeChainFactory {
         EndChain endChain = new EndChain();
         ArrayOrMapChain mapChain = new ArrayOrMapChain(endChain);
         TimeChain timeChain = new TimeChain(mapChain);
-        BaseChain baseChain = new BaseChain(timeChain);
+        EnumChain enumChain = new EnumChain(timeChain);
+        BaseChain baseChain = new BaseChain(enumChain);
         NullChain nullChain = new NullChain(baseChain);
         return nullChain;
     }
@@ -32,7 +33,8 @@ public class SerializeChainFactory {
         EndChain endChain = new EndChain();
         ArrayOrMapChain mapChain = new ArrayOrMapChain(endChain);
         TimeChain timeChain = new TimeChain(mapChain);
-        BaseChain baseChain = new BaseChain(timeChain);
+        EnumChain enumChain = new EnumChain(timeChain);
+        BaseChain baseChain = new BaseChain(enumChain);
         if(chains.length > 0){
             ObjectToStringChain chain;
             for(int i = chains.length - 1; i >= 0; i--){

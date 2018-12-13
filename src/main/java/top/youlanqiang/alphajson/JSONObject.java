@@ -79,6 +79,7 @@ public class  JSONObject implements Map<String, Object> {
         try {
             return CastUtil.cast(json, clazz, null);
         }catch(Exception e){
+            e.printStackTrace();
             throw new JSONException("parse exception");
         }
     }
@@ -137,6 +138,16 @@ public class  JSONObject implements Map<String, Object> {
 
     public Object getObject(String key){
         return map.get(key);
+    }
+
+    public <T> T getObject(String key, Class<T> clazz){
+        try {
+            return CastUtil.cast(map.get(key), clazz);
+        }catch(Exception e){
+            JSONException exception = new JSONException("object cast error !");
+            exception.initCause(e);
+            throw exception;
+        }
     }
 
 

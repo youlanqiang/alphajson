@@ -196,5 +196,17 @@ public class SerializeTest {
     }
 
 
+    /**
+     * 测试枚举类型序列化
+     */
+    @Test
+    public void test10(){
+        JSONObject object = new JSONObject();
+        Country c = Country.chinese;
+        object.put("enum", c);
+        System.out.println(object.toString());
+        JSONObject c2 = JSONObject.parse(object.toString());
+        System.out.println(c2.getObject("enum", Country.class));
+    }
 
 }

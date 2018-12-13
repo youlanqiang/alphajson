@@ -8,6 +8,7 @@ import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -502,6 +503,7 @@ public class CastUtil {
         }
 
 
+
         if(clazz == int.class || clazz == Integer.class){
             return (T) castToInteger(obj);
         }
@@ -538,6 +540,9 @@ public class CastUtil {
         if(clazz == Date.class){
             return (T) castToDate(obj);
         }
+        if(clazz.isEnum()){
+           return (T) clazz.getMethod("valueOf", String.class).invoke(null, obj.toString());
+        }
         if(clazz == JSONObject.class){
             SimpleObjectBean bean = new SimpleObjectBean(obj);
             Map<String, Object> resultMap =  (Map<String, Object>)bean.getContainer();
@@ -546,9 +551,6 @@ public class CastUtil {
         if(clazz == JSONArray.class){
             Object[] objects =  CastUtil.cast(obj, Object[].class, null);
             return (T) new JSONArray(Arrays.asList(objects));
-        }
-        if(clazz == Date.class){
-            return (T) castToDate(obj);
         }
 
         if(obj instanceof Map) {

@@ -6,12 +6,10 @@ import top.youlanqiang.alphajson.annotation.JSONEnable;
 import top.youlanqiang.alphajson.utils.BeanUtil;
 import top.youlanqiang.alphajson.utils.CastUtil;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.security.Key;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -57,6 +55,8 @@ public class SimpleObjectBean<T> implements ObjectBean {
      */
     private Set<String> deserializeField = new HashSet<>(10);
 
+    private boolean isEnum = false;
+
 
     public SimpleObjectBean(final T object) {
         this.object = object;
@@ -66,8 +66,13 @@ public class SimpleObjectBean<T> implements ObjectBean {
 
     public SimpleObjectBean(final Class<T> clazz) {
         try {
-            this.object = clazz.getConstructor().newInstance(null);
-            methodsInit(clazz);
+            if (clazz.isEnum()) {
+                this.isEnum = true;
+                methodsInit(clazz);
+            } else {
+                this.object = clazz.getConstructor().newInstance(null);
+                methodsInit(clazz);
+            }
         } catch (Exception e) {
             throw new JSONException("对象没有无参构造方法.");
         }
@@ -104,7 +109,7 @@ public class SimpleObjectBean<T> implements ObjectBean {
             if (fieldName != null) {
                 Field field = clazz.getDeclaredField(fieldName);
 
-                if(!field.isAnnotationPresent(JSONEnable.class)){
+                if (!field.isAnnotationPresent(JSONEnable.class)) {
                     return;
                 }
 
@@ -189,12 +194,13 @@ public class SimpleObjectBean<T> implements ObjectBean {
 
     /**
      * 将对象转换为JAVABean的Map
+     *
      * @return HashMap
      */
     public Map<Object, Object> getContainer() {
         Map<Object, Object> container = new HashMap<>(20);
         for (String key : methodsOfGet.keySet()) {
-            if(deserializeField.contains(key) || ignoreField.contains(key)){
+            if (deserializeField.contains(key) || ignoreField.contains(key)) {
                 continue;
             }
             try {
@@ -206,31 +212,15 @@ public class SimpleObjectBean<T> implements ObjectBean {
         return container;
     }
 
-    /**
-     * 将JSONObject转换为同类型对象
-     *
-     * @param json json字符串
-     * @return 同类型对象
-     */
-    public T injectJSONObject(JSONObject json) {
-        Set<String> keys = getFieldsOfSet();
-        Method method;
-        for (String field : keys) {
-            method = getMethodOfSet(field);
-            try {
-                method.invoke(object, CastUtil.cast(json.getObject(field), method.getParameterTypes()[0], getGenerClass(method)));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return object;
-    }
 
     public T injectJSONObject(Map map) {
+        if(isEnum){
+            return injectJSONObjectForEnum(map);
+        }
         Set<String> keys = getFieldsOfSet();
         Method method;
         for (String field : keys) {
-            if(serializeField.contains(field) || ignoreField.contains(field)){
+            if (serializeField.contains(field) || ignoreField.contains(field)) {
                 continue;
             }
             method = getMethodOfSet(field);
@@ -241,6 +231,17 @@ public class SimpleObjectBean<T> implements ObjectBean {
             }
         }
         return object;
+    }
+
+    private T injectJSONObjectForEnum(Map map){
+        
+        return null;
+    }
+
+
+    @Override
+    public boolean isEnum() {
+        return isEnum;
     }
 
     /**
