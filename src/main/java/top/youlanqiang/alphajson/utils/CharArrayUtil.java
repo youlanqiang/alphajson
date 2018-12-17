@@ -10,9 +10,9 @@ import java.util.Map;
  */
 public final class CharArrayUtil {
 	
-	public static final String VALUE = "value";
+	private static final String VALUE = "value";
 	
-	public static final String END_INDEX = "end";
+	private static final String END_INDEX = "end";
 
 	public static String arrayToString(final char[] str, int start, int end) {
 		StringBuilder sb = new StringBuilder();
