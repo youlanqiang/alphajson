@@ -1,4 +1,7 @@
 # AlphaJson
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/671757a7105d4cf48d551b0441cb450d)](https://app.codacy.com/app/youlanqiang/alphajson?utm_source=github.com&utm_medium=referral&utm_content=youlanqiang/alphajson&utm_campaign=Badge_Grade_Settings)
+
 由Java实现的JSON解析类库，并没有太多功能，目前唯一优点是小巧。
 
 - 支持JavaBean转JSON对象
