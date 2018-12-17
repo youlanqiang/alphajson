@@ -1,7 +1,7 @@
 package top.youlanqiang.alphajson;
 
 import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
-import top.youlanqiang.alphajson.serialize.ParseChain.ObjectToStringChain;
+import top.youlanqiang.alphajson.serialize.parseChain.ObjectToStringChain;
 import top.youlanqiang.alphajson.serialize.SerializeChainFactory;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 import top.youlanqiang.alphajson.utils.CastUtil;
@@ -50,7 +50,7 @@ public class JSONArray implements Collection {
         if (list != null) {
             this.list = list;
         } else {
-            throw new NullPointerException("list is null");
+            throw new NullPointerException();
         }
     }
 

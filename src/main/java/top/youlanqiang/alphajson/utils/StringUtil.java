@@ -10,10 +10,7 @@ package top.youlanqiang.alphajson.utils;
 public  class StringUtil {
 
     public static boolean isNullOrEmpty(String context){
-        if(context == null || context.trim().equals("")){
-            return true;
-        }
-        return false;
+       return context == null || context.trim().equals("");
     }
 
     /**
@@ -66,10 +63,7 @@ public  class StringUtil {
      * @return
      */
     public static boolean isJSONObjectString(String context){
-        if(context.charAt(0) == '{' && context.charAt(context.length() - 1) == '}'){
-            return true;
-        }
-        return false;
+        return context.charAt(0) == '{' && context.charAt(context.length() - 1) == '}';
     }
 
     /**
@@ -78,10 +72,7 @@ public  class StringUtil {
      * @return
      */
     public static boolean isJSONArrayString(String context){
-        if(context.charAt(0) == '[' && context.charAt(context.length() - 1) == ']'){
-            return true;
-        }
-        return false;
+        return context.charAt(0) == '[' && context.charAt(context.length() - 1) == ']';
     }
 
 }

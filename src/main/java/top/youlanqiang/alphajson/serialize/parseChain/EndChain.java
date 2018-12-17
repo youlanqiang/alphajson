@@ -1,4 +1,4 @@
-package top.youlanqiang.alphajson.serialize.ParseChain;
+package top.youlanqiang.alphajson.serialize.parseChain;
 
 
 import top.youlanqiang.alphajson.bean.SimpleObjectBean;
@@ -15,7 +15,6 @@ public class EndChain  extends ObjectToStringChain {
 
     private ObjectToStringChain defaultChain;
 
-    public EndChain(){ }
 
     public void setDefaultChain(ObjectToStringChain defaultChain){
         this.defaultChain = defaultChain;

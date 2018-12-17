@@ -1,6 +1,6 @@
 package top.youlanqiang.alphajson.serialize;
 
-import top.youlanqiang.alphajson.serialize.ParseChain.ObjectToStringChain;
+import top.youlanqiang.alphajson.serialize.parseChain.ObjectToStringChain;
 import top.youlanqiang.alphajson.utils.RailUtil;
 
 import java.util.Map;
@@ -21,7 +21,7 @@ public class DefaultJSONSerializer {
     public static String operator(final Map map){
         StringJoiner joiner = new StringJoiner(",");
         for(Object key : map.keySet()){
-            joiner.add(KeyAndValue(key, map.get(key)).toString());
+            joiner.add(keyAndValue(key, map.get(key)).toString());
         }
         return RailUtil.jsonObject(joiner.toString());
     }
@@ -29,7 +29,7 @@ public class DefaultJSONSerializer {
     public static String operator(final Map map, final ObjectToStringChain defaultChain){
         StringJoiner joiner = new StringJoiner(",");
         for(Object key : map.keySet()){
-            joiner.add(KeyAndValue(key, map.get(key), defaultChain).toString());
+            joiner.add(keyAndValue(key, map.get(key), defaultChain).toString());
         }
         return RailUtil.jsonObject(joiner.toString());
     }
@@ -66,7 +66,7 @@ public class DefaultJSONSerializer {
     }
 
 
-    private static StringBuilder KeyAndValue(final Object key, final Object value){
+    private static StringBuilder keyAndValue(final Object key, final Object value){
         StringBuilder builder = new StringBuilder();
         builder.append(chain.execute(key)).append(":").append(
                 chain.execute(value)
@@ -74,7 +74,7 @@ public class DefaultJSONSerializer {
         return builder;
     }
 
-    private static StringBuilder KeyAndValue(final Object key, final Object value, final ObjectToStringChain defaultChain){
+    private static StringBuilder keyAndValue(final Object key, final Object value, final ObjectToStringChain defaultChain){
         if(defaultChain != null){
             StringBuilder builder = new StringBuilder();
             builder.append(defaultChain.execute(key)).append(":").append(
@@ -82,7 +82,7 @@ public class DefaultJSONSerializer {
             );
             return builder;
         }
-        return KeyAndValue(key, value);
+        return keyAndValue(key, value);
     }
 
 }

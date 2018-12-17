@@ -1,4 +1,4 @@
-package top.youlanqiang.alphajson.serialize.ParseChain;
+package top.youlanqiang.alphajson.serialize.parseChain;
 
 import top.youlanqiang.alphajson.utils.RailUtil;
 
@@ -19,26 +19,34 @@ import java.util.Date;
  */
 public class TimeChain extends ObjectToStringChain{
 
+    private String parseStr;
+
+    private SimpleDateFormat format;
+
     public TimeChain(ObjectToStringChain chain){
         this.next = chain;
+        this.parseStr = "yyyy-MM-dd HH:mm:ss";
+        this.format = new SimpleDateFormat(parseStr);
     }
 
-    private static final String PARSE_STR = "yyyy-MM-dd HH:mm:ss";
-
-    private static final SimpleDateFormat format = new SimpleDateFormat(PARSE_STR);
+    public TimeChain(ObjectToStringChain chain, String parseStr) {
+        this.next = chain;
+        this.parseStr = parseStr;
+        this.format = new SimpleDateFormat(parseStr);
+    }
 
 
 
     @Override
     public String execute(Object object) {
         if(object instanceof LocalDateTime){
-            return RailUtil.string(((LocalDateTime) object).format(DateTimeFormatter.ofPattern(PARSE_STR)));
+            return RailUtil.string(((LocalDateTime) object).format(DateTimeFormatter.ofPattern(parseStr)));
         }
         if(object instanceof LocalDate){
-            return RailUtil.string(((LocalDate) object).format(DateTimeFormatter.ofPattern(PARSE_STR)));
+            return RailUtil.string(((LocalDate) object).format(DateTimeFormatter.ofPattern(parseStr)));
         }
         if(object instanceof LocalTime){
-            return RailUtil.string(((LocalTime) object).format(DateTimeFormatter.ofPattern(PARSE_STR)));
+            return RailUtil.string(((LocalTime) object).format(DateTimeFormatter.ofPattern(parseStr)));
         }
         if(object instanceof Date){
             return RailUtil.string(format.format((Date)object));

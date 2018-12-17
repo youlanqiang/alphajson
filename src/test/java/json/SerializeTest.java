@@ -7,12 +7,10 @@ import entity.*;
 import org.junit.Test;
 import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.JSONObject;
-import top.youlanqiang.alphajson.serialize.ParseChain.TimeChain;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * @author youlanqiang
@@ -74,7 +72,7 @@ public class SerializeTest {
      * 测试通过
      */
     @Test
-    public void test1(){
+    public void testForHardJson(){
         JSONObject object = new JSONObject();
         object.put("shuz1", 1);
         object.put("boolean", false);
@@ -88,7 +86,7 @@ public class SerializeTest {
      * 测试成功
      */
     @Test
-    public void test2(){
+    public void testForJSONDeserializer(){
         String str = getJSONString();
         Map<String, Object> object =  JSONDeserializer.parseToMap(str);
         System.out.println(object.get("shuz1"));
@@ -101,7 +99,7 @@ public class SerializeTest {
      * 测试通过
      */
     @Test
-    public void test3(){
+    public void testForJSON2Object(){
         System.out.println(JSONObject.toString(getUser()));
         User one =  JSONObject.parse(JSONObject.toString(getUser()), User.class);
         System.out.println(one.getAutors());
@@ -109,7 +107,7 @@ public class SerializeTest {
     }
 
     @Test
-    public void test4(){
+    public void testForJSONObjectParse(){
        JSONObject user = JSONObject.parse(getJSONString(), JSONObject.class);
         System.out.println(user);
     }
@@ -118,7 +116,7 @@ public class SerializeTest {
      * 正常
      */
     @Test
-    public void test5(){
+    public void testForJSON2String(){
         Map<String, User> map = new HashMap<>();
 
         map.put("user", getUser());
@@ -133,7 +131,7 @@ public class SerializeTest {
      * 测试通过
      */
     @Test
-    public void test6(){
+    public void testForHashSetParse(){
         TimeCarryer carryer = new TimeCarryer();
         carryer.setIns(Sets.newHashSet(1,2,3,4));
         carryer.setTime(new Date());
@@ -148,7 +146,7 @@ public class SerializeTest {
      * 测试自定义ObjectToStringChain
      */
     @Test
-    public void test7(){
+    public void testForUserOptionObjectToStringChain(){
         BankMan man = new BankMan();
         man.setName("youlanqiang");
         man.setMoney(BigDecimal.valueOf(20.0));
@@ -156,7 +154,7 @@ public class SerializeTest {
     }
 
     @Test
-    public void test9(){
+    public void testForString2Object(){
         String json = "{\"stack\":[\"one\",\"two\"],\"money\":null,\"name\":null,\"queue\":[100,200]}";
         JSONObject object = JSONObject.parse(json);
         System.out.println(object);
@@ -167,7 +165,7 @@ public class SerializeTest {
      * 测试通过
      */
     @Test
-    public void test8(){
+    public void testForStackAndQueue(){
         BankMan man = new BankMan();
         man.setMoney(null);
         man.setName(null);
@@ -200,7 +198,7 @@ public class SerializeTest {
      * 测试枚举类型序列化
      */
     @Test
-    public void test10(){
+    public void testForEnumParse(){
         JSONObject object = new JSONObject();
         Country c = Country.chinese;
         object.put("enum", c);
