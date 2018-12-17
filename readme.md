@@ -4,10 +4,10 @@
 
 由Java实现的JSON解析类库。
 
-- 支持JavaBean转JSON对象
-- 支持数组转JSONArray
-- 支持解析JSON字符串为JSON对象
-- JSON对象转JavaBean对象
+-   支持JavaBean转JSON对象
+-   支持数组转JSONArray
+-   支持解析JSON字符串为JSON对象
+-   JSON对象转JavaBean对象
 
 ```$java
  //解析JSON字符串
