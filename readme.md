@@ -1,5 +1,5 @@
 # AlphaJson
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c3c9b86ef0d24640b3f68c3a85e0ce91)](https://www.codacy.com/app/youlanqiang/alphajson?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=youlanqiang/alphajson&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7e04b1f3b8a84959a6a0fbea77293e1a)](https://www.codacy.com/app/youlanqiang/alphajson?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=youlanqiang/alphajson&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://www.travis-ci.org/youlanqiang/alphajson.svg?branch=master)](https://www.travis-ci.org/youlanqiang/alphajson)
 
 由Java实现的JSON解析类库。
