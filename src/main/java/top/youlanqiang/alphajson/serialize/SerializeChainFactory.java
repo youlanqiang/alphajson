@@ -2,6 +2,8 @@ package top.youlanqiang.alphajson.serialize;
 
 import top.youlanqiang.alphajson.serialize.parseChain.*;
 
+import java.io.File;
+
 /**
  * @author youlanqiang
  * @version 1.0
@@ -11,7 +13,18 @@ import top.youlanqiang.alphajson.serialize.parseChain.*;
  */
 public class SerializeChainFactory {
 
+    static class Chain{
+        //todo 需要读取resources下的配置信息
+        private static final ParseConfig chain = new ParseConfig(new File(""));
+    }
 
+
+    private SerializeChainFactory(){}
+
+
+    public static ParseConfig getDefaultConfig(){
+        return Chain.chain;
+    }
 
     public static ObjectToStringChain getChain(){
         EndChain endChain = new EndChain();
