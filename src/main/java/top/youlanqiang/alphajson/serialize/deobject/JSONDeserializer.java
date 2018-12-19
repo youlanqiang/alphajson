@@ -18,9 +18,8 @@ public class JSONDeserializer {
     public static Collection parseToCollection(String context) {
         List<Object> list = new ArrayList<>();
         if (StringUtil.isNullOrEmpty(context)) {
-            throw new NullPointerException("context is null");
+            throw new JSONException("context is null");
         }
-        context = context.trim();
         if (StringUtil.isJSONArrayString(context)) {
             Stack<Character> stack = new Stack<>();
             char token;
@@ -65,9 +64,8 @@ public class JSONDeserializer {
     public static Map<String, Object> parseToMap(String context) {
         Map<String, Object> map = new HashMap<>();
         if (StringUtil.isNullOrEmpty(context)) {
-            throw new NullPointerException("context is null");
+            throw new JSONException("context is null");
         }
-        context = context.trim();
         if (StringUtil.isJSONObjectString(context)) {
             /**
              * keyParser将字符串中的 key:value解析并放入KeyValue对象中
@@ -90,7 +88,7 @@ public class JSONDeserializer {
             return JSONDeserializer.parseToCollection(value);
         }
         if (StringUtil.isJSONObjectString(value)) {
-            return JSONDeserializer.parseToMap(value);
+            return JSONDeserializer.parseToMap(value.trim());
         }
         return CastUtil.castToObject(value);
     }

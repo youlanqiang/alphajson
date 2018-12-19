@@ -43,7 +43,7 @@ public class  JSONObject implements Map<String, Object> {
 
     public JSONObject(Map<String, Object> map, ObjectToStringChain... chains){
         this(map);
-        this.chain = SerializeChainFactory.getChain(chain);
+        this.chain = SerializeChainFactory.getChain(chains);
     }
 
     public static String toString(Object object){
@@ -65,7 +65,7 @@ public class  JSONObject implements Map<String, Object> {
      * @return JSONObject对象
      */
     public static JSONObject parse(String json){
-        Map<String, Object> object =  JSONDeserializer.parseToMap(json);
+        Map<String, Object> object =  JSONDeserializer.parseToMap(json.trim());
         if(object.isEmpty()){
             return new JSONObject();
         }else{

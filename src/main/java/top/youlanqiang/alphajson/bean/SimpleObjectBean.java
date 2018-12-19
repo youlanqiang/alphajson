@@ -1,7 +1,6 @@
 package top.youlanqiang.alphajson.bean;
 
 import top.youlanqiang.alphajson.JSONException;
-import top.youlanqiang.alphajson.JSONObject;
 import top.youlanqiang.alphajson.annotation.JSONEnable;
 import top.youlanqiang.alphajson.utils.BeanUtil;
 import top.youlanqiang.alphajson.utils.CastUtil;
@@ -214,9 +213,6 @@ public class SimpleObjectBean<T> implements ObjectBean {
 
 
     public T injectJSONObject(Map map) {
-        if(isEnum){
-            return injectJSONObjectForEnum(map);
-        }
         Set<String> keys = getFieldsOfSet();
         Method method;
         for (String field : keys) {
@@ -233,10 +229,6 @@ public class SimpleObjectBean<T> implements ObjectBean {
         return object;
     }
 
-    private T injectJSONObjectForEnum(Map map){
-        
-        return null;
-    }
 
 
     @Override

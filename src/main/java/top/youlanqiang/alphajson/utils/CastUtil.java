@@ -405,7 +405,7 @@ public class CastUtil {
             return null;
         }
         if(clazz == null){
-            throw new NullPointerException("class is null");
+            throw new JSONException("class is null");
         }
 
         if(obj.getClass() == clazz){

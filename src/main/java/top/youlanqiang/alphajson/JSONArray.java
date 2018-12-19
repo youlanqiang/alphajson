@@ -50,7 +50,7 @@ public class JSONArray implements Collection {
         if (list != null) {
             this.list = list;
         } else {
-            throw new NullPointerException();
+            throw new JSONException("list is empty!");
         }
     }
 
@@ -69,7 +69,7 @@ public class JSONArray implements Collection {
     }
 
     public static JSONArray parse(String json) {
-        Collection list = JSONDeserializer.parseToCollection(json);
+        Collection list = JSONDeserializer.parseToCollection(json.trim());
         if (list.isEmpty()) {
             return new JSONArray();
         } else {
