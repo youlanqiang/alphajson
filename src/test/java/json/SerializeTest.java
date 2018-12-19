@@ -88,6 +88,7 @@ public class SerializeTest {
     @Test
     public void testForJSONDeserializer(){
         String str = getJSONString();
+        System.out.println(str);
         Map<String, Object> object =  JSONDeserializer.parseToMap(str);
         System.out.println(object.get("shuz1"));
         System.out.println(JSONObject.toString(object));

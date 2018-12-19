@@ -66,11 +66,11 @@ public class JSONDeserializer {
         if (StringUtil.isNullOrEmpty(context)) {
             throw new JSONException("context is null");
         }
-        if (StringUtil.isJSONObjectString(context)) {
+        if (StringUtil.isJSONObjectString(context.trim())) {
             /**
              * keyParser将字符串中的 key:value解析并放入KeyValue对象中
              */
-            List<KeyValue> list = KeyParser.execute(context.toCharArray());
+            List<KeyValue> list = KeyParser.execute(context.trim().toCharArray());
             list.forEach(x -> {
                 String value = x.getValue();
                 Object returnValue = CastUtil.castToObject(value);
@@ -88,7 +88,7 @@ public class JSONDeserializer {
             return JSONDeserializer.parseToCollection(value);
         }
         if (StringUtil.isJSONObjectString(value)) {
-            return JSONDeserializer.parseToMap(value.trim());
+            return JSONDeserializer.parseToMap(value);
         }
         return CastUtil.castToObject(value);
     }
