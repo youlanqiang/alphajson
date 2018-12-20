@@ -1,5 +1,6 @@
 package top.youlanqiang.alphajson.serialize.chain;
 
+import top.youlanqiang.alphajson.serialize.SerializeChainFactory;
 import top.youlanqiang.alphajson.utils.RailUtil;
 
 import java.text.SimpleDateFormat;
@@ -25,16 +26,9 @@ public class TimeChain extends ObjectToStringChain{
 
     public TimeChain(ObjectToStringChain chain){
         this.next = chain;
-        this.parseStr = "yyyy-MM-dd HH:mm:ss";
+        this.parseStr = SerializeChainFactory.getDefaultConfig().getDateFormat();
         this.format = new SimpleDateFormat(parseStr);
     }
-
-    public TimeChain(ObjectToStringChain chain, String parseStr) {
-        this.next = chain;
-        this.parseStr = parseStr;
-        this.format = new SimpleDateFormat(parseStr);
-    }
-
 
 
     @Override

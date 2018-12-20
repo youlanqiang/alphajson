@@ -3,6 +3,8 @@ package top.youlanqiang.alphajson.serialize;
 import top.youlanqiang.alphajson.serialize.chain.*;
 
 import java.io.File;
+import java.io.InputStream;
+
 
 /**
  * @author youlanqiang
@@ -13,56 +15,63 @@ import java.io.File;
  */
 public class SerializeChainFactory {
 
-    static class Chain{
-        //todo 需要读取resources下的配置信息
-        private static final ParseConfig chain = new ParseConfig(new File(""));
+    private SerializeChainFactory() {}
+
+    private static  ParseConfig parseConfig = null;
+
+
+    public static ParseConfig getDefaultConfig() {
+        if(parseConfig == null){
+            synchronized(SerializeChainFactory.class) {
+                parseConfig = new DefaultParseConfig();
+                InputStream in = SerializeChainFactory.class.getClassLoader().getResourceAsStream("\\json.properties");
+                if (in != null) {
+                    ((DefaultParseConfig)parseConfig).initByProperties(in);
+                    return parseConfig;
+                }
+                in = SerializeChainFactory.class.getClassLoader().getResourceAsStream("\\json.yml");
+                if (in != null) {
+                    ((DefaultParseConfig)parseConfig).initByYaml(in);
+                    return parseConfig;
+                }
+            }
+        }
+        return parseConfig;
     }
 
-
-    private SerializeChainFactory(){}
-
-
-    public static ParseConfig getDefaultConfig(){
-        return Chain.chain;
-    }
-
-    public static ObjectToStringChain getChain(){
-        EndChain endChain = new EndChain();
-        ArrayOrMapChain mapChain = new ArrayOrMapChain(endChain);
-        TimeChain timeChain = new TimeChain(mapChain);
-        EnumChain enumChain = new EnumChain(timeChain);
-        BaseChain baseChain = new BaseChain(enumChain);
-        NullChain nullChain = new NullChain(baseChain);
-        return nullChain;
+    public static ObjectToStringChain getChain() {
+        return getChain(null);
     }
 
     /**
      * 适配自定义的解析模块
+     *
      * @param chains 解析组
      * @return 解析器
      */
-    public static ObjectToStringChain getChain(ObjectToStringChain... chains){
+    public static ObjectToStringChain getChain(ObjectToStringChain... chains) {
 
         EndChain endChain = new EndChain();
         ArrayOrMapChain mapChain = new ArrayOrMapChain(endChain);
         TimeChain timeChain = new TimeChain(mapChain);
         EnumChain enumChain = new EnumChain(timeChain);
         BaseChain baseChain = new BaseChain(enumChain);
-        if(chains.length > 0){
+        DecimalChain decimalChain = new DecimalChain(baseChain);
+        if (chains != null && chains.length > 0) {
             ObjectToStringChain chain;
-            for(int i = chains.length - 1; i >= 0; i--){
+            for (int i = chains.length - 1; i >= 0; i--) {
                 chain = chains[i];
-                if(i != 0){
+                if (i != 0) {
                     chain.setNext(chains[i - 1]);
                 }
             }
-            chain= chains[0];
-            chain.setNext(baseChain);
+            chain = chains[0];
+            chain.setNext(decimalChain);
             NullChain nullChain = new NullChain(chains[chains.length - 1]);
             endChain.setDefaultChain(nullChain);
-            return baseChain;
+            return nullChain;
         }
-        NullChain nullChain = new NullChain(baseChain);
+        NullChain nullChain = new NullChain(decimalChain);
         return nullChain;
     }
 }

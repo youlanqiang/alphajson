@@ -4,6 +4,7 @@ import chain.BigDecimalChain;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import entity.*;
+import org.junit.Assert;
 import org.junit.Test;
 import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.JSONObject;
@@ -20,11 +21,11 @@ import java.util.*;
  */
 public class SerializeTest {
 
-    public static String getJSONString(){
+    public static String getJSONString() {
         return "{\"shuz1\":1,\"boolean\":false,\"user\":{\"name\":\"youlanqiang\",\"man\":false,\"autors\":[{\"admin\":{\"adminName\":\"admin1\",\"value\":\"boooss\"},\"point\":{\"4.43\":3.22,\"3.33\":3.33},\"name\":\"autor1\"},{\"admin\":{\"adminName\":\"admin2\",\"value\":\"1000dass\"},\"point\":{\"3.>>?\":1.33,\"???ww\":5.33},\"name\":\"autor2\"},{\"admin\":{\"adminName\":\"admin3\",\"value\":\"这个是为什么\"},\"point\":{\"7777777777\":7.7777,\"发生了什么\":0.0},\"name\":\"autor3\"},{\"admin\":{\"adminName\":\"77777\",\"value\":\"7了\"},\"point\":{\"jiade\":1.0,\"2,2\":2.33},\"name\":\"autor4\"}],\"age\":10}}\n";
     }
 
-    public static User getUser(){
+    public static User getUser() {
         User user = new User();
         user.setAge(10);
         user.setMan(false);
@@ -72,12 +73,12 @@ public class SerializeTest {
      * 测试通过
      */
     @Test
-    public void testForHardJson(){
+    public void testForHardJson() {
         JSONObject object = new JSONObject();
         object.put("shuz1", 1);
         object.put("boolean", false);
         object.put("user", getUser());
-        System.out.println(object.toString());
+        Assert.assertEquals(object.toString(), "{\"shuz1\":1,\"boolean\":false,\"user\":{\"name\":\"youlanqiang\",\"man\":false,\"autors\":[{\"admin\":{\"adminName\":\"admin1\",\"value\":\"boooss\"},\"point\":{\"4.43\":3.22,\"3.33\":3.33},\"name\":\"autor1\"},{\"admin\":{\"adminName\":\"admin2\",\"value\":\"1000dass\"},\"point\":{\"3.>>?\":1.33,\"???ww\":5.33},\"name\":\"autor2\"},{\"admin\":{\"adminName\":\"admin3\",\"value\":\"这个是为什么\"},\"point\":{\"7777777777\":7.7777,\"发生了什么\":0.0},\"name\":\"autor3\"},{\"admin\":{\"adminName\":\"77777\",\"value\":\"7了\"},\"point\":{\"jiade\":1.0,\"2,2\":2.33},\"name\":\"autor4\"}],\"age\":10}}");
         //{"shuz1":1,"boolean":false,"user":{"name":"youlanqiang","man":false,"autors":[{"admin":{"adminName":"admin1","value":"boooss"},"point":{"4.43":3.22,"3.33":3.33},"name":"autor1"},{"admin":{"adminName":"admin2","value":"1000dass"},"point":{"3.>>?":1.33,"???ww":5.33},"name":"autor2"},{"admin":{"adminName":"admin3","value":"这个是为什么"},"point":{"7777777777":7.7777,"发生了什么":0.0},"name":"autor3"},{"admin":{"adminName":"77777","value":"7了"},"point":{"jiade":1.0,"2,2":2.33},"name":"autor4"}],"age":10}}
     }
 
@@ -86,12 +87,11 @@ public class SerializeTest {
      * 测试成功
      */
     @Test
-    public void testForJSONDeserializer(){
+    public void testForJSONDeserializer() {
         String str = getJSONString();
-        System.out.println(str);
-        Map<String, Object> object =  JSONDeserializer.parseToMap(str);
-        System.out.println(object.get("shuz1"));
-        System.out.println(JSONObject.toString(object));
+        Map<String, Object> object = JSONDeserializer.parseToMap(str);
+        Assert.assertEquals(object.get("shuz1"), 1L);
+        Assert.assertEquals(JSONObject.toString(object), "{\"shuz1\":1,\"boolean\":false,\"user\":{\"name\":\"youlanqiang\",\"man\":false,\"autors\":[{\"name\":\"autor1\",\"admin\":{\"adminName\":\"admin1\",\"value\":\"boooss\"},\"point\":{\"4.43\":3.22,\"3.33\":3.33}},{\"name\":\"autor2\",\"admin\":{\"adminName\":\"admin2\",\"value\":\"1000dass\"},\"point\":{\"3.>>?\":1.33,\"???ww\":5.33}},{\"name\":\"autor3\",\"admin\":{\"adminName\":\"admin3\",\"value\":\"这个是为什么\"},\"point\":{\"7777777777\":7.7777,\"发生了什么\":0.0}},{\"name\":\"autor4\",\"admin\":{\"adminName\":\"77777\",\"value\":\"7了\"},\"point\":{\"jiade\":1.0,\"2,2\":2.33}}],\"age\":10}}");
     }
 
 
@@ -100,30 +100,28 @@ public class SerializeTest {
      * 测试通过
      */
     @Test
-    public void testForJSON2Object(){
-        System.out.println(JSONObject.toString(getUser()));
-        User one =  JSONObject.parse(JSONObject.toString(getUser()), User.class);
-        System.out.println(one.getAutors());
-         System.out.println(JSONObject.toString(one));
+    public void testForJSON2Object() {
+        User one = JSONObject.parse(JSONObject.toString(getUser()), User.class);
+        Assert.assertFalse(one.getAutors().isEmpty());
+        Assert.assertEquals(JSONObject.toString(one), "{\"name\":\"youlanqiang\",\"man\":false,\"autors\":[{\"admin\":{\"adminName\":\"admin1\",\"value\":\"boooss\"},\"point\":{\"4.43\":3.22,\"3.33\":3.33},\"name\":\"autor1\"},{\"admin\":{\"adminName\":\"admin2\",\"value\":\"1000dass\"},\"point\":{\"3.>>?\":1.33,\"???ww\":5.33},\"name\":\"autor2\"},{\"admin\":{\"adminName\":\"admin3\",\"value\":\"这个是为什么\"},\"point\":{\"7777777777\":7.7777,\"发生了什么\":0.0},\"name\":\"autor3\"},{\"admin\":{\"adminName\":\"77777\",\"value\":\"7了\"},\"point\":{\"jiade\":1.0,\"2,2\":2.33},\"name\":\"autor4\"}],\"age\":10}");
     }
 
     @Test
-    public void testForJSONObjectParse(){
-       JSONObject user = JSONObject.parse(getJSONString(), JSONObject.class);
-        System.out.println(user);
+    public void testForJSONObjectParse() {
+        JSONObject user = JSONObject.parse(getJSONString(), JSONObject.class);
+        Assert.assertEquals(user.toString(), "{\"shuz1\":1,\"boolean\":false,\"user\":{\"name\":\"youlanqiang\",\"man\":false,\"autors\":[{\"name\":\"autor1\",\"admin\":{\"adminName\":\"admin1\",\"value\":\"boooss\"},\"point\":{\"4.43\":3.22,\"3.33\":3.33}},{\"name\":\"autor2\",\"admin\":{\"adminName\":\"admin2\",\"value\":\"1000dass\"},\"point\":{\"3.>>?\":1.33,\"???ww\":5.33}},{\"name\":\"autor3\",\"admin\":{\"adminName\":\"admin3\",\"value\":\"这个是为什么\"},\"point\":{\"7777777777\":7.7777,\"发生了什么\":0.0}},{\"name\":\"autor4\",\"admin\":{\"adminName\":\"77777\",\"value\":\"7了\"},\"point\":{\"jiade\":1.0,\"2,2\":2.33}}],\"age\":10}}");
     }
 
     /**
      * 正常
      */
     @Test
-    public void testForJSON2String(){
+    public void testForJSON2String() {
         Map<String, User> map = new HashMap<>();
 
         map.put("user", getUser());
-        JSONArray.toString(map);
-        System.out.println(JSONObject.toString(getUser()));
-        System.out.println(JSONObject.toString(map));
+        Assert.assertEquals(JSONObject.toString(getUser()), "{\"name\":\"youlanqiang\",\"man\":false,\"autors\":[{\"admin\":{\"adminName\":\"admin1\",\"value\":\"boooss\"},\"point\":{\"4.43\":3.22,\"3.33\":3.33},\"name\":\"autor1\"},{\"admin\":{\"adminName\":\"admin2\",\"value\":\"1000dass\"},\"point\":{\"3.>>?\":1.33,\"???ww\":5.33},\"name\":\"autor2\"},{\"admin\":{\"adminName\":\"admin3\",\"value\":\"这个是为什么\"},\"point\":{\"7777777777\":7.7777,\"发生了什么\":0.0},\"name\":\"autor3\"},{\"admin\":{\"adminName\":\"77777\",\"value\":\"7了\"},\"point\":{\"jiade\":1.0,\"2,2\":2.33},\"name\":\"autor4\"}],\"age\":10}");
+        Assert.assertEquals(JSONObject.toString(map), "{\"user\":{\"name\":\"youlanqiang\",\"man\":false,\"autors\":[{\"admin\":{\"adminName\":\"admin1\",\"value\":\"boooss\"},\"point\":{\"4.43\":3.22,\"3.33\":3.33},\"name\":\"autor1\"},{\"admin\":{\"adminName\":\"admin2\",\"value\":\"1000dass\"},\"point\":{\"3.>>?\":1.33,\"???ww\":5.33},\"name\":\"autor2\"},{\"admin\":{\"adminName\":\"admin3\",\"value\":\"这个是为什么\"},\"point\":{\"7777777777\":7.7777,\"发生了什么\":0.0},\"name\":\"autor3\"},{\"admin\":{\"adminName\":\"77777\",\"value\":\"7了\"},\"point\":{\"jiade\":1.0,\"2,2\":2.33},\"name\":\"autor4\"}],\"age\":10}}");
 
     }
 
@@ -132,33 +130,33 @@ public class SerializeTest {
      * 测试通过
      */
     @Test
-    public void testForHashSetParse(){
+    public void testForHashSetParse() {
         TimeCarryer carryer = new TimeCarryer();
-        carryer.setIns(Sets.newHashSet(1,2,3,4));
+        carryer.setIns(Sets.newHashSet(1, 2, 3, 4));
         carryer.setTime(new Date());
         carryer.setName("first");
         String jsonStr = JSONObject.toString(carryer);
-        System.out.println(jsonStr);
+        Assert.assertTrue(jsonStr.trim().length() != 0);
         TimeCarryer tie = JSONObject.parse(jsonStr, TimeCarryer.class);
-        System.out.println(JSONObject.toString(tie));
+        Assert.assertTrue(JSONObject.toString(tie).trim().length() != 0);
     }
 
     /**
      * 测试自定义ObjectToStringChain
      */
     @Test
-    public void testForUserOptionObjectToStringChain(){
+    public void testForUserOptionObjectToStringChain() {
         BankMan man = new BankMan();
         man.setName("youlanqiang");
         man.setMoney(BigDecimal.valueOf(20.0));
-        System.out.println(JSONObject.toString(man, new BigDecimalChain()));
+        Assert.assertEquals(JSONObject.toString(man, new BigDecimalChain()), "{\"stack\":null,\"money\":\"金钱\",\"name\":\"youlanqiang\",\"queue\":null}");
     }
 
     @Test
-    public void testForString2Object(){
+    public void testForString2Object() {
         String json = "{\"stack\":[\"one\",\"two\"],\"money\":null,\"name\":null,\"queue\":[100,200]}";
         JSONObject object = JSONObject.parse(json);
-        System.out.println(object);
+        Assert.assertEquals(object.toString(), "{\"stack\":[\"one\",\"two\"],\"money\":null,\"name\":null,\"queue\":[100,200]}");
     }
 
     /**
@@ -166,17 +164,17 @@ public class SerializeTest {
      * 测试通过
      */
     @Test
-    public void testForStackAndQueue(){
+    public void testForStackAndQueue() {
         BankMan man = new BankMan();
         man.setMoney(null);
         man.setName(null);
         man.setQueue(null);
         man.setStack(null);
         String json = JSONObject.toString(man);
-        System.out.println(json);
+        Assert.assertEquals(json, "{\"stack\":null,\"money\":null,\"name\":null,\"queue\":null}");
         //{"stack":null,"money":null,"name":null,"queue":null}
         BankMan newMan = JSONObject.parse(json, BankMan.class);
-        System.out.println(JSONObject.toString(newMan));
+        Assert.assertEquals(JSONObject.toString(newMan), "{\"stack\":null,\"money\":null,\"name\":null,\"queue\":null}");
         //{"stack":null,"money":null,"name":null,"queue":null}
         Queue<Integer> queue = new PriorityQueue<>();
         queue.add(100);
@@ -187,11 +185,11 @@ public class SerializeTest {
         newMan.setStack(stack);
         newMan.setQueue(queue);
         String newJson = JSONObject.toString(newMan);
-        System.out.println(newJson);
+        Assert.assertEquals(newJson, "{\"stack\":[\"one\"\",\"two\"],\"money\":null,\"name\":null,\"queue\":[100,200]}");
         //{"stack":["one","two"],"money":null,"name":null,"queue":[100,200]}
         BankMan man2 = JSONObject.parse(newJson, BankMan.class);
-        System.out.println(man2.getStack());
-        System.out.println(man2.getQueue());
+        Assert.assertEquals(man2.getStack().toString(), "[one\", two]");
+        Assert.assertEquals(man2.getQueue().toString(), "[100, 200]");
     }
 
 
@@ -199,13 +197,13 @@ public class SerializeTest {
      * 测试枚举类型序列化
      */
     @Test
-    public void testForEnumParse(){
+    public void testForEnumParse() {
         JSONObject object = new JSONObject();
         Country c = Country.chinese;
         object.put("enum", c);
-        System.out.println(object.toString());
+        Assert.assertEquals(object.toString(), "{\"enum\":\"chinese\"}");
         JSONObject c2 = JSONObject.parse(object.toString());
-        System.out.println(c2.getObject("enum", Country.class));
+        Assert.assertEquals(c2.getObject("enum", Country.class), Country.chinese);
     }
 
 }
