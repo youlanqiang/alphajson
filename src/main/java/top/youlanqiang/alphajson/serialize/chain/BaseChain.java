@@ -1,4 +1,4 @@
-package top.youlanqiang.alphajson.serialize.parseChain;
+package top.youlanqiang.alphajson.serialize.chain;
 
 import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.JSONObject;

@@ -1,6 +1,6 @@
 package top.youlanqiang.alphajson.serialize;
 
-import top.youlanqiang.alphajson.serialize.parseChain.ObjectToStringChain;
+import top.youlanqiang.alphajson.serialize.chain.ObjectToStringChain;
 import top.youlanqiang.alphajson.utils.RailUtil;
 
 import java.util.Map;

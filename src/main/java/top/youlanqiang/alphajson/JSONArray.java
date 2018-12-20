@@ -1,7 +1,7 @@
 package top.youlanqiang.alphajson;
 
 import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
-import top.youlanqiang.alphajson.serialize.parseChain.ObjectToStringChain;
+import top.youlanqiang.alphajson.serialize.chain.ObjectToStringChain;
 import top.youlanqiang.alphajson.serialize.SerializeChainFactory;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 import top.youlanqiang.alphajson.utils.CastUtil;

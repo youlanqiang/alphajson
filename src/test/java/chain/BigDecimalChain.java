@@ -1,6 +1,6 @@
 package chain;
 
-import top.youlanqiang.alphajson.serialize.parseChain.ObjectToStringChain;
+import top.youlanqiang.alphajson.serialize.chain.ObjectToStringChain;
 
 import java.math.BigDecimal;
 
