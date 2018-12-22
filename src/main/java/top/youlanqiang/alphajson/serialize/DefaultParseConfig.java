@@ -1,7 +1,10 @@
 package top.youlanqiang.alphajson.serialize;
 
 
+import org.yaml.snakeyaml.Yaml;
+
 import java.io.*;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -43,7 +46,6 @@ public class DefaultParseConfig implements ParseConfig {
                     initByProperties(new FileInputStream(file));
                     break;
                 case "yml":
-                    //todo 解析YML
                     initByYaml(new FileInputStream(file));
                 default:
                     defaultInit();
@@ -56,13 +58,21 @@ public class DefaultParseConfig implements ParseConfig {
             Properties pro = new Properties();
             pro.load(in);
             loadProperties(pro);
+            in.close();
         }catch(IOException e){
             defaultInit();
         }
     }
 
     void initByYaml(InputStream in){
-
+        try {
+            Yaml yaml = new Yaml();
+            Map<String, String> map = yaml.load(in);
+            loadMap(map);
+            in.close();
+        }catch(IOException e){
+            defaultInit();
+        }
     }
 
     private void defaultInit(){
@@ -74,6 +84,11 @@ public class DefaultParseConfig implements ParseConfig {
     private void loadProperties(final Properties properties){
         this.dateFormat = properties.getProperty("date-format", "yyyy-MM-dd HH:mm:ss");
         this.decimalFormat = properties.getProperty("decimal-format", "#.#####");
+    }
+
+    private void loadMap(final Map<String, String> map){
+        this.dateFormat = map.get("date-format");
+        this.decimalFormat = map.get("decimal-format");
     }
 
 

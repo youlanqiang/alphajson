@@ -5,6 +5,7 @@ import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.JSONException;
 import top.youlanqiang.alphajson.JSONObject;
 import top.youlanqiang.alphajson.bean.SimpleObjectBean;
+import top.youlanqiang.alphajson.serialize.SerializeChainFactory;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
 
 import java.lang.reflect.Array;
@@ -325,6 +326,12 @@ public class CastUtil {
 
         if(value instanceof String){
             String strVal = (String) value;
+            try{
+                SimpleDateFormat dateFormat = new SimpleDateFormat(SerializeChainFactory.getDefaultConfig().getDateFormat());
+                return dateFormat.parse(strVal);
+            }catch(ParseException e){
+
+            }
             try{
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 return dateFormat.parse(strVal);

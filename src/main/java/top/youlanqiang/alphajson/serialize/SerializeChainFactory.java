@@ -24,12 +24,12 @@ public class SerializeChainFactory {
         if(parseConfig == null){
             synchronized(SerializeChainFactory.class) {
                 parseConfig = new DefaultParseConfig();
-                InputStream in = SerializeChainFactory.class.getClassLoader().getResourceAsStream("\\json.properties");
+                InputStream in = SerializeChainFactory.class.getClassLoader().getResourceAsStream(File.separator + "json.properties");
                 if (in != null) {
                     ((DefaultParseConfig)parseConfig).initByProperties(in);
                     return parseConfig;
                 }
-                in = SerializeChainFactory.class.getClassLoader().getResourceAsStream("\\json.yml");
+                in = SerializeChainFactory.class.getClassLoader().getResourceAsStream(File.separator + "json.yml");
                 if (in != null) {
                     ((DefaultParseConfig)parseConfig).initByYaml(in);
                     return parseConfig;
