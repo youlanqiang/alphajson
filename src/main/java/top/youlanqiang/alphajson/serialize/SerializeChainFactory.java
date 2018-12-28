@@ -20,23 +20,27 @@ public class SerializeChainFactory {
     private static  ParseConfig parseConfig = null;
 
 
-    public static ParseConfig getDefaultConfig() throws ClassNotFoundException {
-        if(parseConfig == null){
-            synchronized(SerializeChainFactory.class) {
-                parseConfig = new DefaultParseConfig();
-                InputStream in = SerializeChainFactory.class.getClassLoader().getResourceAsStream(File.separator + "json.properties");
-                if (in != null) {
-                    ((DefaultParseConfig)parseConfig).initByProperties(in);
-                    return parseConfig;
-                }
-                in = SerializeChainFactory.class.getClassLoader().getResourceAsStream(File.separator + "json.yml");
-                if (in != null) {
-                    ((DefaultParseConfig)parseConfig).initByYaml(in);
-                    return parseConfig;
+    public static ParseConfig getDefaultConfig() {
+        try {
+            if (parseConfig == null) {
+                synchronized (SerializeChainFactory.class) {
+                    parseConfig = new DefaultParseConfig();
+                    InputStream in = SerializeChainFactory.class.getClassLoader().getResourceAsStream(File.separator + "json.properties");
+                    if (in != null) {
+                        ((DefaultParseConfig) parseConfig).initByProperties(in);
+                        return parseConfig;
+                    }
+                    in = SerializeChainFactory.class.getClassLoader().getResourceAsStream(File.separator + "json.yml");
+                    if (in != null) {
+                        ((DefaultParseConfig) parseConfig).initByYaml(in);
+                        return parseConfig;
+                    }
                 }
             }
+            return parseConfig;
+        }catch(ClassNotFoundException e){
+            throw new RuntimeException(e);
         }
-        return parseConfig;
     }
 
     public static ObjectToStringChain getChain() {

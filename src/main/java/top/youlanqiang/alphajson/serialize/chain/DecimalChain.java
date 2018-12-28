@@ -19,19 +19,17 @@ public class DecimalChain extends ObjectToStringChain {
 
     private ObjectToStringChain next;
 
-    public DecimalChain(ObjectToStringChain next){
-        try {
-            this.next = next;
-            this.decimalFormat = SerializeChainFactory.getDefaultConfig().getDecimalFormat();
-            this.format = new DecimalFormat(decimalFormat);
-        }catch(ClassNotFoundException e){
-            e.printStackTrace();
-        }
+    public DecimalChain(ObjectToStringChain next) {
+
+        this.next = next;
+        this.decimalFormat = SerializeChainFactory.getDefaultConfig().getDecimalFormat();
+        this.format = new DecimalFormat(decimalFormat);
+
     }
 
     @Override
     public String execute(Object object) {
-        if(object instanceof BigDecimal){
+        if (object instanceof BigDecimal) {
             return format.format(object);
         }
         return next.execute(object);
