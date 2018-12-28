@@ -20,9 +20,13 @@ public class DecimalChain extends ObjectToStringChain {
     private ObjectToStringChain next;
 
     public DecimalChain(ObjectToStringChain next){
-        this.next = next;
-        this.decimalFormat = SerializeChainFactory.getDefaultConfig().getDecimalFormat();
-        this.format = new DecimalFormat(decimalFormat);
+        try {
+            this.next = next;
+            this.decimalFormat = SerializeChainFactory.getDefaultConfig().getDecimalFormat();
+            this.format = new DecimalFormat(decimalFormat);
+        }catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
