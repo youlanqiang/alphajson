@@ -20,7 +20,7 @@ public class SerializeChainFactory {
     private static  ParseConfig parseConfig = null;
 
 
-    public static ParseConfig getDefaultConfig() {
+    public static ParseConfig getDefaultConfig() throws ClassNotFoundException {
         if(parseConfig == null){
             synchronized(SerializeChainFactory.class) {
                 parseConfig = new DefaultParseConfig();

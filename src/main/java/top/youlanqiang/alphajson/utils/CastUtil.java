@@ -4,6 +4,7 @@ package top.youlanqiang.alphajson.utils;
 import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.JSONException;
 import top.youlanqiang.alphajson.JSONObject;
+import top.youlanqiang.alphajson.annotation.JSONEnable;
 import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.serialize.SerializeChainFactory;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;

@@ -1,6 +1,7 @@
 package top.youlanqiang.alphajson.serialize;
 
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
@@ -35,7 +36,7 @@ public class DefaultParseConfig implements ParseConfig {
      * 读取配置文件
      * @param file 配置文件
      */
-    public DefaultParseConfig(File file) throws FileNotFoundException {
+    public DefaultParseConfig(File file) throws FileNotFoundException, ClassNotFoundException {
         if(file == null || file.exists() || !file.canRead()){
             defaultInit();
         }else {
@@ -64,13 +65,14 @@ public class DefaultParseConfig implements ParseConfig {
         }
     }
 
-    void initByYaml(InputStream in){
+    void initByYaml(InputStream in) throws ClassNotFoundException{
         try {
-            Yaml yaml = new Yaml();
+            Class clazz = Class.forName("org.yaml.snakeyaml.Yaml");
+            Yaml yaml = (Yaml) clazz.newInstance();
             Map<String, String> map = yaml.load(in);
             loadMap(map);
             in.close();
-        }catch(IOException e){
+        }catch(IOException | InstantiationException |IllegalAccessException e){
             defaultInit();
         }
     }
