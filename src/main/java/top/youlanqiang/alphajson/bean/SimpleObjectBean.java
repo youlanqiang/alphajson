@@ -87,14 +87,13 @@ public class SimpleObjectBean<T> implements ObjectBean {
         for (Method method : clazz.getDeclaredMethods()) {
             methodName = method.getName();
             String fieldName = null;
-
-            if (methodName.startsWith(SET)) {
+            if (methodName.startsWith(SET) && methodName.length() > 3) {
                 fieldName = BeanUtil.methodFieldName(methodName);
                 methodsOfSet.put(fieldName, method);
-            } else if (methodName.startsWith(IS)) {
+            } else if (methodName.startsWith(IS) && methodName.length() > 2) {
                 fieldName = BeanUtil.methodFieldNameForIs(methodName);
                 methodsOfGet.put(fieldName, method);
-            } else if (methodName.startsWith(GET)) {
+            } else if (methodName.startsWith(GET) && methodName.length() > 3) {
                 fieldName = BeanUtil.methodFieldName(methodName);
                 methodsOfGet.put(fieldName, method);
             }

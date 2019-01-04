@@ -15,7 +15,8 @@ import java.util.*;
  */
 public class JSONDeserializer {
 
-    public static Collection parseToCollection(String context) {
+    public static Collection parseToCollection(final String context) {
+        //todo need fix bug
         List<Object> list = new ArrayList<>();
         if (StringUtil.isNullOrEmpty(context)) {
             throw new JSONException("context is null");
@@ -38,10 +39,21 @@ public class JSONDeserializer {
                         end = index;
                         list.add(parseToObject(context.substring(start, end + 1)));
                     }
-                } else if (token == ',' && stack.isEmpty() && index > end + 1) {
+                } else if (token == ']' && stack.isEmpty() && index > end + 1) {
                     list.add(parseToObject(context.substring(start + 1, index)));
                     start = index;
-                } else if (token == ']' && stack.isEmpty() && index > end + 1) {
+                } else if (token == '[' && index != 0){
+                    int tempIndex = StringUtil.findArrayLimit(index, context);
+                    list.add(parseToCollection(context.substring(index, tempIndex)));
+                    start = tempIndex;
+                    index = tempIndex + 1;
+                } else if (token == ',' && stack.isEmpty() && index > end + 1) {
+                    if(context.charAt(index + 1) == '['){
+                        continue;
+                    }
+                    if(context.charAt(start) == ','){
+                        start += 1;
+                    }
                     list.add(parseToObject(context.substring(start + 1, index)));
                     start = index;
                 }
@@ -61,7 +73,8 @@ public class JSONDeserializer {
     }
 
 
-    public static Map<String, Object> parseToMap(String context) {
+
+    public static Map<String, Object> parseToMap(final String context) {
         Map<String, Object> map = new HashMap<>();
         if (StringUtil.isNullOrEmpty(context)) {
             throw new JSONException("context is null");
@@ -83,7 +96,7 @@ public class JSONDeserializer {
     }
 
 
-    public static Object parseToObject(String value) {
+    public static Object parseToObject(final String value) {
         if (StringUtil.isJSONArrayString(value)) {
             return JSONDeserializer.parseToCollection(value);
         }

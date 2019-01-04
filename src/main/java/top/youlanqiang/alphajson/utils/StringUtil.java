@@ -1,5 +1,7 @@
 package top.youlanqiang.alphajson.utils;
 
+import java.util.Stack;
+
 /**
  * @author youlanqiang
  * @version 1.0
@@ -63,6 +65,9 @@ public  class StringUtil {
      * @return
      */
     public static boolean isJSONObjectString(String context){
+        if(context.length() < 2){
+            return false;
+        }
         return context.charAt(0) == '{' && context.charAt(context.length() - 1) == '}';
     }
 
@@ -72,7 +77,32 @@ public  class StringUtil {
      * @return
      */
     public static boolean isJSONArrayString(String context){
+        if(context.length() < 2){
+            return false;
+        }
         return context.charAt(0) == '[' && context.charAt(context.length() - 1) == ']';
     }
 
+    /**
+     * 查询]的最后下标
+     * @param start 开始下标
+     * @param context 字符串
+     * @return ]坐标位置 + 1
+     */
+    public static int findArrayLimit(int start, final String context){
+        Stack<Character> stack = new Stack<>();
+        for(int index = start; index < context.length(); index++){
+            Character token = context.charAt(index);
+            if(token == '['){
+                stack.push(token);
+            }
+            if(token == ']'){
+                stack.pop();
+                if(stack.isEmpty()){
+                    return index + 1;
+                }
+            }
+        }
+        return -1;
+    }
 }

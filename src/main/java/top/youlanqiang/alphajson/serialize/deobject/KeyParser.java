@@ -34,6 +34,7 @@ public class KeyParser {
                 int endKeyIndex = parseKeyValue(index, array);
                 keyValue.setKeyName(new String(array).substring(index + 1, endKeyIndex));
                 int endValueIndex = parseValue(endKeyIndex, array);
+
                 keyValue.setValue(new String(array).substring(endKeyIndex + 2, endValueIndex));
                 list.add(keyValue);
                 index = endValueIndex;

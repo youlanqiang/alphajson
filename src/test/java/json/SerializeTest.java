@@ -206,4 +206,27 @@ public class SerializeTest {
         Assert.assertEquals(c2.getObject("enum", Country.class), Country.chinese);
     }
 
+    /**
+     * 测试内部类和多重List泛型序列化
+     */
+    @Test
+    public void testForIntoClass(){
+        Into<Boolean> into = new Into<>();
+        Into<Boolean>.IntoBase intoBase = into.new IntoBase();
+        intoBase.setName("name");
+        intoBase.setIn(false);
+        List<List<Boolean>> list = new ArrayList<>();
+        list.add(Arrays.asList(false,true,false,true));
+        list.add(Arrays.asList(false,true,false,true));
+        list.add(Arrays.asList(false,true,false,true));
+        into.setIntoBase(intoBase);
+        into.setIninList(list);
+        Assert.assertEquals(JSONObject.toString(into), "{\"intoBase\":{\"in\":false,\"name\":\"name\"},\"ininList\":[[false,true,false,true],[false,true,false,true],[false,true,false,true]]}");
+        JSONObject object = JSONObject.parse("{\"intoBase\":{\"in\":false,\"name\":\"name\"},\"ininList\":[[false,true,false,true],[false,true,false,true],[false,true,false,true]]}");
+        JSONObject base = object.getJSONObject("intoBase");
+        Assert.assertEquals(base.toString(), "{\"in\":false,\"name\":\"name\"}");
+        JSONArray array = object.getJSONArray("ininList");
+        System.out.println(array);
+    }
+
 }

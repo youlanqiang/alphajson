@@ -136,6 +136,40 @@ public class  JSONObject implements Map<String, Object> {
         return CastUtil.castToDate(map.get(key));
     }
 
+    public JSONObject getJSONObject(String key){
+        Object obj = map.get(key);
+        if(obj == null){
+            return null;
+        }
+        if(obj instanceof JSONObject){
+            return (JSONObject) obj;
+        }
+        try {
+            return CastUtil.cast(obj, JSONObject.class, null);
+        }catch(Exception e){
+            JSONException exception = new JSONException("Parse JSONArray Exception");
+            exception.initCause(e);
+            throw exception;
+        }
+    }
+
+    public JSONArray getJSONArray(String key){
+        Object obj = map.get(key);
+        if(obj == null){
+            return null;
+        }
+        if(obj instanceof JSONArray){
+            return (JSONArray) obj;
+        }
+        try {
+            return CastUtil.cast(obj, JSONArray.class, null);
+        }catch(Exception e){
+            JSONException exception = new JSONException("Parse JSONArray Exception");
+            exception.initCause(e);
+            throw exception;
+        }
+    }
+
     public Object getObject(String key){
         return map.get(key);
     }

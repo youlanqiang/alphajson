@@ -549,6 +549,9 @@ public class CastUtil {
            return (T) clazz.getMethod("valueOf", String.class).invoke(null, obj.toString());
         }
         if(clazz == JSONObject.class){
+            if(obj instanceof Map){
+                return (T) new JSONObject((Map<String, Object>) obj);
+            }
             SimpleObjectBean bean = new SimpleObjectBean(obj);
             Map<String, Object> resultMap =  (Map<String, Object>)bean.getContainer();
             return  (T) new JSONObject(resultMap);
