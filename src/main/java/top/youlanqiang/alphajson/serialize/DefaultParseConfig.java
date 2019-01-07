@@ -47,13 +47,14 @@ public class DefaultParseConfig implements ParseConfig {
                     break;
                 case "yml":
                     initByYaml(new FileInputStream(file));
+                    break;
                 default:
                     defaultInit();
             }
         }
     }
 
-    void initByProperties(InputStream in) {
+    protected void initByProperties(InputStream in) {
         try {
             Properties pro = new Properties();
             pro.load(in);
@@ -64,7 +65,7 @@ public class DefaultParseConfig implements ParseConfig {
         }
     }
 
-    void initByYaml(InputStream in) throws ClassNotFoundException{
+    protected void initByYaml(InputStream in) throws ClassNotFoundException{
         try {
             Class clazz = Class.forName("org.yaml.snakeyaml.Yaml");
             Yaml yaml = (Yaml) clazz.newInstance();
@@ -109,4 +110,5 @@ public class DefaultParseConfig implements ParseConfig {
     public void setDecimalFormat(String decimalFormat) {
         this.decimalFormat = decimalFormat;
     }
+
 }

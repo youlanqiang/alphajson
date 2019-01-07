@@ -105,4 +105,28 @@ public  class StringUtil {
         }
         return -1;
     }
+
+    /**
+     * 查询}的最后下标
+     * @param start 开始下标
+     * @param context 字符串
+     * @return {坐标位置 + 1
+     */
+    public static int findObjLimit(int start, final String context){
+        Stack<Character> stack = new Stack<>();
+        for(int index = start; index < context.length(); index++){
+            Character token = context.charAt(index);
+            if(token == '{'){
+                stack.push(token);
+            }
+            if(token == '}'){
+                stack.pop();
+                if(stack.isEmpty()){
+                    return index + 1;
+                }
+            }
+        }
+        return -1;
+    }
+
 }

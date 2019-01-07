@@ -69,7 +69,7 @@ public class JSONArray implements Collection {
     }
 
     public static JSONArray parse(String json) {
-        Collection list = JSONDeserializer.parseToCollection(json.trim());
+        Collection list = JSONDeserializer.parseToJSONArray(json.trim());
         if (list.isEmpty()) {
             return new JSONArray();
         } else {

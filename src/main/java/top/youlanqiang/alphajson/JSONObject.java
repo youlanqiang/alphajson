@@ -9,11 +9,8 @@ import top.youlanqiang.alphajson.utils.CastUtil;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
+
 
 /**
  * @author youlanqiang
@@ -28,7 +25,7 @@ public class  JSONObject implements Map<String, Object> {
     private ObjectToStringChain chain;
 
     public JSONObject(){
-        this.map = new ConcurrentHashMap<>();
+        this.map = new HashMap<>();
     }
 
     public JSONObject(ObjectToStringChain... chains){
@@ -65,7 +62,7 @@ public class  JSONObject implements Map<String, Object> {
      * @return JSONObject对象
      */
     public static JSONObject parse(String json){
-        Map<String, Object> object =  JSONDeserializer.parseToMap(json.trim());
+        Map<String, Object> object =  JSONDeserializer.parseToJSONObject(json.trim());
         if(object.isEmpty()){
             return new JSONObject();
         }else{

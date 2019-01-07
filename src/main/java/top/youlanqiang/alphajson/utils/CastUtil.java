@@ -369,9 +369,9 @@ public class CastUtil {
             case 'n':
                 return null;
             case '{':
-                return JSONDeserializer.parseToObject(value);
+                return JSONDeserializer.parseToJSONObject(value);
             case '[':
-                return JSONDeserializer.parseToObject(value);
+                return JSONDeserializer.parseToJSONArray(value);
         }
         try {
             if (value.contains(".")) {

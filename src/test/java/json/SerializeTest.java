@@ -89,7 +89,7 @@ public class SerializeTest {
     @Test
     public void testForJSONDeserializer() {
         String str = getJSONString();
-        Map<String, Object> object = JSONDeserializer.parseToMap(str);
+        Map<String, Object> object = JSONDeserializer.parseToJSONObject(str);
         Assert.assertEquals(object.get("shuz1"), 1L);
         Assert.assertEquals(JSONObject.toString(object), "{\"shuz1\":1,\"boolean\":false,\"user\":{\"name\":\"youlanqiang\",\"man\":false,\"autors\":[{\"name\":\"autor1\",\"admin\":{\"adminName\":\"admin1\",\"value\":\"boooss\"},\"point\":{\"4.43\":3.22,\"3.33\":3.33}},{\"name\":\"autor2\",\"admin\":{\"adminName\":\"admin2\",\"value\":\"1000dass\"},\"point\":{\"3.>>?\":1.33,\"???ww\":5.33}},{\"name\":\"autor3\",\"admin\":{\"adminName\":\"admin3\",\"value\":\"这个是为什么\"},\"point\":{\"7777777777\":7.7777,\"发生了什么\":0.0}},{\"name\":\"autor4\",\"admin\":{\"adminName\":\"77777\",\"value\":\"7了\"},\"point\":{\"jiade\":1.0,\"2,2\":2.33}}],\"age\":10}}");
     }
@@ -226,7 +226,7 @@ public class SerializeTest {
         JSONObject base = object.getJSONObject("intoBase");
         Assert.assertEquals(base.toString(), "{\"in\":false,\"name\":\"name\"}");
         JSONArray array = object.getJSONArray("ininList");
-        System.out.println(array);
+         Assert.assertEquals(array.toString(), "[[false,true,false,true],[false,true,false,true],[false,true,false,true]]");
     }
 
 }
