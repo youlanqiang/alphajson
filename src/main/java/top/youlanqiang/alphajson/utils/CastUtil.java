@@ -1,10 +1,9 @@
 package top.youlanqiang.alphajson.utils;
 
 
-import top.youlanqiang.alphajson.JSONArray;
+import top.youlanqiang.alphajson.DefaultJSONArray;
 import top.youlanqiang.alphajson.JSONException;
-import top.youlanqiang.alphajson.JSONObject;
-import top.youlanqiang.alphajson.annotation.JSONEnable;
+import top.youlanqiang.alphajson.DefaultJSONObject;
 import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.serialize.SerializeChainFactory;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
@@ -548,17 +547,17 @@ public class CastUtil {
         if(clazz.isEnum()){
            return (T) clazz.getMethod("valueOf", String.class).invoke(null, obj.toString());
         }
-        if(clazz == JSONObject.class){
+        if(clazz == DefaultJSONObject.class){
             if(obj instanceof Map){
-                return (T) new JSONObject((Map<String, Object>) obj);
+                return (T) new DefaultJSONObject((Map<String, Object>) obj);
             }
             SimpleObjectBean bean = new SimpleObjectBean(obj);
             Map<String, Object> resultMap =  (Map<String, Object>)bean.getContainer();
-            return  (T) new JSONObject(resultMap);
+            return  (T) new DefaultJSONObject(resultMap);
         }
-        if(clazz == JSONArray.class){
+        if(clazz == DefaultJSONArray.class){
             Object[] objects =  CastUtil.cast(obj, Object[].class, null);
-            return (T) new JSONArray(Arrays.asList(objects));
+            return (T) new DefaultJSONArray(Arrays.asList(objects));
         }
 
         if(obj instanceof Map) {

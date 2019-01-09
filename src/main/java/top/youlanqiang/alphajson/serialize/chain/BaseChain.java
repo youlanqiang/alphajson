@@ -1,7 +1,7 @@
 package top.youlanqiang.alphajson.serialize.chain;
 
-import top.youlanqiang.alphajson.JSONArray;
-import top.youlanqiang.alphajson.JSONObject;
+import top.youlanqiang.alphajson.DefaultJSONArray;
+import top.youlanqiang.alphajson.DefaultJSONObject;
 import top.youlanqiang.alphajson.serialize.DefaultJSONSerializer;
 import top.youlanqiang.alphajson.utils.RailUtil;
 
@@ -37,10 +37,10 @@ public class BaseChain  extends ObjectToStringChain {
         if(object instanceof CharSequence){
             return RailUtil.string(object.toString());
         }
-        if(object instanceof JSONArray){
+        if(object instanceof DefaultJSONArray){
             return object.toString();
         }
-        if(object instanceof JSONObject){
+        if(object instanceof DefaultJSONObject){
             return object.toString();
         }
         return next.execute(object);

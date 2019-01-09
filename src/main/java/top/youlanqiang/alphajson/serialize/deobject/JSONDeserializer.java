@@ -1,9 +1,9 @@
 package top.youlanqiang.alphajson.serialize.deobject;
 
 
-import top.youlanqiang.alphajson.JSONArray;
+import top.youlanqiang.alphajson.DefaultJSONArray;
 import top.youlanqiang.alphajson.JSONException;
-import top.youlanqiang.alphajson.JSONObject;
+import top.youlanqiang.alphajson.DefaultJSONObject;
 import top.youlanqiang.alphajson.utils.CastUtil;
 import top.youlanqiang.alphajson.utils.StringUtil;
 
@@ -27,8 +27,8 @@ public class JSONDeserializer {
      * @param context json字符串
      * @return JSONArray对象
      */
-    public static JSONArray parseToJSONArray(final String context){
-        JSONArray array = new JSONArray();
+    public static DefaultJSONArray parseToJSONArray(final String context){
+        DefaultJSONArray array = new DefaultJSONArray();
         if (StringUtil.isNullOrEmpty(context)) {
             throw new JSONException("context is null");
         }
@@ -60,8 +60,8 @@ public class JSONDeserializer {
 
 
 
-    public static JSONObject parseToJSONObject(final String context) {
-        JSONObject object = new JSONObject();
+    public static DefaultJSONObject parseToJSONObject(final String context) {
+        DefaultJSONObject object = new DefaultJSONObject();
         if (StringUtil.isNullOrEmpty(context)) {
             throw new JSONException("context is null");
         }
