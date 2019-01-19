@@ -326,14 +326,21 @@ public class CastUtil {
 
         if(value instanceof String){
             String strVal = (String) value;
+            SimpleDateFormat dateFormat;
             try{
-                SimpleDateFormat dateFormat = new SimpleDateFormat(SerializeChainFactory.getDefaultConfig().getDateFormat());
+                dateFormat = new SimpleDateFormat(format);
                 return dateFormat.parse(strVal);
             }catch(ParseException e){
 
             }
             try{
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                dateFormat = new SimpleDateFormat(SerializeChainFactory.getDefaultConfig().getDateFormat());
+                return dateFormat.parse(strVal);
+            }catch(ParseException e){
+
+            }
+            try{
+                dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 return dateFormat.parse(strVal);
             }catch(ParseException e){
 
