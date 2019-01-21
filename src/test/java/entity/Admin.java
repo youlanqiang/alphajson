@@ -41,7 +41,7 @@ public class Admin {
     public String toString() {
         return "Admin{" +
                 "adminName='" + adminName + '\'' +
-                ", type='" + value + '\'' +
+                ", value='" + value + '\'' +
                 '}';
     }
 }
