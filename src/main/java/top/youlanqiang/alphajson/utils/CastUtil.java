@@ -1,9 +1,9 @@
 package top.youlanqiang.alphajson.utils;
 
 
-import top.youlanqiang.alphajson.DefaultJSONArray;
+import top.youlanqiang.alphajson.JSONArray;
 import top.youlanqiang.alphajson.JSONException;
-import top.youlanqiang.alphajson.DefaultJSONObject;
+import top.youlanqiang.alphajson.JSONObject;
 import top.youlanqiang.alphajson.bean.SimpleObjectBean;
 import top.youlanqiang.alphajson.serialize.SerializeChainFactory;
 import top.youlanqiang.alphajson.serialize.deobject.JSONDeserializer;
@@ -41,7 +41,7 @@ public class CastUtil {
             }
             return Byte.parseByte(str);
         }
-        throw new JSONException("The value cast to byte error");
+        throw new JSONException("The type cast to byte error");
     }
 
     public static Byte byteValue(BigDecimal value) {
@@ -69,7 +69,7 @@ public class CastUtil {
             }
             return Short.parseShort(str);
         }
-        throw new JSONException("The value cast to short error");
+        throw new JSONException("The type cast to short error");
     }
 
     public static Short shortValue(BigDecimal value) {
@@ -96,7 +96,7 @@ public class CastUtil {
                 return str.charAt(0);
             }
         }
-        throw new JSONException("The value cast to char error");
+        throw new JSONException("The type cast to char error");
     }
 
     public static Integer castToInteger(Object value) {
@@ -120,7 +120,7 @@ public class CastUtil {
             }
             return Integer.valueOf(str);
         }
-        throw new JSONException("The value cast to int error");
+        throw new JSONException("The type cast to int error");
     }
 
     public static Integer intValue(BigDecimal value) {
@@ -151,7 +151,7 @@ public class CastUtil {
             }
             return Long.valueOf(str);
         }
-        throw new JSONException("The value cast to long error");
+        throw new JSONException("The type cast to long error");
     }
 
     public static Long longValue(BigDecimal value) {
@@ -178,7 +178,7 @@ public class CastUtil {
             }
             return Float.valueOf(str);
         }
-        throw new JSONException("The value cast to float error");
+        throw new JSONException("The type cast to float error");
     }
 
     public static Float floatValue(BigDecimal value) {
@@ -205,7 +205,7 @@ public class CastUtil {
             }
             return Double.valueOf(str);
         }
-        throw new JSONException("The value cast to int error");
+        throw new JSONException("The type cast to int error");
     }
 
     public static Double doubleValue(BigDecimal value) {
@@ -245,7 +245,7 @@ public class CastUtil {
         if(value instanceof Boolean){
             return (boolean)value;
         }
-        throw new JSONException("The value cast to boolean error");
+        throw new JSONException("The type cast to boolean error");
     }
 
     public static BigDecimal castToBigDecimal(Object value){
@@ -270,7 +270,7 @@ public class CastUtil {
             boolean result =  (boolean)value;
             return result ? BigDecimal.ONE : BigDecimal.ZERO;
         }
-        throw new JSONException("The value cast to boolean error");
+        throw new JSONException("The type cast to boolean error");
     }
 
     public static BigInteger castToBigInteger(Object value){
@@ -295,7 +295,7 @@ public class CastUtil {
             boolean result =  (boolean)value;
             return result ? BigInteger.ONE : BigInteger.ZERO;
         }
-        throw new JSONException("The value cast to boolean error");
+        throw new JSONException("The type cast to boolean error");
     }
 
     public static Date castToDate(Object value){
@@ -352,7 +352,7 @@ public class CastUtil {
 
             }
         }
-        throw new JSONException("The value cast to date error");
+        throw new JSONException("The type cast to date error");
     }
 
 
@@ -554,17 +554,17 @@ public class CastUtil {
         if(clazz.isEnum()){
            return (T) clazz.getMethod("valueOf", String.class).invoke(null, obj.toString());
         }
-        if(clazz == DefaultJSONObject.class){
+        if(clazz == JSONObject.class){
             if(obj instanceof Map){
-                return (T) new DefaultJSONObject((Map<String, Object>) obj);
+                return (T) new JSONObject((Map<String, Object>) obj);
             }
             SimpleObjectBean bean = new SimpleObjectBean(obj);
             Map<String, Object> resultMap =  (Map<String, Object>)bean.getContainer();
-            return  (T) new DefaultJSONObject(resultMap);
+            return  (T) new JSONObject(resultMap);
         }
-        if(clazz == DefaultJSONArray.class){
+        if(clazz == JSONArray.class){
             Object[] objects =  CastUtil.cast(obj, Object[].class, null);
-            return (T) new DefaultJSONArray(Arrays.asList(objects));
+            return (T) new JSONArray(Arrays.asList(objects));
         }
 
         if(obj instanceof Map) {

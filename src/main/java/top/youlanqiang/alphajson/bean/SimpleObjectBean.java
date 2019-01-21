@@ -1,7 +1,7 @@
 package top.youlanqiang.alphajson.bean;
 
 import top.youlanqiang.alphajson.JSONException;
-import top.youlanqiang.alphajson.annotation.JSONEnable;
+import top.youlanqiang.alphajson.annotation.JSONOption;
 import top.youlanqiang.alphajson.utils.BeanUtil;
 import top.youlanqiang.alphajson.utils.CastUtil;
 
@@ -32,27 +32,32 @@ public class SimpleObjectBean<T> implements ObjectBean {
     /**
      * 对象中的set字段,Map中保存的是对应方法,key为字段名(字段名首字母小写)
      */
-    private Map<String, Method> methodsOfSet = new HashMap<>();
+    private Map<String, Method> methodsOfSet = new HashMap<>(10);
 
     /**
      * 对象中的get字段,Map中保存的是对应方法,key为字段名(字段名首字母小写)
      */
-    private Map<String, Method> methodsOfGet = new HashMap<>();
+    private Map<String, Method> methodsOfGet = new HashMap<>(10);
 
     /**
      * 被忽略的字段
      */
-    private Set<String> ignoreField = new HashSet<>(10);
+    private Set<String> ignoreField = new HashSet<>(5);
 
     /**
      * 只能被序列化为JSON的字段
      */
-    private Set<String> serializeField = new HashSet<>(10);
+    private Set<String> serializeField = new HashSet<>(5);
 
     /**
      * 只能被反序列化为JavaBean的字段
      */
-    private Set<String> deserializeField = new HashSet<>(10);
+    private Set<String> deserializeField = new HashSet<>(5);
+
+    /**
+     * 字段名称
+     */
+    private Map<String, String> fieldNames = new HashMap<>(5);
 
     private boolean isEnum = false;
 
@@ -107,13 +112,13 @@ public class SimpleObjectBean<T> implements ObjectBean {
             if (fieldName != null) {
                 Field field = clazz.getDeclaredField(fieldName);
 
-                if (!field.isAnnotationPresent(JSONEnable.class)) {
+                if (!field.isAnnotationPresent(JSONOption.class)) {
                     return;
                 }
 
-                JSONEnable annotation = field.getAnnotation(JSONEnable.class);
+                JSONOption annotation = field.getAnnotation(JSONOption.class);
 
-                switch (annotation.value()) {
+                switch (annotation.type()) {
                     case Igonre:
                         ignoreField.add(fieldName);
                         break;

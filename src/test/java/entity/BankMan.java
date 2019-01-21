@@ -1,6 +1,6 @@
 package entity;
 
-import top.youlanqiang.alphajson.annotation.JSONEnable;
+import top.youlanqiang.alphajson.annotation.JSONOption;
 import top.youlanqiang.alphajson.annotation.JSONEnableType;
 
 import java.math.BigDecimal;
@@ -15,7 +15,7 @@ import java.util.Stack;
  */
 public class BankMan {
 
-    @JSONEnable(JSONEnableType.Serialize)
+    @JSONOption(type = JSONEnableType.Serialize)
     private BigDecimal money;
 
     private String name;

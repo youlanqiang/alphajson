@@ -13,8 +13,17 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface JSONEnable {
+public @interface JSONOption {
 
-    JSONEnableType value() default JSONEnableType.Show;
+    /**
+     * json显示方式
+     * @return
+     */
+    JSONEnableType type() default JSONEnableType.Show;
 
+    /**
+     * json字段名称
+     * @return
+     */
+    String name();
 }

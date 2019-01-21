@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public final class CharArrayUtil {
 
-    private static final String VALUE = "value";
+    private static final String VALUE = "type";
 
     private static final String END_INDEX = "end";
 

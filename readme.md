@@ -8,7 +8,7 @@
 -   支持数组转JSONArray
 -   支持解析JSON字符串为JSON对象
 -   JSON对象转JavaBean对象
--   使用统一API来调用Gson,FastJson等JSON框架(未来支持)
+
 
 ```$java
  //解析JSON字符串
@@ -18,6 +18,6 @@
  //JavaBean直接打印JSON字符串
  JSONObject.toString(javaBean);   
 ```
-项目的还会持续添加特性和优化，直到完成第一个release版。
+
 
 > write by youlanqiang

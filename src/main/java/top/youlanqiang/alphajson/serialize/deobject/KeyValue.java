@@ -40,7 +40,7 @@ public class KeyValue {
     public String toString() {
         return "KeyValue{" +
                 "keyName='" + keyName + '\'' +
-                ", value='" + value + '\'' +
+                ", type='" + value + '\'' +
                 '}';
     }
 }
