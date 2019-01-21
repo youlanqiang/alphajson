@@ -25,5 +25,5 @@ public @interface JSONOption {
      * json字段名称
      * @return
      */
-    String name();
+    String name() default "";
 }
