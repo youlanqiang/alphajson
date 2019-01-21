@@ -242,13 +242,13 @@ public class CastUtil {
             }
             return Boolean.valueOf(str);
         }
-        if(value instanceof Boolean){
-            return (boolean)value;
+        if (value instanceof Boolean) {
+            return (boolean) value;
         }
         throw new JSONException("The type cast to boolean error");
     }
 
-    public static BigDecimal castToBigDecimal(Object value){
+    public static BigDecimal castToBigDecimal(Object value) {
         if (value == null) {
             return null;
         }
@@ -266,14 +266,14 @@ public class CastUtil {
             }
             return new BigDecimal(castToDouble(str));
         }
-        if(value instanceof Boolean){
-            boolean result =  (boolean)value;
+        if (value instanceof Boolean) {
+            boolean result = (boolean) value;
             return result ? BigDecimal.ONE : BigDecimal.ZERO;
         }
         throw new JSONException("The type cast to boolean error");
     }
 
-    public static BigInteger castToBigInteger(Object value){
+    public static BigInteger castToBigInteger(Object value) {
         if (value == null) {
             return null;
         }
@@ -291,64 +291,65 @@ public class CastUtil {
             }
             return BigInteger.valueOf(castToLong(str));
         }
-        if(value instanceof Boolean){
-            boolean result =  (boolean)value;
+        if (value instanceof Boolean) {
+            boolean result = (boolean) value;
             return result ? BigInteger.ONE : BigInteger.ZERO;
         }
         throw new JSONException("The type cast to boolean error");
     }
 
-    public static Date castToDate(Object value){
+    public static Date castToDate(Object value) {
         return castToDate(value, null);
     }
 
-    public static Date castToDate(Object value, String format){
-        if(value == null){
+    public static Date castToDate(Object value, String format) {
+        if (value == null) {
             return null;
         }
-        if(value instanceof Date){
+        if (value instanceof Date) {
             return (Date) value;
         }
-        if(value instanceof Calendar){
+        if (value instanceof Calendar) {
             return ((Calendar) value).getTime();
         }
 
         long longValue = -1;
 
-        if(value instanceof BigDecimal){
+        if (value instanceof BigDecimal) {
             longValue = longValue((BigDecimal) value);
             return new Date(longValue);
         }
-        if(value instanceof Number){
+        if (value instanceof Number) {
             longValue = ((Number) value).longValue();
             return new Date(longValue);
         }
 
-        if(value instanceof String){
+        if (value instanceof String) {
             String strVal = (String) value;
             SimpleDateFormat dateFormat;
-            try{
-                dateFormat = new SimpleDateFormat(format);
-                return dateFormat.parse(strVal);
-            }catch(ParseException e){
-
+            if (!StringUtil.isNullOrEmpty(format)) {
+                try {
+                    dateFormat = new SimpleDateFormat(format);
+                    return dateFormat.parse(strVal);
+                } catch (ParseException e) {
+                }
             }
-            try{
+            try {
                 dateFormat = new SimpleDateFormat(SerializeChainFactory.getDefaultConfig().getDateFormat());
                 return dateFormat.parse(strVal);
-            }catch(ParseException e){
+            } catch (ParseException e) {
 
             }
-            try{
+            try {
                 dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 return dateFormat.parse(strVal);
-            }catch(ParseException e){
+            } catch (ParseException e) {
 
             }
             try {
                 longValue = Long.parseLong(strVal);
                 return new Date(longValue);
-            }catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
 
             }
         }
@@ -391,7 +392,6 @@ public class CastUtil {
     }
 
 
-
     public static <T> T cast(Object obj, Class<T> clazz, Class... geners) throws Exception {
 
         if (obj == null) {
@@ -413,26 +413,26 @@ public class CastUtil {
             if (clazz == short.class) {
                 return (T) Short.valueOf((short) 0);
             }
-            if(clazz == boolean.class){
+            if (clazz == boolean.class) {
                 return (T) Boolean.FALSE;
             }
             return null;
         }
-        if(clazz == null){
+        if (clazz == null) {
             throw new JSONException("class is null");
         }
 
-        if(obj.getClass() == clazz){
+        if (obj.getClass() == clazz) {
             return (T) obj;
         }
 
 
-        if(clazz.isArray()){
-            if(obj instanceof Collection){
+        if (clazz.isArray()) {
+            if (obj instanceof Collection) {
                 Collection coll = (Collection) obj;
                 Object array = Array.newInstance(clazz.getComponentType(), coll.size());
                 int index = 0;
-                for(Object item : coll){
+                for (Object item : coll) {
                     Array.set(array, index, cast(item, clazz.getComponentType()));
                     index++;
                 }
@@ -440,9 +440,9 @@ public class CastUtil {
             }
         }
 
-        if(obj instanceof Collection){
+        if (obj instanceof Collection) {
             Collection coll = (Collection) obj;
-            if(List.class.isAssignableFrom(clazz)) {
+            if (List.class.isAssignableFrom(clazz)) {
                 if (geners.length != 0 && geners.length == 1) {
                     Object[] tempList = new Object[coll.size()];
                     int index = 0;
@@ -450,22 +450,22 @@ public class CastUtil {
                         tempList[index] = cast(result, geners[0]);
                         index++;
                     }
-                    if(clazz.isInterface()) {
+                    if (clazz.isInterface()) {
                         return (T) Arrays.asList(tempList);
-                    } else if(Stack.class.isAssignableFrom(clazz)){
+                    } else if (Stack.class.isAssignableFrom(clazz)) {
                         Stack stack = new Stack();
-                        for(Object item : tempList){
+                        for (Object item : tempList) {
                             stack.add(item);
                         }
                         return (T) stack;
-                    } else{
+                    } else {
                         return clazz.getConstructor(Collection.class).newInstance(Arrays.asList(tempList));
                     }
                 }
                 return null;
             }
 
-            if(Set.class.isAssignableFrom(clazz)){
+            if (Set.class.isAssignableFrom(clazz)) {
                 if (geners.length != 0 && geners.length == 1) {
                     Object[] tempList = new Object[coll.size()];
                     int index = 0;
@@ -473,16 +473,16 @@ public class CastUtil {
                         tempList[index] = cast(result, geners[0]);
                         index++;
                     }
-                    if(clazz.isInterface()) {
+                    if (clazz.isInterface()) {
                         return (T) new HashSet(Arrays.asList(tempList));
-                    }else{
+                    } else {
                         return clazz.getConstructor(Collection.class).newInstance(Arrays.asList(tempList));
                     }
                 }
                 return null;
             }
 
-            if(Queue.class.isAssignableFrom(clazz)){
+            if (Queue.class.isAssignableFrom(clazz)) {
                 if (geners.length != 0 && geners.length == 1) {
                     Object[] tempList = new Object[coll.size()];
                     int index = 0;
@@ -490,9 +490,9 @@ public class CastUtil {
                         tempList[index] = cast(result, geners[0]);
                         index++;
                     }
-                    if(clazz.isInterface()) {
+                    if (clazz.isInterface()) {
                         return (T) new PriorityQueue(Arrays.asList(tempList));
-                    }else{
+                    } else {
                         return clazz.getConstructor(Collection.class).newInstance(Arrays.asList(tempList));
                     }
                 }
@@ -501,12 +501,12 @@ public class CastUtil {
         }
 
 
-        if(clazz.isAssignableFrom(obj.getClass())){
+        if (clazz.isAssignableFrom(obj.getClass())) {
             return (T) obj;
         }
 
-        if(clazz == Map.class){
-            if(obj instanceof Map){
+        if (clazz == Map.class) {
+            if (obj instanceof Map) {
                 return (T) obj;
             }
             SimpleObjectBean<Object> bean = new SimpleObjectBean<>(obj);
@@ -514,60 +514,59 @@ public class CastUtil {
         }
 
 
-
-        if(clazz == int.class || clazz == Integer.class){
+        if (clazz == int.class || clazz == Integer.class) {
             return (T) castToInteger(obj);
         }
-        if(clazz == long.class || clazz == Long.class){
+        if (clazz == long.class || clazz == Long.class) {
             return (T) castToLong(obj);
         }
-        if(clazz == float.class || clazz == Float.class){
+        if (clazz == float.class || clazz == Float.class) {
             return (T) castToFloat(obj);
         }
-        if(clazz == double.class || clazz == Double.class){
+        if (clazz == double.class || clazz == Double.class) {
             return (T) castToDouble(obj);
         }
-        if(clazz == short.class || clazz == Short.class){
+        if (clazz == short.class || clazz == Short.class) {
             return (T) castToShort(obj);
         }
-        if(clazz == byte.class || clazz == Byte.class){
+        if (clazz == byte.class || clazz == Byte.class) {
             return (T) castToByte(obj);
         }
-        if(clazz == char.class || clazz == Character.class){
+        if (clazz == char.class || clazz == Character.class) {
             return (T) castToChar(obj);
         }
-        if(clazz == boolean.class || clazz == Boolean.class){
+        if (clazz == boolean.class || clazz == Boolean.class) {
             return (T) castToBoolean(obj);
         }
-        if(clazz == String.class){
+        if (clazz == String.class) {
             return (T) castToString(obj);
         }
-        if(clazz == BigDecimal.class){
+        if (clazz == BigDecimal.class) {
             return (T) castToBigDecimal(obj);
         }
-        if(clazz == BigInteger.class){
+        if (clazz == BigInteger.class) {
             return (T) castToBigInteger(obj);
         }
-        if(clazz == Date.class){
+        if (clazz == Date.class) {
             return (T) castToDate(obj);
         }
-        if(clazz.isEnum()){
-           return (T) clazz.getMethod("valueOf", String.class).invoke(null, obj.toString());
+        if (clazz.isEnum()) {
+            return (T) clazz.getMethod("valueOf", String.class).invoke(null, obj.toString());
         }
-        if(clazz == JSONObject.class){
-            if(obj instanceof Map){
+        if (clazz == JSONObject.class) {
+            if (obj instanceof Map) {
                 return (T) new JSONObject((Map<String, Object>) obj);
             }
             SimpleObjectBean bean = new SimpleObjectBean(obj);
-            Map<String, Object> resultMap =  (Map<String, Object>)bean.getContainer();
-            return  (T) new JSONObject(resultMap);
+            Map<String, Object> resultMap = (Map<String, Object>) bean.getContainer();
+            return (T) new JSONObject(resultMap);
         }
-        if(clazz == JSONArray.class){
-            Object[] objects =  CastUtil.cast(obj, Object[].class, null);
+        if (clazz == JSONArray.class) {
+            Object[] objects = CastUtil.cast(obj, Object[].class, null);
             return (T) new JSONArray(Arrays.asList(objects));
         }
 
-        if(obj instanceof Map) {
+        if (obj instanceof Map) {
             SimpleObjectBean<T> objectBean = new SimpleObjectBean<>(clazz);
             return objectBean.injectJSONObject((Map) obj);
         }
