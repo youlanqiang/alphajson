@@ -4,6 +4,7 @@ import top.youlanqiang.alphajson.JSONException;
 import top.youlanqiang.alphajson.annotation.JSONOption;
 import top.youlanqiang.alphajson.utils.BeanUtil;
 import top.youlanqiang.alphajson.utils.CastUtil;
+import top.youlanqiang.alphajson.utils.StringUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -55,9 +56,9 @@ public class SimpleObjectBean<T> implements ObjectBean {
     private Set<String> deserializeField = new HashSet<>(5);
 
     /**
-     * 字段名称
+     * 原始名称和备注名称
      */
-    private Map<String, String> fieldNames = new HashMap<>(5);
+    private Map<String, String> originNames = new HashMap<>(10);
 
     private boolean isEnum = false;
 
@@ -132,9 +133,13 @@ public class SimpleObjectBean<T> implements ObjectBean {
                     default:
                         //do-not
                 }
+                if (!StringUtil.isNullOrEmpty(annotation.name())) {
+                    originNames.put(fieldName, annotation.name());
+                    originNames.put(annotation.name(), fieldName);
+                }
             }
         } catch (NoSuchFieldException e) {
-
+            throw new JSONException(e.getMessage());
         }
     }
 
@@ -154,12 +159,7 @@ public class SimpleObjectBean<T> implements ObjectBean {
      * @return 方法
      */
     public Method getMethodOfSet(String fieldName) {
-        if (methodsOfSet.containsKey(fieldName)) {
-            Method method = methodsOfSet.get(fieldName);
-            method.setAccessible(true);
-            return method;
-        }
-        return null;
+        return getMethod(fieldName, methodsOfSet);
     }
 
     /**
@@ -169,8 +169,13 @@ public class SimpleObjectBean<T> implements ObjectBean {
      * @return 方法
      */
     public Method getMethodOfGet(String fieldName) {
-        if (methodsOfGet.containsKey(fieldName)) {
-            Method method = methodsOfGet.get(fieldName);
+        return getMethod(fieldName, methodsOfGet);
+    }
+
+
+    private Method getMethod(String fieldName, final Map<String, Method> map) {
+        if (map.containsKey(fieldName)) {
+            Method method = map.get(fieldName);
             method.setAccessible(true);
             return method;
         }
@@ -207,6 +212,9 @@ public class SimpleObjectBean<T> implements ObjectBean {
                 continue;
             }
             try {
+                if(originNames.containsKey(key)){
+                    key = originNames.get(key);
+                }
                 container.put(key, getMethodOfGet(key).invoke(object, new Object[]{}));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -225,6 +233,9 @@ public class SimpleObjectBean<T> implements ObjectBean {
             }
             method = getMethodOfSet(field);
             try {
+                if(originNames.containsKey(field)){
+                    field = originNames.get(field);
+                }
                 method.invoke(object, CastUtil.cast(map.get(field), method.getParameterTypes()[0], getGenerClass(method)));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -232,7 +243,6 @@ public class SimpleObjectBean<T> implements ObjectBean {
         }
         return object;
     }
-
 
 
     @Override
