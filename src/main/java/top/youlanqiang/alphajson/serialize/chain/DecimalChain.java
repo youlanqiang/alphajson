@@ -8,7 +8,6 @@ import java.text.DecimalFormat;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/12/20
  * @since 1.8
  */
 public class DecimalChain extends ObjectToStringChain {

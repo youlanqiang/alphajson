@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * char数组工具类
  *
  * @author youlanqiang
  */
@@ -29,7 +28,6 @@ public final class CharArrayUtil {
             sb.append(str[index]);
             for (char condition : conditions) {
                 if (str[index] == condition) {
-                    //当前位为标识符位,回退
                     sb.deleteCharAt(sb.length() - 1);
                     map.put(END_INDEX, index);
                     map.put(VALUE, sb.toString());

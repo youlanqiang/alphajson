@@ -9,17 +9,11 @@ import java.util.Stack;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/10/21
  * @since 1.8
- * 键值对解析器
  */
 public class KeyParser {
 
-    /**
-     * 执行解析操作
-     *
-     * @param array
-     */
+
     public static List<KeyValue> execute(final char[] array) {
 
         List<KeyValue> list = new ArrayList<>(20);
@@ -49,9 +43,7 @@ public class KeyParser {
         int length = array.length - 1;
         for (++index; index < length; index++) {
             token = array[index];
-            /**
-             * 判断是否为键的结尾下标
-             */
+
             if (token == '"' && index + 1 < length && array[index + 1] == ':') {
                 return index;
             }
@@ -60,25 +52,14 @@ public class KeyParser {
     }
 
 
-    /**
-     * 解析出value值的结束下标
-     * 在返回下标时要对下标前一位判断
-     * value类型为字符串类型会多出一个 ” 符号
-     *
-     * @param index 开始下标
-     * @param array 解析的字符串
-     * @return value值结束的下标
-     */
+
     private static int parseValue(int index, final char[] array) {
         char token;
         int length = array.length;
         Stack<Character> stack = new Stack<>();
         for (++index; index < length; index++) {
             token = array[index];
-            /**
-             * 解析过程中遇到 值为数组或者对象的数据
-             * 需要使用Stack来判断值的结尾
-             */
+
             if (token == '[' || token == '{') {
                 stack.push(token);
             } else if (token == ']') {

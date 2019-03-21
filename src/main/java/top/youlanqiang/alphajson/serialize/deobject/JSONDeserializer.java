@@ -12,21 +12,12 @@ import java.util.*;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/11/17
  * @since 1.8
  */
 public class JSONDeserializer {
 
 
-    /**
-     * 解析4种可能出现的JSON信息
-     * [[..], [..], [..]]
-     * [x, x, x, x]
-     * [{..}, {..}, {..}]
-     * [{..}, [..], x]
-     * @param context json字符串
-     * @return JSONArray对象
-     */
+
     public static JSONArray parseToJSONArray(final String context){
         JSONArray array = new JSONArray();
         if (StringUtil.isNullOrEmpty(context)) {
@@ -66,9 +57,6 @@ public class JSONDeserializer {
             throw new JSONException("context is null");
         }
         if (StringUtil.isJSONObjectString(context.trim())) {
-            /**
-             * keyParser将字符串中的 key:value解析并放入KeyValue对象中
-             */
             List<KeyValue> list = KeyParser.execute(context.trim().toCharArray());
             list.forEach(x -> {
                 String value = x.getValue();

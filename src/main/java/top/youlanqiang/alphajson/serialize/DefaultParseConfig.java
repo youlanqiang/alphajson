@@ -10,20 +10,15 @@ import java.util.Properties;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/12/19
  * @since 1.8
  * 序列化默认配置
  */
 public class DefaultParseConfig implements ParseConfig {
 
-    /**
-     * 时间序列化
-     */
+
     private String dateFormat;
 
-    /**
-     * 十进制序列化
-     */
+
     private String decimalFormat;
 
 
@@ -31,10 +26,7 @@ public class DefaultParseConfig implements ParseConfig {
         defaultInit();
     }
 
-    /**
-     * 读取配置文件
-     * @param file 配置文件
-     */
+
     public DefaultParseConfig(File file) throws FileNotFoundException, ClassNotFoundException {
         if(file == null || file.exists() || !file.canRead()){
             defaultInit();

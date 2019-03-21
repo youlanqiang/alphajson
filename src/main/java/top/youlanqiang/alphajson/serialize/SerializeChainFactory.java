@@ -9,9 +9,7 @@ import java.io.InputStream;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/10/12
  * @since 1.8
- * 解析链工厂
  */
 public class SerializeChainFactory {
 
@@ -47,12 +45,7 @@ public class SerializeChainFactory {
         return getChain(null);
     }
 
-    /**
-     * 适配自定义的解析模块
-     *
-     * @param chains 解析组
-     * @return 解析器
-     */
+
     public static ObjectToStringChain getChain(ObjectToStringChain... chains) {
 
         EndChain endChain = new EndChain();

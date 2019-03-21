@@ -3,21 +3,14 @@ package top.youlanqiang.alphajson.serialize.deobject;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/10/21
  * @since 1.8
  *
- * 解析JSONObject对象的键值对
  */
 public class KeyValue {
 
-    /**
-     * 主键名称
-     */
+
     private String keyName;
 
-    /**
-     * 值
-     */
     private String value;
 
     public String getKeyName() {

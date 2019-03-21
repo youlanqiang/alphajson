@@ -10,7 +10,6 @@ import java.util.Stack;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/11/30
  * @since 1.8
  */
 public class BankMan {

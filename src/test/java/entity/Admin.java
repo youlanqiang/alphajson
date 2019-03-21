@@ -3,7 +3,6 @@ package entity;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/11/17
  * @since 1.8
  */
 public class Admin {

@@ -5,7 +5,6 @@ import java.util.List;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2019/1/4
  * @since 1.8
  */
 public class Into<T> {

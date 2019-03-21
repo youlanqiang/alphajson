@@ -14,9 +14,7 @@ import java.util.Date;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/11/24
  * @since 1.8
- * 处理时间类型
  */
 public class TimeChain extends ObjectToStringChain{
 

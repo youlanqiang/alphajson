@@ -15,7 +15,6 @@ import java.util.*;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/11/17
  * @since 1.8
  */
 public class JSONObject implements Map<String, Object> {
@@ -56,11 +55,7 @@ public class JSONObject implements Map<String, Object> {
         return parse(this, clazz);
     }
 
-    /**
-     * 反序列化JSON字符串
-     * @param json 字符串
-     * @return JSONObject对象
-     */
+
     public static JSONObject parse(String json){
         Map<String, Object> object =  JSONDeserializer.parseToJSONObject(json.trim());
         if(object.isEmpty()){

@@ -7,9 +7,7 @@ import java.util.Map;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/10/12
  * @since 1.8
- * MapContainer对象解析器
  */
 public class ArrayOrMapChain extends ObjectToStringChain {
 

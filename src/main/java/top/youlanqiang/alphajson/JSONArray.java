@@ -13,11 +13,8 @@ import java.util.*;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/11/17
  * @since 1.8
- * JSONArray是AlphaJSON的JSON数组对象
- * 内部实现为一个List来实现Collection的功能.
- */
+ * */
 public class JSONArray implements Collection {
 
     private static final int CAPACITY = 20;

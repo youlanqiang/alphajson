@@ -10,10 +10,7 @@ import java.util.Arrays;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/10/15
  * @since 1.8
- * 处理基本类型的操作链
- * 如 null,number,boolean,String
  */
 public class BaseChain  extends ObjectToStringChain {
 

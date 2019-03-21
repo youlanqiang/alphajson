@@ -18,9 +18,7 @@ import java.util.*;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/10/8
  * @since 1.8
- * 变量转化工具类
  */
 public class CastUtil {
 

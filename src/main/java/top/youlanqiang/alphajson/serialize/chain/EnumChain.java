@@ -5,9 +5,7 @@ import top.youlanqiang.alphajson.utils.RailUtil;
 /**
  * @author youlanqiang
  * @version 1.0
- * @date 2018/12/13
  * @since 1.8
- * 处理枚举类型的操作链
  */
 public class EnumChain extends ObjectToStringChain{
 
