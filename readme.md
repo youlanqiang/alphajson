@@ -1,4 +1,4 @@
-# AlphaJson
+# AlphaJson(该项目已完成，不会进行任何BUG修复和更新)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7e04b1f3b8a84959a6a0fbea77293e1a)](https://www.codacy.com/app/youlanqiang/alphajson?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=youlanqiang/alphajson&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://www.travis-ci.org/youlanqiang/alphajson.svg?branch=master)](https://www.travis-ci.org/youlanqiang/alphajson)
 
